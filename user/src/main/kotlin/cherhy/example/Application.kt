@@ -1,6 +1,6 @@
 package cherhy.example
 
-import cherhy.example.plugins.*
+import cherhy.example.plugins.config.*
 import io.ktor.server.application.*
 
 fun main(args: Array<String>) {
@@ -9,4 +9,8 @@ fun main(args: Array<String>) {
 
 fun Application.module() {
     configureRouting()
+    configureJwt()
+    configureJackson()
+    configureDependencyInjection()
+    configureDatabase()
 }
