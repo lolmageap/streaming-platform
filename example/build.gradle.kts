@@ -28,7 +28,7 @@ dependencies {
     implementation("org.axonframework:axon-spring-boot-starter:4.9.3")
     implementation("org.axonframework:axon-configuration:4.9.3")
     implementation("org.springframework.boot:spring-boot-starter-actuator")
-    implementation("org.flywaydb:flyway-mysql")
+    implementation("org.flywaydb:flyway-postgresql")
     implementation("org.springframework.restdocs:spring-restdocs-webtestclient:3.0.1")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactor")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-jdk8:$coroutineVersion")
@@ -36,10 +36,9 @@ dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutineVersion")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactor:$coroutineVersion")
 
-    runtimeOnly("com.mysql:mysql-connector-j")
-    runtimeOnly("io.asyncer:r2dbc-mysql")
-
-    testImplementation("org.testcontainers:mysql")
+    runtimeOnly("org.postgresql:postgresql")
+    runtimeOnly("io.r2dbc:r2dbc-postgresql")
+    testImplementation("org.testcontainers:postgresql")
     testImplementation("io.projectreactor:reactor-test")
     testImplementation("org.testcontainers:r2dbc")
     testImplementation("org.testcontainers:junit-jupiter")

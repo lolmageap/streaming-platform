@@ -1,19 +1,19 @@
 version: '3.1'
 
 services:
-  mysql-container:
-    image: mysql:latest
-    container_name: cherhy-mysql
-    command: --default-authentication-plugin=mysql_native_password
+  postgres-container:
+    image: postgres:latest
+    container_name: cherhy-postgres
+    command: --default-authentication-plugin=postgres_native_password
     restart: always
     environment:
-      MYSQL_DATABASE: cherhy
-      MYSQL_ROOT_PASSWORD: 1234
+      postgres_DATABASE: cherhy
+      postgres_ROOT_PASSWORD: 1234
     labels:
-      - "name=mysql"
+      - "name=postgres"
       - "mode=standalone"
     ports:
-      - "3501:3306"
+      - "5454:5432"
 
   redis-container:
     image: redis:latest
@@ -82,7 +82,7 @@ services:
     ports:
       - "10101:8888"
     depends_on:
-      - mysql-container
+      - postgres-container
       - redis-container
       - axon-server
 
@@ -94,7 +94,7 @@ services:
     ports:
       - "10102:8888"
     depends_on:
-      - mysql-container
+      - postgres-container
       - redis-container
       - axon-server
 
