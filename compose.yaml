@@ -1,13 +1,13 @@
 version: '3.1'
 
 services:
-  mysql_container:
+  mysql-container:
     image: mysql:latest
-    container_name: beauty_mysql
+    container_name: cherhy-mysql
     command: --default-authentication-plugin=mysql_native_password
     restart: always
     environment:
-      MYSQL_DATABASE: beauty
+      MYSQL_DATABASE: cherhy
       MYSQL_ROOT_PASSWORD: 1234
     labels:
       - "name=mysql"
@@ -15,9 +15,9 @@ services:
     ports:
       - "3501:3306"
 
-  redis_container:
+  redis-container:
     image: redis:latest
-    container_name: beauty_redis
+    container_name: cherhy-redis
     ports:
       - "6380:6379"
     volumes:
@@ -32,7 +32,7 @@ services:
   kafka:
     image: 'bitnami/kafka:3.4.0'
     networks:
-      - beauty_network
+      - cherhy-network
     ports:
       - '9093:9092'
     environment:
@@ -50,7 +50,7 @@ services:
     image: provectuslabs/kafka-ui
     container_name: kafka-ui
     networks:
-      - beauty_network
+      - cherhy-network
     ports:
       - "9000:8080"
     restart: always
@@ -66,7 +66,7 @@ services:
     container_name: axon-server
     image: axoniq/axonserver:4.6.3-jdk-11-dev
     networks:
-      - beauty_network
+      - cherhy-network
     ports:
       - "8125:8124"
     volumes:
@@ -82,8 +82,20 @@ services:
     ports:
       - "10101:8888"
     depends_on:
-      - mysql_container
-      - redis_container
+      - mysql-container
+      - redis-container
+      - axon-server
+
+  example:
+    container_name: example
+    build:
+      context: ./example
+      dockerfile: Dockerfile
+    ports:
+      - "10102:8888"
+    depends_on:
+      - mysql-container
+      - redis-container
       - axon-server
 
 volumes:
@@ -107,5 +119,5 @@ volumes:
       device: ${PWD}/axon-server-se/config
 
 networks:
-  beauty_network:
+  cherhy-network:
     driver: bridge
