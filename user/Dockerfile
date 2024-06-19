@@ -6,4 +6,5 @@ COPY ${JAR_FILE} app.jar
 ENV TZ=Asia/Seoul
 ENV PROFILE dev
 
+# TODO : ktor application 실행 방식으로 수정하기
 ENTRYPOINT ["java","-jar","/app.jar"]
