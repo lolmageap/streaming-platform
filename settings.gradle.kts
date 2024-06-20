@@ -1,4 +1,6 @@
-rootProject.name = "bank"
-include("example")
-include("user")
+rootProject.name = "video-platform"
 include("common")
+include("gateway")
+include("payment")
+include("stream")
+include("user")
