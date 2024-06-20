@@ -1,6 +1,6 @@
 package com.cherhy
 
-import com.cherhy.plugins.*
+import com.cherhy.plugins.configureRouting
 import io.ktor.server.application.*
 import io.ktor.server.engine.*
 import io.ktor.server.netty.*
