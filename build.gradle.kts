@@ -18,7 +18,6 @@ java {
 allprojects {
     group = "com.cherhy"
     version = "0.0.1-SNAPSHOT"
-
     repositories {
         mavenCentral()
     }
@@ -30,7 +29,6 @@ subprojects {
     apply(plugin = "io.spring.dependency-management")
 
     dependencies {
-
         testRuntimeOnly("org.junit.platform:junit-platform-launcher")
         testImplementation("io.kotest:kotest-runner-junit5:5.7.2")
         testImplementation("io.kotest:kotest-assertions-core:5.7.2")

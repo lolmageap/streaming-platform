@@ -17,7 +17,6 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-validation")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
     implementation("io.projectreactor.kotlin:reactor-kotlin-extensions")
-    implementation("org.flywaydb:flyway-core")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("io.smallrye.reactive:mutiny-kotlin:2.0.0")
 
@@ -28,6 +27,7 @@ dependencies {
     implementation("org.axonframework:axon-spring-boot-starter:4.9.3")
     implementation("org.axonframework:axon-configuration:4.9.3")
     implementation("org.springframework.boot:spring-boot-starter-actuator")
+    implementation("org.flywaydb:flyway-core")
     implementation("org.flywaydb:flyway-postgresql")
     implementation("org.springframework.restdocs:spring-restdocs-webtestclient:3.0.1")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactor")
