@@ -19,7 +19,7 @@ services:
     image: redis:latest
     container_name: cherhy-redis
     ports:
-      - "6380:6379"
+      - "6379:6379"
     volumes:
       - ./redis/data:/data
       - ./redis/conf/redis.conf:/usr/local/conf/redis.conf
@@ -34,7 +34,7 @@ services:
     networks:
       - cherhy-network
     ports:
-      - '9093:9092'
+      - '9092:9092'
     environment:
       - KAFKA_BROKER_ID=1
       - KAFKA_CFG_ZOOKEEPER_CONNECT=zookeeper:2181
@@ -80,7 +80,7 @@ services:
       context: ./user
       dockerfile: Dockerfile
     ports:
-      - "10101:8888"
+      - "10101:8080"
     depends_on:
       - postgres-container
       - redis-container
@@ -92,7 +92,7 @@ services:
       context: ./example
       dockerfile: Dockerfile
     ports:
-      - "10102:8888"
+      - "10102:8080"
     depends_on:
       - postgres-container
       - redis-container
