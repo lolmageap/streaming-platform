@@ -1,6 +1,6 @@
-FROM eclipse-temurin:17-jdk
+FROM openjdk:21
 LABEL authors="cherhy"
-ARG JAR_FILE=build/libs/example-0.0.1-SNAPSHOT.jar
+ARG JAR_FILE=build/libs/payment-0.0.1-SNAPSHOT.jar
 COPY ${JAR_FILE} app.jar
 
 ENV TZ=Asia/Seoul
