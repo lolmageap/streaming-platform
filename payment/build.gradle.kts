@@ -8,9 +8,9 @@ plugins {
     id("com.palantir.docker") version "0.36.0"
 }
 
-dependencies {
-    val coroutineVersion = "1.6.4"
+val coroutineVersion = "1.6.4"
 
+dependencies {
     implementation(project(":common"))
 
     implementation("org.springframework.boot:spring-boot-starter-validation")
