@@ -5,4 +5,5 @@ object JwtProperty {
     const val ISSUER = "issuer"
     const val AUDIENCE = "audience"
     const val REALM = "realm"
+    const val EXPIRATION = "expiration"
 }

@@ -2,6 +2,7 @@ package cherhy.example.plugins.config
 
 import cherhy.example.plugins.util.ApplicationConfigUtils.getJwt
 import cherhy.example.plugins.util.property.JwtProperty.AUDIENCE
+import cherhy.example.plugins.util.property.JwtProperty.EXPIRATION
 import cherhy.example.plugins.util.property.JwtProperty.ISSUER
 import cherhy.example.plugins.util.property.JwtProperty.REALM
 import cherhy.example.plugins.util.property.JwtProperty.SECRET
@@ -20,6 +21,7 @@ fun Application.configureJwt() {
     val jwtIssuer = getJwt(ISSUER)
     val jwtAudience = getJwt(AUDIENCE)
     val jwtRealm = getJwt(REALM)
+    val expiration = getJwt(EXPIRATION).toLong()
 
     install(Authentication) {
         jwt(AUTHORITY) {
@@ -27,6 +29,7 @@ fun Application.configureJwt() {
             verifier(
                 JWT.require(Algorithm.HMAC256(jwtSecret))
                     .withAudience(jwtAudience)
+                    .acceptExpiresAt(expiration)
                     .withIssuer(jwtIssuer)
                     .build()
             )
