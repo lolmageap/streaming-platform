@@ -1,8 +1,8 @@
 server:
-  port: 10102
+  port: 10101
 spring:
   application:
-    name: example
+    name: payment
 r2dbc:
   master:
     url: r2dbc:pool:postgresql://host.docker.internal:5432/cherhy
@@ -17,4 +17,4 @@ axon:
   serializer:
     general: xstream
   axonserver:
-    servers: host.docker.internal:8125
+    servers: host.docker.internal:8124

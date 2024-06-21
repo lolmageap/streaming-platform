@@ -68,16 +68,24 @@ services:
     networks:
       - cherhy-network
     ports:
-      - "8125:8124"
+      - "8124:8124"
     volumes:
       - axonserver-data:/axonserver/data
       - axonserver-events:/axonserver/events
       - axonserver-config:/axonserver/config:ro
 
-  user:
-    container_name: user
+  gateway:
+    container_name: gateway
     build:
-      context: ./user
+      context: ./gateway
+      dockerfile: Dockerfile
+    ports:
+      - "10100:8080"
+
+  payment:
+    container_name: payment
+    build:
+      context: ./payment
       dockerfile: Dockerfile
     ports:
       - "10101:8080"
@@ -85,11 +93,12 @@ services:
       - postgres-container
       - redis-container
       - axon-server
+      - gateway
 
-  example:
-    container_name: example
+  stream:
+    container_name: stream
     build:
-      context: ./example
+      context: ./stream
       dockerfile: Dockerfile
     ports:
       - "10102:8080"
@@ -97,6 +106,20 @@ services:
       - postgres-container
       - redis-container
       - axon-server
+      - gateway
+
+  user:
+    container_name: user
+    build:
+      context: ./user
+      dockerfile: Dockerfile
+    ports:
+      - "10103:8080"
+    depends_on:
+      - postgres-container
+      - redis-container
+      - axon-server
+      - gateway
 
 volumes:
   axonserver-data:
