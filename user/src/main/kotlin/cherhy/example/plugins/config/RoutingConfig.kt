@@ -8,6 +8,8 @@ import io.ktor.server.routing.*
 fun Application.configureRouting() {
     routing {
         home()
+        login()
+        user()
         swaggerUI("/swagger")
     }
 }
