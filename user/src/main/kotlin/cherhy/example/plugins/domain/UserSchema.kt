@@ -1,4 +1,4 @@
-package cherhy.example.plugins.domain.user
+package cherhy.example.plugins.domain
 
 import cherhy.example.plugins.util.model.BaseEntity
 import cherhy.example.plugins.util.model.BaseEntityClass
@@ -9,6 +9,7 @@ object Users: BaseLongIdTable("user", "id") {
     val name = varchar("name", 50)
     val email = varchar("email", 50)
     val password = varchar("password", 50)
+    val isDeleted = bool("is_deleted").default(false)
 }
 
 class User(id: EntityID<UserId>): BaseEntity(
@@ -18,6 +19,7 @@ class User(id: EntityID<UserId>): BaseEntity(
     var name by Users.name
     var email by Users.email
     var password by Users.password
+    var isDeleted by Users.isDeleted
 
     companion object: BaseEntityClass<User>(Users)
 }

@@ -1,16 +1,16 @@
 package cherhy.example.plugins.util.extension
 
-import cherhy.example.plugins.domain.user.UserId
-import cherhy.example.plugins.domain.user.UserName
+import cherhy.example.plugins.domain.UserId
+import cherhy.example.plugins.domain.Username
 import cherhy.example.plugins.util.property.SecurityProperty.USER_ID
-import cherhy.example.plugins.util.property.SecurityProperty.USER_NAME
+import cherhy.example.plugins.util.property.SecurityProperty.USERNAME
 import io.ktor.server.auth.jwt.*
 
-val JWTPrincipal?.customerName: UserName
-    get() = this?.payload?.getClaim(USER_NAME)?.asString()?.let(UserName::of)
+val JWTPrincipal?.username: Username
+    get() = this?.payload?.getClaim(USERNAME)?.asString()?.let(Username::of)
         ?: throw IllegalArgumentException("Invalid customer name")
 
-val JWTPrincipal?.customerId: UserId
+val JWTPrincipal?.userId: UserId
     get() = this?.payload?.getClaim(USER_ID)?.asLong()?.let(UserId::of)
         ?: throw IllegalArgumentException("Invalid user id")
 

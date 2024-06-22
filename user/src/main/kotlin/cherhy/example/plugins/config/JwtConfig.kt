@@ -7,7 +7,7 @@ import cherhy.example.plugins.util.property.JwtProperty.ISSUER
 import cherhy.example.plugins.util.property.JwtProperty.REALM
 import cherhy.example.plugins.util.property.JwtProperty.SECRET
 import cherhy.example.plugins.util.property.SecurityProperty.AUTHORITY
-import cherhy.example.plugins.util.property.SecurityProperty.USER_NAME
+import cherhy.example.plugins.util.property.SecurityProperty.USERNAME
 import com.auth0.jwt.JWT
 import com.auth0.jwt.algorithms.Algorithm
 import io.ktor.http.*
@@ -35,7 +35,7 @@ fun Application.configureJwt() {
             )
 
             validate { credential ->
-                if (credential.payload.getClaim(USER_NAME).asString() != "") {
+                if (credential.payload.getClaim(USERNAME).asString() != "") {
                     JWTPrincipal(credential.payload)
                 } else {
                     null

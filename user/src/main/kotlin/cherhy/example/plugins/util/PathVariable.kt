@@ -1,6 +1,6 @@
 package cherhy.example.plugins.util
 
-import cherhy.example.plugins.domain.user.UserId
+import cherhy.example.plugins.domain.UserId
 import cherhy.example.plugins.util.Path.ID
 import cherhy.example.plugins.util.Path.USER_ID
 import io.ktor.server.application.*
