@@ -121,6 +121,19 @@ services:
       - axon-server
       - gateway
 
+  schedule:
+    container_name: schedule
+    build:
+      context: ./schedule
+      dockerfile: Dockerfile
+    ports:
+        - "10104:8080"
+    depends_on:
+        - postgres-container
+        - redis-container
+        - axon-server
+        - gateway
+
 volumes:
   axonserver-data:
     driver: local
