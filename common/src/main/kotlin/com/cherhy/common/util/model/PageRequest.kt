@@ -1,4 +1,4 @@
-package cherhy.example.plugins.util.model
+package com.cherhy.common.util.model
 
 data class PageRequest(
     val page: Int,
