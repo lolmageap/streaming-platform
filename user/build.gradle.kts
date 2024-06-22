@@ -13,6 +13,8 @@ application {
 }
 
 dependencies {
+    implementation(project(":common"))
+
     implementation("io.ktor:ktor-server-core-jvm")
     implementation("io.ktor:ktor-serialization-kotlinx-json-jvm")
     implementation("io.ktor:ktor-server-content-negotiation-jvm")
@@ -24,6 +26,7 @@ dependencies {
     testImplementation("io.ktor:ktor-server-tests-jvm")
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit")
     implementation("io.ktor:ktor-server-status-pages")
+    implementation("org.springframework.security:spring-security-crypto:6.3.0")
 
     implementation("io.ktor:ktor-server-auth-jvm")
     implementation("io.ktor:ktor-server-auth-jwt-jvm")
