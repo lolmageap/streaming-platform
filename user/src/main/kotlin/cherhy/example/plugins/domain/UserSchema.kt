@@ -20,7 +20,6 @@ class User(id: EntityID<UserId>): BaseEntity(
     var email by Users.email
     var password by Users.password
     var isDeleted by Users.isDeleted
-
     companion object: BaseEntityClass<User>(Users)
 }
 

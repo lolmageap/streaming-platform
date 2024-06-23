@@ -14,6 +14,7 @@ value class UserId private constructor(val value: Long): Comparable<UserId> {
         return value.compareTo(other.value)
     }
     companion object {
+        @JvmStatic
         fun of(value: Long) = UserId(value)
     }
 }
@@ -21,6 +22,7 @@ value class UserId private constructor(val value: Long): Comparable<UserId> {
 @JvmInline
 value class Username private constructor(val value: String) {
     companion object {
+        @JvmStatic
         fun of(value: String) = Username(value)
     }
 }
@@ -28,6 +30,7 @@ value class Username private constructor(val value: String) {
 @JvmInline
 value class UserEmail private constructor(val value: String) {
     companion object {
+        @JvmStatic
         fun of(value: String) = UserEmail(value)
     }
 }
@@ -35,6 +38,7 @@ value class UserEmail private constructor(val value: String) {
 @JvmInline
 value class UserPassword private constructor(val value: String) {
     companion object {
+        @JvmStatic
         fun of(value: String) = UserPassword(value)
     }
 }
@@ -42,6 +46,7 @@ value class UserPassword private constructor(val value: String) {
 @JvmInline
 value class UserIsDeleted private constructor(val value: Boolean) {
     companion object {
+        @JvmStatic
         fun of(value: Boolean) = UserIsDeleted(value)
     }
 }
