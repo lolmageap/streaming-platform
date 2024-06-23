@@ -8,5 +8,4 @@ data class JwtProperty(
     val expiration: Long,
     val refreshExpiration: Long,
     val algorithm: String,
-    val authorityKey: String,
 )
