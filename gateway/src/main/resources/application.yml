@@ -4,6 +4,9 @@ server:
 spring:
   application:
     name: gateway
+  threads:
+    virtual:
+      enabled: true
 domain:
   payment-url: http://localhost:10101
   stream-url: http://localhost:10102
@@ -12,4 +15,4 @@ jwt:
   secret: secret
   expiration: 3600
   refresh-expiration: 86400
-  algorithm: HMAC256
+  algorithm: HmacSHA256

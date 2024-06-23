@@ -3,6 +3,9 @@ server:
 spring:
   application:
     name: schedule
+  threads:
+    virtual:
+      enabled: true
 r2dbc:
   master:
     url: r2dbc:pool:postgresql://host.docker.internal:5432/cherhy
