@@ -29,6 +29,8 @@ subprojects {
     apply(plugin = "io.spring.dependency-management")
 
     dependencies {
+        implementation("io.github.microutils:kotlin-logging:3.0.5")
+
         testRuntimeOnly("org.junit.platform:junit-platform-launcher")
         testImplementation("io.kotest:kotest-runner-junit5:5.7.2")
         testImplementation("io.kotest:kotest-assertions-core:5.7.2")
