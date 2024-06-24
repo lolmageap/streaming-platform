@@ -1,6 +1,6 @@
 package cherhy.example.plugins.util
 
-import cherhy.example.plugins.domain.AuthorityDomain
+import cherhy.example.plugins.domain.Role
 import cherhy.example.plugins.domain.UserId
 import cherhy.example.plugins.domain.Username
 import cherhy.example.plugins.util.property.JwtProperty.AUDIENCE
@@ -17,14 +17,14 @@ class JwtManager {
     fun createToken(
         userId: UserId,
         userName: Username,
-        authorities: List<AuthorityDomain>,
+        roles: List<Role>,
     ) =
         JWT.create()
             .withAudience(audience)
             .withIssuer(issuer)
             .withClaim(USER_ID, userId.value)
             .withClaim(USERNAME, userName.value)
-            .withClaim(ROLE, authorities.map { it.role.value }.joinToString { "," })
+            .withClaim(ROLE, roles.joinToString { "," })
             .withExpiresAt(Date(System.currentTimeMillis() + 60000))
             .sign(Algorithm.HMAC256(secret))!!
 

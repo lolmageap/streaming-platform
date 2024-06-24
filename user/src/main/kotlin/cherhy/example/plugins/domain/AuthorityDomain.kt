@@ -13,7 +13,7 @@ data class AuthorityDomain(
             AuthorityDomain(
                 id = AuthorityId.of(id.value),
                 userId = UserId.of(userId.value),
-                role = Role.of(role),
+                role = Role.valueOf(role),
             )
         }
     }
@@ -30,10 +30,9 @@ value class AuthorityId private constructor(val value: Long): Comparable<Authori
     }
 }
 
-@JvmInline
-value class Role private constructor(val value: String) {
-    companion object {
-        @JvmStatic
-        fun of(value: String) = Role(value)
-    }
+enum class Role {
+    ADMIN,
+    PAID_MEMBER,
+    UNPAID_MEMBER,
+    ;
 }
