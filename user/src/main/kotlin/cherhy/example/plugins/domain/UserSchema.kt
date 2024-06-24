@@ -9,6 +9,7 @@ object Users: BaseLongIdTable("user", "id") {
     val name = varchar("name", 50)
     val email = varchar("email", 50)
     val password = varchar("password", 50)
+    val salt = varchar("salt", 50)
     val isDeleted = bool("is_deleted").default(false)
 }
 
@@ -19,6 +20,7 @@ class User(id: EntityID<UserId>): BaseEntity(
     var name by Users.name
     var email by Users.email
     var password by Users.password
+    var salt by Users.salt
     var isDeleted by Users.isDeleted
     companion object: BaseEntityClass<User>(Users)
 }
