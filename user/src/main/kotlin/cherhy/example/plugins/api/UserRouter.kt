@@ -7,7 +7,9 @@ import cherhy.example.plugins.util.EndPoint.DELETE_USER
 import cherhy.example.plugins.util.EndPoint.GET_ME
 import cherhy.example.plugins.util.EndPoint.SIGN_UP
 import cherhy.example.plugins.util.EndPoint.UPDATE_USER
+import io.ktor.http.*
 import io.ktor.server.application.*
+import io.ktor.server.request.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import org.koin.ktor.ext.inject
@@ -18,8 +20,9 @@ fun Route.user() {
     val writeUserService: WriteUserService by inject()
 
     post(SIGN_UP) {
-        call.respondText("health check")
-        signUpUseCase.execute()
+        val userRequest = call.receive<SignUpRequest>()
+        signUpUseCase.execute(userRequest)
+        call.respond(HttpStatusCode.Created)
     }
 
     get(GET_ME) {
