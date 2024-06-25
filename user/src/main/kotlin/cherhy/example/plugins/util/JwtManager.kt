@@ -3,12 +3,13 @@ package cherhy.example.plugins.util
 import cherhy.example.plugins.domain.Role
 import cherhy.example.plugins.domain.UserId
 import cherhy.example.plugins.domain.Username
-import cherhy.example.plugins.util.property.JwtProperty.AUDIENCE
-import cherhy.example.plugins.util.property.JwtProperty.ISSUER
-import cherhy.example.plugins.util.property.JwtProperty.SECRET
-import cherhy.example.plugins.util.property.SecurityProperty.ROLE
-import cherhy.example.plugins.util.property.SecurityProperty.USERNAME
-import cherhy.example.plugins.util.property.SecurityProperty.USER_ID
+import cherhy.example.plugins.util.constant.JwtProperty.AUDIENCE
+import cherhy.example.plugins.util.constant.JwtProperty.EXPIRATION
+import cherhy.example.plugins.util.constant.JwtProperty.ISSUER
+import cherhy.example.plugins.util.constant.JwtProperty.SECRET
+import cherhy.example.plugins.util.constant.SecurityProperty.ROLE
+import cherhy.example.plugins.util.constant.SecurityProperty.USERNAME
+import cherhy.example.plugins.util.constant.SecurityProperty.USER_ID
 import com.auth0.jwt.JWT
 import com.auth0.jwt.algorithms.Algorithm
 import java.util.*
@@ -18,6 +19,7 @@ class JwtManager {
         userId: UserId,
         userName: Username,
         roles: List<Role>,
+        tokenType: TokenType,
     ) =
         JWT.create()
             .withAudience(audience)
@@ -25,7 +27,16 @@ class JwtManager {
             .withClaim(USER_ID, userId.value)
             .withClaim(USERNAME, userName.value)
             .withClaim(ROLE, roles.joinToString { "," })
-            .withExpiresAt(Date(System.currentTimeMillis() + 60000))
+            .apply {
+                when (tokenType) {
+                    TokenType.ACCESS -> withExpiresAt(
+                        Date(System.currentTimeMillis() + expiration)
+                    )
+                    TokenType.REFRESH -> withExpiresAt(
+                        Date(System.currentTimeMillis() + expiration * 30)
+                    )
+                }
+            }
             .sign(Algorithm.HMAC256(secret))!!
 
     companion object {
@@ -37,5 +48,8 @@ class JwtManager {
 
         @JvmStatic
         private val audience = ApplicationConfigUtils.getJwt(AUDIENCE)
+
+        @JvmStatic
+        private val expiration = ApplicationConfigUtils.getJwt(EXPIRATION).toLong()
     }
 }

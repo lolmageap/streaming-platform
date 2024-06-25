@@ -11,6 +11,8 @@ object Encoder {
         value: String,
         encoded: String,
         block: () -> IllegalStateException = { throw IllegalStateException("Password does not match") }
-    ) = BCryptPasswordEncoder().matches(value, encoded)
-        .let { if (!it) block() }
+    ) {
+        val isMatched = BCryptPasswordEncoder().matches(value, encoded)
+        if (isMatched.not()) block()
+    }
 }
