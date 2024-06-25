@@ -1,13 +1,13 @@
 package cherhy.example.plugins.config
 
 import cherhy.example.plugins.util.ApplicationConfigUtils.getJwt
-import cherhy.example.plugins.util.property.JwtProperty.AUDIENCE
-import cherhy.example.plugins.util.property.JwtProperty.EXPIRATION
-import cherhy.example.plugins.util.property.JwtProperty.ISSUER
-import cherhy.example.plugins.util.property.JwtProperty.REALM
-import cherhy.example.plugins.util.property.JwtProperty.SECRET
-import cherhy.example.plugins.util.property.SecurityProperty.AUTHORITY
-import cherhy.example.plugins.util.property.SecurityProperty.USERNAME
+import cherhy.example.plugins.util.constant.JwtProperty.AUDIENCE
+import cherhy.example.plugins.util.constant.JwtProperty.EXPIRATION
+import cherhy.example.plugins.util.constant.JwtProperty.ISSUER
+import cherhy.example.plugins.util.constant.JwtProperty.REALM
+import cherhy.example.plugins.util.constant.JwtProperty.SECRET
+import cherhy.example.plugins.util.constant.SecurityProperty.AUTHORITY
+import cherhy.example.plugins.util.constant.SecurityProperty.USERNAME
 import com.auth0.jwt.JWT
 import com.auth0.jwt.algorithms.Algorithm
 import io.ktor.http.*
@@ -35,11 +35,8 @@ fun Application.configureJwt() {
             )
 
             validate { credential ->
-                if (credential.payload.getClaim(USERNAME).asString() != "") {
-                    JWTPrincipal(credential.payload)
-                } else {
-                    null
-                }
+                if (credential.payload.getClaim(USERNAME).asString() != "") JWTPrincipal(credential.payload)
+                 else null
             }
 
             challenge { defaultScheme, realm ->

@@ -8,7 +8,7 @@ import cherhy.example.plugins.service.ReadUserService
 import cherhy.example.plugins.service.WriteAuthorityService
 import cherhy.example.plugins.service.WriteUserService
 import cherhy.example.plugins.util.Encoder
-import cherhy.example.plugins.util.generator.SaltGenerator
+import cherhy.example.plugins.util.SaltGenerator
 import com.cherhy.common.annotation.Facade
 
 @Facade

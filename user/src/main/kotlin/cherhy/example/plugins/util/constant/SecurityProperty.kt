@@ -1,4 +1,4 @@
-package cherhy.example.plugins.util.property
+package cherhy.example.plugins.util.constant
 
 object SecurityProperty {
     const val AUTHORITY = "authority"

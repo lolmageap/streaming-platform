@@ -1,8 +1,8 @@
 package cherhy.example.plugins.util
 
 import cherhy.example.plugins.domain.UserId
-import cherhy.example.plugins.util.Path.ID
-import cherhy.example.plugins.util.Path.USER_ID
+import cherhy.example.plugins.util.constant.Path.ID
+import cherhy.example.plugins.util.constant.Path.USER_ID
 import io.ktor.server.application.*
 
 class PathVariable(
@@ -23,9 +23,4 @@ class PathVariable(
         ?: throw IllegalArgumentException("$USER_ID is required.")
 
     private val path = call.parameters
-}
-
-object Path {
-    const val ID = "id"
-    const val USER_ID = "user-id"
 }

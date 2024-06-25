@@ -1,4 +1,4 @@
-package cherhy.example.plugins.util.generator
+package cherhy.example.plugins.util
 
 object SaltGenerator {
     fun generate() = StringBuilder().let {

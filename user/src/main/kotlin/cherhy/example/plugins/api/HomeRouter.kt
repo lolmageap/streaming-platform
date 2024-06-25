@@ -1,6 +1,6 @@
 package cherhy.example.plugins.api
 
-import cherhy.example.plugins.util.EndPoint
+import cherhy.example.plugins.util.constant.EndPoint
 import io.ktor.server.application.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*

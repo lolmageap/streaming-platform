@@ -1,4 +1,4 @@
-package cherhy.example.plugins.util
+package cherhy.example.plugins.util.constant
 
 object EndPoint {
     const val HOME = "/"
