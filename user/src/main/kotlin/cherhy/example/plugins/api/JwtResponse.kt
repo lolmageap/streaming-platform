@@ -8,7 +8,7 @@ data class JwtResponse private constructor(
         @JvmStatic
         fun of(
             accessToken: String,
-            refreshToken: String
+            refreshToken: String,
         ) = JwtResponse(accessToken, refreshToken)
     }
 }

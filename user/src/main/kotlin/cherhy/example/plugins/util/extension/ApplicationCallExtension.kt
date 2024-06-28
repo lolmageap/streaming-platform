@@ -31,18 +31,16 @@ inline fun <reified T : Any> Parameters.toClass(): T {
     return mapper.convertValue(map, T::class.java)
 }
 
-var ResponseHeaders.accessToken: String
+var ResponseHeaders.accessToken: String?
     get() = get("Authorization")
         ?: throw NoSuchElementException("access token is not found")
-    set(value) = append("Authorization", value)
+    set(value) = append("Authorization", value ?: "")
 
-var ResponseCookies.refreshToken: String
-    get() = get("Refresh-Token")
-        ?.value
-        ?: throw NoSuchElementException("refresh token is not found")
+var ResponseCookies.refreshToken: String?
+    get() = get("Refresh-Token")?.value
     set(value) = append(
         name = "Refresh-Token",
-        value = value,
+        value = value ?: "",
         path = "/",
         expires = GMTDate(24 * 60 * 60 * 1000),
         httpOnly = true,
