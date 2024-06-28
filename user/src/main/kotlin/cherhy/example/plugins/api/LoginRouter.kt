@@ -1,10 +1,10 @@
 package cherhy.example.plugins.api
 
 import cherhy.example.plugins.usecase.LoginUseCase
-import cherhy.example.plugins.util.constant.EndPoint.LOGIN
-import cherhy.example.plugins.util.constant.EndPoint.LOGOUT
 import cherhy.example.plugins.util.extension.accessToken
 import cherhy.example.plugins.util.extension.refreshToken
+import com.cherhy.common.util.EndPoint.User.LOGIN
+import com.cherhy.common.util.EndPoint.User.LOGOUT
 import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.request.*
@@ -25,6 +25,8 @@ fun Route.login() {
     }
 
     delete(LOGOUT) {
-        TODO("Not yet implemented")
+        call.response.headers.accessToken = null
+        call.response.cookies.refreshToken = null
+        call.respond(HttpStatusCode.OK)
     }
 }
