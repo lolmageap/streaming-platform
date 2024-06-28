@@ -1,5 +1,8 @@
 package com.cherhy.payment.config
 
+import com.cherhy.common.util.EndPoint.Payment.PAYMENT_DOMAIN
+import com.cherhy.common.util.EndPoint.Stream.STREAM_DOMAIN
+import com.cherhy.common.util.EndPoint.User.USER_DOMAIN
 import com.cherhy.payment.jwt.JwtAuthenticationGlobalFilter
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
@@ -29,16 +32,16 @@ class SecurityConfig(
         http
             .addFilterBefore(jwtAuthenticationGlobalFilter, SecurityWebFiltersOrder.AUTHENTICATION)
             .authorizeExchange { userDomain ->
-                userDomain.pathMatchers("/users/**").permitAll()
-                userDomain.pathMatchers(HttpMethod.PUT, "/users/**").authenticated()
-                userDomain.pathMatchers(HttpMethod.DELETE, "/users/**").authenticated()
+                userDomain.pathMatchers(USER_DOMAIN).permitAll()
+                userDomain.pathMatchers(HttpMethod.PUT, USER_DOMAIN).authenticated()
+                userDomain.pathMatchers(HttpMethod.DELETE, USER_DOMAIN).authenticated()
                 userDomain.anyExchange().authenticated()
             }
             .authorizeExchange { paymentDomain ->
-                paymentDomain.pathMatchers("/payments/**").authenticated()
+                paymentDomain.pathMatchers(PAYMENT_DOMAIN).authenticated()
             }
             .authorizeExchange { streamDomain ->
-                streamDomain.pathMatchers("/streams/**").authenticated()
+                streamDomain.pathMatchers(STREAM_DOMAIN).authenticated()
             }
             .csrf { it.disable() }
             .build()!!

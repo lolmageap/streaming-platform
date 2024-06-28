@@ -1,12 +1,12 @@
 package cherhy.example.plugins.api
 
-import cherhy.example.plugins.util.constant.EndPoint
+import com.cherhy.common.util.EndPoint.User.HOME
 import io.ktor.server.application.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
 
 fun Route.home() {
-    get(EndPoint.HOME) {
+    get(HOME) {
         call.respondText("health check")
     }
 }

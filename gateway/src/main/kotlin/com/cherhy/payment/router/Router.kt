@@ -1,11 +1,11 @@
 package com.cherhy.payment.router
 
-import com.cherhy.payment.util.constant.Domain.PAYMENT_SERVICE
-import com.cherhy.payment.util.constant.Domain.PAYMENT_SERVICE_PATH
-import com.cherhy.payment.util.constant.Domain.STREAM_SERVICE
-import com.cherhy.payment.util.constant.Domain.STREAM_SERVICE_PATH
-import com.cherhy.payment.util.constant.Domain.USER_SERVICE
-import com.cherhy.payment.util.constant.Domain.USER_SERVICE_PATH
+import com.cherhy.common.util.EndPoint.Payment.PAYMENT_DOMAIN
+import com.cherhy.common.util.EndPoint.Payment.PAYMENT_SERVICE
+import com.cherhy.common.util.EndPoint.Stream.STREAM_DOMAIN
+import com.cherhy.common.util.EndPoint.Stream.STREAM_SERVICE
+import com.cherhy.common.util.EndPoint.User.USER_DOMAIN
+import com.cherhy.common.util.EndPoint.User.USER_SERVICE
 import com.cherhy.payment.util.property.DomainProperty
 import org.springframework.cloud.gateway.route.builder.RouteLocatorBuilder
 import org.springframework.cloud.gateway.route.builder.routes
@@ -21,15 +21,15 @@ class Router(
         builder: RouteLocatorBuilder,
     ) = builder.routes {
         route(PAYMENT_SERVICE) {
-            path(PAYMENT_SERVICE_PATH)
+            path(PAYMENT_DOMAIN)
             uri(domainProperty.paymentUrl)
         }
         route(STREAM_SERVICE) {
-            path(STREAM_SERVICE_PATH)
+            path(STREAM_DOMAIN)
             uri(domainProperty.streamUrl)
         }
         route(USER_SERVICE) {
-            path(USER_SERVICE_PATH)
+            path(USER_DOMAIN)
             uri(domainProperty.userUrl)
         }
     }
