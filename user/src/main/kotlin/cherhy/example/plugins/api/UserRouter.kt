@@ -4,14 +4,17 @@ import cherhy.example.plugins.service.ReadUserService
 import cherhy.example.plugins.service.WriteUserService
 import cherhy.example.plugins.usecase.LoginUseCase
 import cherhy.example.plugins.usecase.SignUpUseCase
-import cherhy.example.plugins.util.constant.EndPoint.DELETE_USER
-import cherhy.example.plugins.util.constant.EndPoint.GET_ME
-import cherhy.example.plugins.util.constant.EndPoint.SIGN_UP
-import cherhy.example.plugins.util.constant.EndPoint.UPDATE_USER
+import cherhy.example.plugins.util.constant.SecurityProperty.AUTHORITY
 import cherhy.example.plugins.util.extension.accessToken
+import cherhy.example.plugins.util.extension.jwt
 import cherhy.example.plugins.util.extension.refreshToken
+import cherhy.example.plugins.util.extension.userId
+import com.cherhy.common.util.EndPoint.User.GET_ME
+import com.cherhy.common.util.EndPoint.User.SIGN_UP
+import com.cherhy.common.util.EndPoint.User.UPDATE_USER
 import io.ktor.http.*
 import io.ktor.server.application.*
+import io.ktor.server.auth.*
 import io.ktor.server.request.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
@@ -35,15 +38,20 @@ fun Route.user() {
         call.respond(HttpStatusCode.Created)
     }
 
-    get(GET_ME) {
-        call.respondText("health check")
+    authenticate(AUTHORITY) {
+        get(GET_ME) {
+            val userId = call.jwt.userId
+            val user = readUserService.get(userId)
+            call.respond(HttpStatusCode.OK, user)
+        }
     }
 
-    put(UPDATE_USER) {
-        call.respondText("health check")
-    }
-
-    delete(DELETE_USER) {
-        call.respondText("health check")
+    authenticate(AUTHORITY) {
+        put(UPDATE_USER) {
+            val userId = call.jwt.userId
+            val request = call.receive<UserUpdateRequest>()
+            val updatedUser = writeUserService.update(userId, request.email, request.password)
+            call.respond(HttpStatusCode.OK, updatedUser.id.value)
+        }
     }
 }
