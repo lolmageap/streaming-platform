@@ -19,7 +19,7 @@ class LoginUseCase(
     suspend fun execute(
         loginRequest: LoginRequest,
     ): JwtResponse {
-        val user = readUserService.findByEmail(loginRequest.email)
+        val user = readUserService.get(loginRequest.email)
         val password = loginRequest.password.value
         val salt = user.salt.value
         val encodedPassword = user.password.value

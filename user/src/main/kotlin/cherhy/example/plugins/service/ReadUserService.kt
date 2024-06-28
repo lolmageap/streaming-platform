@@ -2,6 +2,7 @@ package cherhy.example.plugins.service
 
 import cherhy.example.plugins.domain.UserDomain
 import cherhy.example.plugins.domain.UserEmail
+import cherhy.example.plugins.domain.UserId
 import cherhy.example.plugins.repository.UserRepository
 import com.cherhy.common.annotation.ReadService
 
@@ -17,8 +18,16 @@ class ReadUserService(
             if (it) block()
         }
 
-    suspend fun findByEmail(email: UserEmail) =
+    suspend fun get(
+        email: UserEmail,
+    ) =
         userRepository.findByEmail(email)
             ?.let(UserDomain::of)
             ?: throw IllegalStateException("User not found")
+
+    suspend fun get(
+        userId: UserId,
+    ) = userRepository.findById(userId)
+        ?.let(UserDomain::of)
+        ?: throw IllegalStateException("User not found")
 }
