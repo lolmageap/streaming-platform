@@ -1,8 +1,8 @@
 package com.cherhy.payment.config
 
-import com.cherhy.common.util.EndPoint.Payment.PAYMENT_DOMAIN
-import com.cherhy.common.util.EndPoint.Stream.STREAM_DOMAIN
-import com.cherhy.common.util.EndPoint.User.USER_DOMAIN
+import com.cherhy.common.util.Payment.PAYMENT_DOMAIN
+import com.cherhy.common.util.Stream.STREAM_DOMAIN
+import com.cherhy.common.util.User.USER_DOMAIN
 import com.cherhy.payment.jwt.JwtAuthenticationGlobalFilter
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration

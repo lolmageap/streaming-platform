@@ -1,11 +1,11 @@
 package com.cherhy.payment.router
 
-import com.cherhy.common.util.EndPoint.Payment.PAYMENT_DOMAIN
-import com.cherhy.common.util.EndPoint.Payment.PAYMENT_SERVICE
-import com.cherhy.common.util.EndPoint.Stream.STREAM_DOMAIN
-import com.cherhy.common.util.EndPoint.Stream.STREAM_SERVICE
-import com.cherhy.common.util.EndPoint.User.USER_DOMAIN
-import com.cherhy.common.util.EndPoint.User.USER_SERVICE
+import com.cherhy.common.util.Payment.PAYMENT_DOMAIN
+import com.cherhy.common.util.Payment.PAYMENT_SERVICE
+import com.cherhy.common.util.Stream.STREAM_DOMAIN
+import com.cherhy.common.util.Stream.STREAM_SERVICE
+import com.cherhy.common.util.User.USER_DOMAIN
+import com.cherhy.common.util.User.USER_SERVICE
 import com.cherhy.payment.util.property.DomainProperty
 import org.springframework.cloud.gateway.route.builder.RouteLocatorBuilder
 import org.springframework.cloud.gateway.route.builder.routes

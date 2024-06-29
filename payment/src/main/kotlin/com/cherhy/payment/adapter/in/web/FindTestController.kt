@@ -1,12 +1,18 @@
 package com.cherhy.payment.adapter.`in`.web
 
 import com.cherhy.common.annotation.WebAdapter
+import com.cherhy.common.util.Payment.Test.GET_TEST
+import com.cherhy.common.util.Payment.Test.GET_TESTS
+import com.cherhy.payment.application.port.`in`.FindAllTestCommand
 import com.cherhy.payment.application.port.`in`.FindTestCommand
 import com.cherhy.payment.application.port.`in`.FindTestUseCase
+import com.cherhy.payment.application.port.`in`.of
 import com.cherhy.payment.domain.TestId
-import com.cherhy.payment.util.constant.EndPoint.Test.GET_TEST
 import kotlinx.coroutines.coroutineScope
+import org.springframework.data.domain.Pageable
+import org.springframework.data.web.PageableDefault
 import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.ModelAttribute
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RestController
 
@@ -23,5 +29,15 @@ class FindTestController(
         findTestUseCase.execute(command)
     }
 
-    // TODO: IMPLEMENT GET TESTS ENDPOINT !!!
+    @GetMapping(GET_TESTS)
+    suspend fun getTestExamples(
+        @ModelAttribute request: GetTestRequest,
+        @PageableDefault(page = 0, size = 10) pageable: Pageable,
+    ) = coroutineScope {
+        val command = FindAllTestCommand.of(
+            name = request.name,
+            status = request.status,
+        )
+        findTestUseCase.execute(command, pageable)
+    }
 }

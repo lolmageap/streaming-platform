@@ -1,10 +1,10 @@
 package com.cherhy.payment.adapter.`in`.web
 
 import com.cherhy.common.annotation.WebAdapter
+import com.cherhy.common.util.Payment.Test.UPDATE_TEST
 import com.cherhy.payment.application.port.`in`.UpdateTestCommand
 import com.cherhy.payment.application.port.`in`.UpdateTestUseCase
 import com.cherhy.payment.domain.TestId
-import com.cherhy.payment.util.constant.EndPoint.Test.UPDATE_TEST
 import kotlinx.coroutines.coroutineScope
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PutMapping
