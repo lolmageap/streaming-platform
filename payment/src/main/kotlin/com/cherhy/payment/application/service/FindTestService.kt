@@ -1,14 +1,16 @@
 package com.cherhy.payment.application.service
 
 import com.cherhy.common.annotation.UseCase
+import com.cherhy.payment.application.port.`in`.FindAllTestCommand
 import com.cherhy.payment.application.port.`in`.FindTestCommand
 import com.cherhy.payment.application.port.`in`.FindTestUseCase
 import com.cherhy.payment.application.port.out.GetTestPort
+import org.springframework.data.domain.Pageable
 import org.springframework.transaction.annotation.Transactional
 
 @UseCase
 @Transactional
-class FindTestService(
+internal class FindTestService(
     private val getTestPort: GetTestPort,
 ): FindTestUseCase {
     override suspend fun execute(
@@ -16,5 +18,15 @@ class FindTestService(
     ) =
         getTestPort.get(
             command.id,
+        )
+
+    override suspend fun execute(
+        command: FindAllTestCommand,
+        pageable: Pageable,
+    ) =
+        getTestPort.get(
+            name = command.name,
+            status = command.status,
+            pageable = pageable,
         )
 }
