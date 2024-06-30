@@ -1,9 +1,11 @@
 package cherhy.example.plugins.api
 
+import cherhy.example.plugins.domain.UserId
 import cherhy.example.plugins.usecase.LoginUseCase
 import cherhy.example.plugins.usecase.RefreshTokenUseCase
 import cherhy.example.plugins.util.extension.accessToken
 import cherhy.example.plugins.util.extension.refreshToken
+import cherhy.example.plugins.util.extension.toUserId
 import com.cherhy.common.util.User.LOGIN
 import com.cherhy.common.util.User.LOGOUT
 import com.cherhy.common.util.User.REFRESH
@@ -33,10 +35,9 @@ fun Route.login() {
         call.respond(HttpStatusCode.OK)
     }
 
-    // TODO: 현재 refresh token을 그대로 받아 decode하고 있는데 이 부분이 이미 gateway에서 처리되고 있음. userId를 받게 수정하자
     post(REFRESH) {
-        val refreshToken = call.request.cookies.refreshToken
-        val accessToken = refreshTokenUseCase.execute(refreshToken)
+        val userId = call.receive<Long>().toUserId()
+        val accessToken = refreshTokenUseCase.execute(userId)
 
         call.response.headers.accessToken = accessToken
         call.respond(HttpStatusCode.Created)

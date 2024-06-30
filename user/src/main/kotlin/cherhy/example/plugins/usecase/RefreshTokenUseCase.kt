@@ -1,5 +1,6 @@
 package cherhy.example.plugins.usecase
 
+import cherhy.example.plugins.domain.UserId
 import cherhy.example.plugins.service.ReadAuthorityService
 import cherhy.example.plugins.service.ReadUserService
 import cherhy.example.plugins.util.JwtManager
@@ -13,10 +14,8 @@ class RefreshTokenUseCase(
     private val readAuthorityService: ReadAuthorityService,
 ) {
     suspend fun execute(
-        refreshToken: String,
+        userId: UserId,
     ): String {
-        // TODO: decodeToken 지워야함.
-        val userId = jwtManager.decodeToken(refreshToken)
         val user = readUserService.get(userId)
         val roles = readAuthorityService.get(user.id)
         return jwtManager.createToken(user.id, user.name, roles, ACCESS)
