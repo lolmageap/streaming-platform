@@ -16,6 +16,7 @@ import org.springframework.context.annotation.Configuration
 class Router(
     private val domainProperty: DomainProperty,
 ) {
+    // TODO: jwt에서 userId를 추출해서 라우터에 보내는 로직을 추가해야함. -> SecurityConfig에서 처리
     @Bean
     fun routeLocator(
         builder: RouteLocatorBuilder,
