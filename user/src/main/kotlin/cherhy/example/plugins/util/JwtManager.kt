@@ -12,9 +12,14 @@ import cherhy.example.plugins.util.constant.SecurityProperty.USERNAME
 import cherhy.example.plugins.util.constant.SecurityProperty.USER_ID
 import com.auth0.jwt.JWT
 import com.auth0.jwt.algorithms.Algorithm
+import com.auth0.jwt.exceptions.JWTDecodeException
+import com.auth0.jwt.exceptions.TokenExpiredException
+import mu.KotlinLogging
 import java.util.*
 
 class JwtManager {
+    private val logger = KotlinLogging.logger {}
+
     fun createToken(
         userId: UserId,
         userName: Username,
@@ -38,6 +43,24 @@ class JwtManager {
                 }
             }
             .sign(Algorithm.HMAC256(secret))!!
+
+    // TODO: 지워야함.
+    fun decodeToken(token: String) =
+        try {
+            JWT.require(Algorithm.HMAC256(secret))
+                .withAudience(audience)
+                .withIssuer(issuer)
+                .build()
+                .verify(token)
+                .claims[USER_ID]?.asLong()?.let(UserId::of)
+                ?: error("JWT 토큰이 잘못 되었습니다.")
+        }  catch (e: TokenExpiredException) {
+            logger.info { "JWT 토큰이 만료 되었습니다. detail: $e" }
+            error("JWT 토큰이 만료 되었습니다.")
+        } catch (e: JWTDecodeException) {
+            logger.info { "JWT 토큰이 잘못 되었습니다. detail: $e" }
+            error("JWT 토큰이 잘못 되었습니다.")
+        }
 
     companion object {
         @JvmStatic
