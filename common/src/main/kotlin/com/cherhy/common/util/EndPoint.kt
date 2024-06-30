@@ -12,6 +12,7 @@ object User {
     const val DELETE_USER = "$USER/{id}"
     const val LOGIN = "$USER/login"
     const val LOGOUT = "$USER/logout"
+    const val REFRESH = "$USER/refresh"
 }
 
 object Payment {
@@ -27,11 +28,13 @@ object Payment {
     const val DELETE_PAYMENT = "$PAYMENT/{id}"
 
     object Test {
-        const val GET_TEST = "/test/{id}"
-        const val GET_TESTS = "/tests"
-        const val REGISTER_TEST = "/test"
-        const val UPDATE_TEST = "/test/{id}"
-        const val DELETE_TEST = "/test/{id}"
+        private const val TEST = "$PAYMENT/tests"
+
+        const val GET_TEST = "$TEST/{id}"
+        const val GET_TESTS = TEST
+        const val REGISTER_TEST = TEST
+        const val UPDATE_TEST = "$TEST/{id}"
+        const val DELETE_TEST = "$TEST/{id}"
     }
 }
 
