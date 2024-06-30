@@ -9,7 +9,7 @@ import com.cherhy.common.annotation.ReadService
 class ReadAuthorityService(
     private val authorityRepository: AuthorityRepository,
 ) {
-    suspend fun findByUserId(userId: UserId) =
+    suspend fun get(userId: UserId) =
         authorityRepository.findByUserId(userId)
             .map { Role.valueOf(it.role) }
 }

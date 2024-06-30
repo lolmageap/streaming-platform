@@ -25,7 +25,7 @@ class LoginUseCase(
         val encodedPassword = user.password.value
         Encoder.matchesBCrypt(password + salt, encodedPassword)
 
-        val roles = readAuthorityService.findByUserId(user.id)
+        val roles = readAuthorityService.get(user.id)
         val accessToken = jwtManager.createToken(user.id, user.name, roles, ACCESS)
         val refreshToken = jwtManager.createToken(user.id, user.name, roles, REFRESH)
         return JwtResponse.of(
