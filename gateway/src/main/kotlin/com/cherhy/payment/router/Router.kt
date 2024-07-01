@@ -37,6 +37,7 @@ class Router(
             filters {
                 extractAndAddUserIdToHeader()
                 setPath(PAYMENT_DOMAIN)
+                rewritePath("/api/payment/(?<segment>.*)", "/payment/${'$'}{segment}")
             }
         }
         route(STREAM_SERVICE) {
@@ -45,6 +46,7 @@ class Router(
             filters {
                 extractAndAddUserIdToHeader()
                 setPath(STREAM_DOMAIN)
+                rewritePath("/api/stream/(?<segment>.*)", "/stream/${'$'}{segment}")
             }
         }
         route(USER_SERVICE) {
@@ -53,6 +55,7 @@ class Router(
             filters {
                 extractAndAddUserIdToHeader()
                 setPath(USER_DOMAIN)
+                rewritePath("/api/user/(?<segment>.*)", "/user/${'$'}{segment}")
             }
         }
     }
