@@ -24,6 +24,6 @@
 - [x] gateway 모듈로 뺄지 고민
 - [ ] kafka 연동
 - [ ] 결제 워크 플로우 구상
-- [ ] 스케줄러 모듈 추가 (spring batch)
+- [x] 스케줄러 모듈 추가 (spring batch)
 - [ ] restdocs 적용
 - [ ] tdd 방식으로 개발
