@@ -21,7 +21,8 @@
  - CI/CD : Github Actions (예정)
 
 ## TODO
-- [x] gateway 모듈로 뺄지 고민
+- [x] gateway 모듈 추가
+- [ ] common module에 header에 userId 가져오는 annotation 추가
 - [ ] kafka 연동
 - [ ] 결제 워크 플로우 구상
 - [x] 스케줄러 모듈 추가 (spring batch)
