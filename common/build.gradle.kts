@@ -9,6 +9,7 @@ dependencies {
     implementation("org.springframework:spring-tx:6.1.8")
     implementation("org.springframework.boot:spring-boot-starter-validation")
     implementation("com.github.ulisesbocchio:jasypt-spring-boot-starter:3.0.5")
+    implementation("org.aspectj:aspectjweaver:1.9.22.1")
 }
 
 java {
