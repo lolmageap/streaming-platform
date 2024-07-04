@@ -2,8 +2,8 @@ package cherhy.example.plugins.util.extension
 
 import cherhy.example.plugins.domain.UserId
 import cherhy.example.plugins.domain.Username
-import cherhy.example.plugins.util.constant.SecurityProperty.USER_ID
-import cherhy.example.plugins.util.constant.SecurityProperty.USERNAME
+import cherhy.example.plugins.util.constant.USERNAME
+import cherhy.example.plugins.util.constant.USER_ID
 import io.ktor.server.auth.jwt.*
 
 val JWTPrincipal?.username: Username
