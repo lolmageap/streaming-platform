@@ -29,3 +29,6 @@
 - [ ] restdocs 적용
 - [ ] tdd 방식으로 개발
 - [ ] 아키텍처, 개선한 코드 부분에서 별도의 markdown 파일에 정리해놓기
+
+## Reference Documentation
+[HELP.md](HELP.md)에 들어가면 설정에 대한 설명이 나와있습니다.
