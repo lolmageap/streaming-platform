@@ -4,7 +4,7 @@ import cherhy.example.plugins.service.ReadUserService
 import cherhy.example.plugins.service.WriteUserService
 import cherhy.example.plugins.usecase.LoginUseCase
 import cherhy.example.plugins.usecase.SignUpUseCase
-import cherhy.example.plugins.util.constant.SecurityProperty.AUTHORITY
+import cherhy.example.plugins.util.constant.AUTHORITY
 import cherhy.example.plugins.util.extension.accessToken
 import cherhy.example.plugins.util.extension.jwt
 import cherhy.example.plugins.util.extension.refreshToken
