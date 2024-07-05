@@ -32,6 +32,7 @@ dependencies {
 
 	implementation("org.slf4j:slf4j-simple:2.0.13")
 	implementation("io.insert-koin:koin-ktor:3.5.6")
+	implementation("org.ktorm:ktorm-core:4.0.0")
 
 	testImplementation("io.ktor:ktor-server-tests-jvm")
 	testImplementation("org.jetbrains.kotlin:kotlin-test-junit")
