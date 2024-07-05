@@ -1,4 +1,4 @@
-# video-platform
+ # video-platform
 
 ## 목표
 동영상 플랫폼 개발
@@ -22,13 +22,13 @@
 
 ## TODO
 - [x] gateway 모듈 추가
-- [ ] common module에 header에 userId 가져오는 annotation 추가(interface 정의하기)
+- [x] common module에 header에 userId 가져오는 annotation 추가(interface 정의하기)
 - [ ] kafka 연동
 - [ ] 결제 워크 플로우 구상
 - [x] 스케줄러 모듈 추가 (spring batch)
 - [ ] restdocs 적용
 - [ ] tdd 방식으로 개발
-- [ ] 아키텍처, 개선한 코드 부분에서 별도의 markdown 파일에 정리해놓기
+- [x] 아키텍처, 개선한 코드 부분에서 별도의 markdown 파일에 정리해놓기
 
 ## Reference Documentation
 [HELP.md](HELP.md)에 들어가면 설정에 대한 설명이 나와있습니다.
