@@ -6,8 +6,6 @@ import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.auth.*
 import io.ktor.server.auth.jwt.*
-import io.ktor.server.response.*
-import io.ktor.util.date.*
 import java.nio.file.AccessDeniedException
 
 val mapper = jacksonObjectMapper()
@@ -18,6 +16,10 @@ val ApplicationCall.pathVariable
 val ApplicationCall.jwt
     get() = this.principal<JWTPrincipal>()
         ?: throw AccessDeniedException("Invalid token")
+
+val ApplicationCall.userId
+    get() = this.request.headers["user-id"]?.toLongOrNull()?.toUserId()
+        ?: throw IllegalArgumentException("user-id header is required")
 
 inline fun <reified T : Any> ApplicationCall.getQueryParams(): T {
     return this.request.queryParameters.toClass()
