@@ -13,10 +13,34 @@ abstract class BaseTable<T : Entity<T>>(
 }
 
 interface BaseEntity<T : Entity<T>> : Entity<T> {
-    val createdAt: ZonedDateTime
-    var updatedAt: ZonedDateTime
+    val createdAt: CreatedAt
+    var updatedAt: UpdatedAt
 }
 
 abstract class BaseEntityFactory<T : BaseEntity<T>> : Entity.Factory<T>() {
     // TODO: update 시 updatedAt을 자동으로 업데이트되도록 구현
+}
+
+@JvmInline
+value class CreatedAt(
+    val value: ZonedDateTime,
+) {
+    companion object {
+        @JvmStatic
+        fun of(
+            value: ZonedDateTime,
+        ) = CreatedAt(value)
+    }
+}
+
+@JvmInline
+value class UpdatedAt(
+    val value: ZonedDateTime,
+) {
+    companion object {
+        @JvmStatic
+        fun of(
+            value: ZonedDateTime,
+        ) = UpdatedAt(value)
+    }
 }
