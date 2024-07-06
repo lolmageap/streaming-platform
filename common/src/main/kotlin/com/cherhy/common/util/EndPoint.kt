@@ -44,9 +44,13 @@ object Stream {
     const val STREAM_DOMAIN = "$STREAM/**"
     const val STREAM_SERVICE = "$STREAM-service"
 
-    const val GET_STREAM = "$STREAM/{id}"
-    const val GET_STREAMS = STREAM
-    const val CREATE_STREAM = STREAM
-    const val UPDATE_STREAM = "$STREAM/{id}"
-    const val DELETE_STREAM = "$STREAM/{id}"
+    object Post {
+        private const val POST = "$STREAM/posts"
+
+        const val GET_POST = "$POST/{id}"
+        const val GET_POSTS = POST
+        const val CREATE_POST = POST
+        const val UPDATE_POST = "$POST/{id}"
+        const val DELETE_POST = "$POST/{id}"
+    }
 }
