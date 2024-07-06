@@ -1,31 +1,22 @@
 package com.cherhy.plugins.util.model
 
-//import java.time.LocalDateTime
-//
-//abstract class BaseLongIdTable<T>(
-//    name: String,
-//    type: T,
-//): LongIdTable(name, idName) {
-//    val createdAt = datetime("created_at").clientDefault { LocalDateTime.now() }
-//    val updatedAt = datetime("updated_at").clientDefault { LocalDateTime.now() }
-//}
-//
-//abstract class BaseEntity(
-//    id: EntityID<Long>,
-//    table: BaseLongIdTable,
-//): LongEntity(id) {
-//    val createdAt by table.createdAt
-//    var updatedAt by table.updatedAt
-//}
-//
-//abstract class BaseEntityClass<E : BaseEntity>(
-//    table: BaseLongIdTable,
-//): LongEntityClass<E>(table) {
-//    init {
-//        EntityHook.subscribe { action ->
-//            if (action.changeType == EntityChangeType.Updated) {
-//                action.toEntity(this)?.updatedAt = LocalDateTime.now()
-//            }
-//        }
-//    }
-//}
+import org.ktorm.entity.Entity
+import org.ktorm.schema.Table
+import org.ktorm.schema.datetime
+import java.time.ZonedDateTime
+
+abstract class BaseTable<T : Entity<T>>(
+    name: String,
+): Table<T>(name) {
+    val createdAt = datetime("created_at").bindTo { ZonedDateTime.now().toLocalDateTime() }
+    val updatedAt = datetime("updated_at").bindTo { ZonedDateTime.now().toLocalDateTime() }
+}
+
+interface BaseEntity<T : Entity<T>> : Entity<T> {
+    val createdAt: ZonedDateTime
+    var updatedAt: ZonedDateTime
+}
+
+abstract class BaseEntityFactory<T : BaseEntity<T>> : Entity.Factory<T>() {
+    // TODO: update 시 updatedAt을 자동으로 업데이트되도록 구현
+}
