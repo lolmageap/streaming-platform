@@ -4,11 +4,11 @@ import cherhy.example.plugins.service.ReadUserService
 import cherhy.example.plugins.service.WriteUserService
 import cherhy.example.plugins.usecase.LoginUseCase
 import cherhy.example.plugins.usecase.SignUpUseCase
-import cherhy.example.plugins.util.constant.AUTHORITY
 import cherhy.example.plugins.util.extension.accessToken
 import cherhy.example.plugins.util.extension.jwt
 import cherhy.example.plugins.util.extension.refreshToken
 import cherhy.example.plugins.util.extension.userId
+import com.cherhy.common.util.AUTHORITY
 import com.cherhy.common.util.User.GET_ME
 import com.cherhy.common.util.User.SIGN_UP
 import com.cherhy.common.util.User.UPDATE_USER
@@ -38,6 +38,7 @@ fun Route.user() {
         call.respond(HttpStatusCode.Created)
     }
 
+    // TODO: gateway security filter에서 authenticate 처리하자
     authenticate(AUTHORITY) {
         get(GET_ME) {
             val userId = call.jwt.userId
@@ -46,6 +47,7 @@ fun Route.user() {
         }
     }
 
+    // TODO: gateway security filter에서 authenticate 처리하자
     authenticate(AUTHORITY) {
         put(UPDATE_USER) {
             val userId = call.jwt.userId

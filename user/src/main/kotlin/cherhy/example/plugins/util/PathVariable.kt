@@ -1,8 +1,8 @@
 package cherhy.example.plugins.util
 
 import cherhy.example.plugins.domain.UserId
-import cherhy.example.plugins.util.constant.ID
-import cherhy.example.plugins.util.constant.USER_ID
+import com.cherhy.common.util.ID
+import com.cherhy.common.util.USER_ID
 import io.ktor.server.application.*
 
 class PathVariable(

@@ -7,13 +7,11 @@ import cherhy.example.plugins.util.constant.JwtProperty.AUDIENCE
 import cherhy.example.plugins.util.constant.JwtProperty.EXPIRATION
 import cherhy.example.plugins.util.constant.JwtProperty.ISSUER
 import cherhy.example.plugins.util.constant.JwtProperty.SECRET
-import cherhy.example.plugins.util.constant.SecurityProperty.ROLE
-import cherhy.example.plugins.util.constant.SecurityProperty.USERNAME
-import cherhy.example.plugins.util.constant.SecurityProperty.USER_ID
 import com.auth0.jwt.JWT
 import com.auth0.jwt.algorithms.Algorithm
-import com.auth0.jwt.exceptions.JWTDecodeException
-import com.auth0.jwt.exceptions.TokenExpiredException
+import com.cherhy.common.util.ROLE
+import com.cherhy.common.util.USERNAME
+import com.cherhy.common.util.USER_ID
 import mu.KotlinLogging
 import java.util.*
 
