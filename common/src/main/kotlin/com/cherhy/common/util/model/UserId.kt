@@ -1,6 +1,5 @@
-package com.cherhy.plugins.util.model
+package com.cherhy.common.util.model
 
-// TODO: common module로 올리자.
 @JvmInline
 value class UserId(
     val value: Long,

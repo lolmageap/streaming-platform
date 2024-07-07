@@ -1,5 +1,6 @@
 package com.cherhy.plugins.domain
 
+import com.cherhy.common.util.model.UserId
 import com.cherhy.plugins.util.model.BaseEntity
 import com.cherhy.plugins.util.model.BaseEntityFactory
 import com.cherhy.plugins.util.model.BaseTable
@@ -54,17 +55,5 @@ value class PostContent(
         fun of(
             value: String,
         ) = PostContent(value)
-    }
-}
-
-@JvmInline
-value class UserId(
-    val value: Long,
-) {
-    companion object {
-        @JvmStatic
-        fun of(
-            value: Long,
-        ) = UserId(value)
     }
 }
