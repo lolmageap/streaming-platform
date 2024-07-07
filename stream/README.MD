@@ -1,4 +1,5 @@
 # STREAMING SERVICE MODULE
+youtube, netflix와 같은 영상 스트리밍 서비스를 구현하는 모듈입니다.
 
 ## STACK
 - ORM : ktorm
