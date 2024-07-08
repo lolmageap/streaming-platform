@@ -1,6 +1,7 @@
 package com.cherhy.plugins.util
 
 import com.cherhy.common.util.POST_ID
+import com.cherhy.common.util.VIDEO_ID
 import com.cherhy.plugins.domain.PostId
 import com.cherhy.plugins.domain.VideoId
 import io.ktor.server.application.*
@@ -18,9 +19,9 @@ class PathVariable(
         ?.toLongOrNull()?.let(PostId::of)
         ?: throw IllegalArgumentException("$POST_ID is required.")
 
-    val videoId = call.parameters["videoId"]
+    val videoId = call.parameters[VIDEO_ID]
         ?.toLongOrNull()?.let(VideoId::of)
-        ?: throw IllegalArgumentException("videoId is required.")
+        ?: throw IllegalArgumentException("$VIDEO_ID is required.")
 
     private val path = call.parameters
 }
