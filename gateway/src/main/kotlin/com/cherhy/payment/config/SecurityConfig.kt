@@ -36,11 +36,9 @@ class SecurityConfig(
         http
             .addFilterBefore(jwtAuthenticationGlobalFilter, SecurityWebFiltersOrder.AUTHENTICATION)
             .authorizeExchange { userDomain ->
-                userDomain.pathMatchers(USER_DOMAIN).permitAll()
                 userDomain.pathMatchers(HttpMethod.PUT, UPDATE_USER).authenticated()
                 userDomain.pathMatchers(HttpMethod.DELETE, DELETE_USER).authenticated()
-                userDomain.pathMatchers(HttpMethod.POST, REFRESH).authenticated()
-                userDomain.anyExchange().authenticated()
+                userDomain.pathMatchers(USER_DOMAIN).permitAll()
             }
             .authorizeExchange { paymentDomain ->
                 paymentDomain.pathMatchers(PAYMENT_DOMAIN).authenticated()
