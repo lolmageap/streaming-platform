@@ -5,9 +5,7 @@ import cherhy.example.plugins.service.ReadAuthorityService
 import cherhy.example.plugins.service.ReadUserService
 import cherhy.example.plugins.util.JwtManager
 import cherhy.example.plugins.util.TokenType.ACCESS
-import com.cherhy.common.annotation.Facade
 
-@Facade
 class RefreshTokenUseCase(
     private val jwtManager: JwtManager,
     private val readUserService: ReadUserService,

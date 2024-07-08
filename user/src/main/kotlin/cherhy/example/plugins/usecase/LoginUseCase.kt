@@ -8,9 +8,7 @@ import cherhy.example.plugins.util.Encoder
 import cherhy.example.plugins.util.JwtManager
 import cherhy.example.plugins.util.TokenType.ACCESS
 import cherhy.example.plugins.util.TokenType.REFRESH
-import com.cherhy.common.annotation.Facade
 
-@Facade
 class LoginUseCase(
     private val readUserService: ReadUserService,
     private val readAuthorityService: ReadAuthorityService,
