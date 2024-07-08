@@ -1,11 +1,10 @@
 package cherhy.example.plugins.api
 
-import cherhy.example.plugins.domain.UserId
 import cherhy.example.plugins.usecase.LoginUseCase
 import cherhy.example.plugins.usecase.RefreshTokenUseCase
 import cherhy.example.plugins.util.extension.accessToken
 import cherhy.example.plugins.util.extension.refreshToken
-import cherhy.example.plugins.util.extension.toUserId
+import cherhy.example.plugins.util.extension.userId
 import com.cherhy.common.util.User.LOGIN
 import com.cherhy.common.util.User.LOGOUT
 import com.cherhy.common.util.User.REFRESH
@@ -36,7 +35,7 @@ fun Route.login() {
     }
 
     post(REFRESH) {
-        val userId = call.receive<Long>().toUserId()
+        val userId = call.userId
         val accessToken = refreshTokenUseCase.execute(userId)
 
         call.response.headers.accessToken = accessToken
