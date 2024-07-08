@@ -8,13 +8,11 @@ import cherhy.example.plugins.util.extension.accessToken
 import cherhy.example.plugins.util.extension.jwt
 import cherhy.example.plugins.util.extension.refreshToken
 import cherhy.example.plugins.util.extension.userId
-import com.cherhy.common.util.AUTHORITY
 import com.cherhy.common.util.User.GET_ME
 import com.cherhy.common.util.User.SIGN_UP
 import com.cherhy.common.util.User.UPDATE_USER
 import io.ktor.http.*
 import io.ktor.server.application.*
-import io.ktor.server.auth.*
 import io.ktor.server.request.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
@@ -38,22 +36,16 @@ fun Route.user() {
         call.respond(HttpStatusCode.Created)
     }
 
-    // TODO: gateway security filter에서 authenticate 처리하자
-    authenticate(AUTHORITY) {
-        get(GET_ME) {
-            val userId = call.jwt.userId
-            val user = readUserService.get(userId)
-            call.respond(HttpStatusCode.OK, user)
-        }
+    get(GET_ME) {
+        val userId = call.jwt.userId
+        val user = readUserService.get(userId)
+        call.respond(HttpStatusCode.OK, user)
     }
 
-    // TODO: gateway security filter에서 authenticate 처리하자
-    authenticate(AUTHORITY) {
-        put(UPDATE_USER) {
-            val userId = call.jwt.userId
-            val request = call.receive<UserUpdateRequest>()
-            val updatedUser = writeUserService.update(userId, request.email, request.password)
-            call.respond(HttpStatusCode.OK, updatedUser.id.value)
-        }
+    put(UPDATE_USER) {
+        val userId = call.jwt.userId
+        val request = call.receive<UserUpdateRequest>()
+        val updatedUser = writeUserService.update(userId, request.email, request.password)
+        call.respond(HttpStatusCode.OK, updatedUser.id.value)
     }
 }
