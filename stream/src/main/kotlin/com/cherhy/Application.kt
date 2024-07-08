@@ -1,5 +1,6 @@
 package com.cherhy
 
+import com.cherhy.plugins.config.configureDependencyInjection
 import com.cherhy.plugins.config.configureRouting
 import io.ktor.server.application.*
 import io.ktor.server.engine.*
@@ -12,4 +13,5 @@ fun main() {
 
 fun Application.module() {
     configureRouting()
+    configureDependencyInjection()
 }
