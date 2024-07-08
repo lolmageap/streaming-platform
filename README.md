@@ -29,6 +29,8 @@
 - [ ] restdocs 적용
 - [ ] tdd 방식으로 개발
 - [x] 아키텍처, 개선한 코드 부분에서 별도의 markdown 파일에 정리해놓기
+- [ ] common module에 exception 추가
+- [ ] common module에 spring annotation 제거 (ktor에서 사용을 못하기 때문에)
 
 ## Reference Documentation
 [HELP.md](HELP.md)에 들어가면 설정에 대한 설명이 나와있습니다.
