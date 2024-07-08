@@ -1,20 +1,20 @@
 package com.cherhy.plugins.api
 
-// TODO: category should be enum
+import com.cherhy.plugins.domain.PostCategory
+
 data class GetPostRequest(
-    val title: String,
-    val content: String,
-    val category: String,
+    val keyword: String?,
+    val category: PostCategory?,
 )
 
 data class CreatePostRequest(
     val title: String,
     val content: String,
-    val category: String,
+    val category: PostCategory,
 )
 
 data class UpdatePostRequest(
     val title: String,
     val content: String,
-    val category: String,
+    val category: PostCategory,
 )

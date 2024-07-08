@@ -12,6 +12,7 @@ object Posts : BaseTable<Post>("post") {
     val title = varchar("title").bindTo { it.title.value }
     val content = varchar("content").bindTo { it.content.value }
     val author = long("author").bindTo { it.author.value }
+    val category = varchar("category").bindTo { it.category.name }
 }
 
 interface Post : BaseEntity<Post> {
@@ -20,6 +21,7 @@ interface Post : BaseEntity<Post> {
     var title: PostTitle
     var content: PostContent
     val author: UserId
+    val category: PostCategory
 }
 
 @JvmInline
@@ -56,4 +58,20 @@ value class PostContent(
             value: String,
         ) = PostContent(value)
     }
+}
+
+enum class PostCategory {
+    COMEDY,
+    VIDEO_GAME,
+    MUSIC,
+    AUTOS_VEHICLES,
+    EDUCATION,
+    ENTERTAINMENT,
+    PETS_ANIMALS,
+    SCIENCE_TECHNOLOGY_STUDIES,
+    NEWS_POLITICS,
+    PEOPLE_BLOGS,
+    VLOGGING,
+    TRAVEL,
+    SPORTS,
 }
