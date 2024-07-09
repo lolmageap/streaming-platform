@@ -1,6 +1,8 @@
 package cherhy.example.plugins.util.extension
 
 import cherhy.example.plugins.util.PathVariable
+import com.cherhy.common.util.USER_ID
+import com.cherhy.common.util.model.toUserId
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import io.ktor.http.*
 import io.ktor.server.application.*
@@ -18,8 +20,8 @@ val ApplicationCall.jwt
         ?: throw AccessDeniedException("Invalid token")
 
 val ApplicationCall.userId
-    get() = this.request.headers["user-id"]?.toLongOrNull()?.toUserId()
-        ?: throw IllegalArgumentException("user-id header is required")
+    get() = this.request.headers[USER_ID]?.toLongOrNull()?.toUserId()
+        ?: throw IllegalArgumentException("$USER_ID header is required")
 
 inline fun <reified T : Any> ApplicationCall.getQueryParams(): T {
     return this.request.queryParameters.toClass()

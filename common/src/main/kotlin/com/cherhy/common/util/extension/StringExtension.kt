@@ -1,4 +1,4 @@
-package com.cherhy.common.annotation
+package com.cherhy.common.util.extension
 
 fun String.toSnakeCase(): String {
     return this.replace(Regex("([a-z])([A-Z]+)"), "$1_$2").lowercase()
