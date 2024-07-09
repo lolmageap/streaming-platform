@@ -1,6 +1,6 @@
 package com.cherhy.payment.adapter.`in`.web
 
-import com.cherhy.common.annotation.WebAdapter
+import com.cherhy.payment.annotation.WebAdapter
 import com.cherhy.common.util.Payment.Test.GET_TEST
 import com.cherhy.common.util.Payment.Test.GET_TESTS
 import com.cherhy.payment.application.port.`in`.FindAllTestCommand

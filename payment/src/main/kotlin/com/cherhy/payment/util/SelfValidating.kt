@@ -1,4 +1,4 @@
-package com.cherhy.common.annotation
+package com.cherhy.payment.util
 
 import jakarta.validation.ConstraintViolationException
 import jakarta.validation.Validation

@@ -1,6 +1,6 @@
 package com.cherhy.payment.adapter.out.persistence
 
-import com.cherhy.common.annotation.Mapper
+import com.cherhy.payment.annotation.Mapper
 import com.cherhy.payment.domain.TestDomain
 import com.cherhy.payment.domain.TestId
 import com.cherhy.payment.domain.TestName

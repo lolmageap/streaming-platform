@@ -1,4 +1,4 @@
-package com.cherhy.common.annotation
+package com.cherhy.payment.annotation
 
 import org.springframework.stereotype.Component
 
@@ -6,4 +6,4 @@ import org.springframework.stereotype.Component
 @Retention(AnnotationRetention.RUNTIME)
 @MustBeDocumented
 @Component
-annotation class UseCase
+annotation class WebAdapter

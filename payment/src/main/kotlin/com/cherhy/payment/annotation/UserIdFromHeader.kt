@@ -1,4 +1,4 @@
-package com.cherhy.common.annotation
+package com.cherhy.payment.annotation
 
 @Retention(AnnotationRetention.RUNTIME)
 @Target(AnnotationTarget.VALUE_PARAMETER)

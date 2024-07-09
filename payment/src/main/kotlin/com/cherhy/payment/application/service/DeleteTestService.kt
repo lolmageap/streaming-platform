@@ -1,6 +1,6 @@
 package com.cherhy.payment.application.service
 
-import com.cherhy.common.annotation.UseCase
+import com.cherhy.payment.annotation.UseCase
 import com.cherhy.payment.application.port.`in`.DeleteTestCommand
 import com.cherhy.payment.application.port.`in`.DeleteTestUseCase
 import com.cherhy.payment.application.port.out.DeleteTestPort

@@ -1,14 +1,12 @@
-package com.cherhy.common.config
+package com.cherhy.payment.config
 
-import com.cherhy.common.annotation.UserIdFromHeader
+import com.cherhy.payment.annotation.UserIdFromHeader
 import org.aspectj.lang.JoinPoint
 import org.aspectj.lang.annotation.Aspect
 import org.aspectj.lang.annotation.Before
 import org.aspectj.lang.reflect.MethodSignature
-import org.springframework.stereotype.Component
 
 @Aspect
-@Component
 class UserIdFromHeaderAspect(
     private val userIdResolver: UserIdResolver,
 ) {

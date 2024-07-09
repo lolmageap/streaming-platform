@@ -1,4 +1,4 @@
-package com.cherhy.common.config
+package com.cherhy.payment.config
 
 import org.jasypt.encryption.pbe.StandardPBEStringEncryptor
 import org.springframework.context.annotation.Bean

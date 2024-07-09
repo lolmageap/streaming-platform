@@ -21,3 +21,6 @@ axon:
     general: xstream
   axonserver:
     servers: host.docker.internal:8124
+jasypt:
+  encryptor:
+    bean: jasyptStringEncryptor

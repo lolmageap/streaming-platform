@@ -1,6 +1,6 @@
 package com.cherhy.payment.adapter.`in`.web
 
-import com.cherhy.common.annotation.WebAdapter
+import com.cherhy.payment.annotation.WebAdapter
 import com.cherhy.common.util.Payment.Test.DELETE_TEST
 import com.cherhy.payment.application.port.`in`.DeleteTestCommand
 import com.cherhy.payment.application.port.`in`.DeleteTestUseCase

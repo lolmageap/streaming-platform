@@ -1,6 +1,3 @@
 spring:
   application:
     name: common
-jasypt:
-  encryptor:
-    bean: jasyptStringEncryptor

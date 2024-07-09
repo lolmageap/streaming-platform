@@ -13,6 +13,8 @@ val coroutineVersion = "1.6.4"
 dependencies {
     implementation(project(":common"))
 
+    implementation("org.aspectj:aspectjweaver:1.9.22.1")
+    implementation("com.github.ulisesbocchio:jasypt-spring-boot-starter:3.0.5")
     implementation("org.springframework.boot:spring-boot-starter-validation")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
     implementation("io.projectreactor.kotlin:reactor-kotlin-extensions")

@@ -1,7 +1,7 @@
 package com.cherhy.payment.application.port.`in`
 
-import com.cherhy.common.annotation.SelfValidating
-import com.cherhy.common.annotation.isNumber
+import com.cherhy.payment.util.SelfValidating
+import com.cherhy.common.util.extension.isNumber
 import com.cherhy.payment.domain.TestId
 import com.cherhy.payment.domain.TestName
 import com.cherhy.payment.domain.TestStatus

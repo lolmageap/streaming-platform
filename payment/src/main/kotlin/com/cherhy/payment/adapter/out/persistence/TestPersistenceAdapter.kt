@@ -1,6 +1,6 @@
 package com.cherhy.payment.adapter.out.persistence
 
-import com.cherhy.common.annotation.PersistenceAdapter
+import com.cherhy.payment.annotation.PersistenceAdapter
 import com.cherhy.payment.application.port.out.DeleteTestPort
 import com.cherhy.payment.application.port.out.GetTestPort
 import com.cherhy.payment.application.port.out.RegisterTestPort
