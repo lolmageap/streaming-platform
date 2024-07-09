@@ -1,4 +1,4 @@
-package com.cherhy.payment.util.property
+package com.cherhy.gateway.util.property
 
 import org.springframework.boot.context.properties.ConfigurationProperties
 

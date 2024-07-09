@@ -1,7 +1,7 @@
-package com.cherhy.payment.jwt
+package com.cherhy.gateway.jwt
 
-import com.cherhy.payment.util.model.Principal
-import com.cherhy.payment.util.property.JwtProperty
+import com.cherhy.gateway.util.model.Principal
+import com.cherhy.gateway.util.property.JwtProperty
 import com.nimbusds.jose.JOSEException
 import com.nimbusds.jose.crypto.MACVerifier
 import com.nimbusds.jwt.SignedJWT

@@ -1,12 +1,11 @@
-package com.cherhy.payment.config
+package com.cherhy.gateway.config
 
 import com.cherhy.common.util.Payment.PAYMENT_DOMAIN
 import com.cherhy.common.util.Stream.STREAM_DOMAIN
 import com.cherhy.common.util.User.DELETE_USER
-import com.cherhy.common.util.User.REFRESH
 import com.cherhy.common.util.User.UPDATE_USER
 import com.cherhy.common.util.User.USER_DOMAIN
-import com.cherhy.payment.jwt.JwtAuthenticationGlobalFilter
+import com.cherhy.gateway.jwt.JwtAuthenticationGlobalFilter
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.http.HttpMethod

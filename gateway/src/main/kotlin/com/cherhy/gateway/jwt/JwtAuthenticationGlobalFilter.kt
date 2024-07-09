@@ -1,6 +1,6 @@
-package com.cherhy.payment.jwt
+package com.cherhy.gateway.jwt
 
-import com.cherhy.payment.util.extension.accessToken
+import com.cherhy.gateway.util.extension.accessToken
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Component
 import org.springframework.web.server.ServerWebExchange

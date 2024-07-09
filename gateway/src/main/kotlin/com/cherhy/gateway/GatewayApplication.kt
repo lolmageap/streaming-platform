@@ -1,4 +1,4 @@
-package com.cherhy.payment
+package com.cherhy.gateway
 
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.context.properties.ConfigurationPropertiesScan

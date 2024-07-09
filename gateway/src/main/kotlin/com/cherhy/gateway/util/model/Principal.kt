@@ -1,4 +1,4 @@
-package com.cherhy.payment.util.model
+package com.cherhy.gateway.util.model
 
 data class Principal private constructor(
     val userId: Long,

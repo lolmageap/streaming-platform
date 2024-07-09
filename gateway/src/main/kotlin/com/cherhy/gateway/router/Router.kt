@@ -1,4 +1,4 @@
-package com.cherhy.payment.router
+package com.cherhy.gateway.router
 
 import com.cherhy.common.util.Payment.PAYMENT_DOMAIN
 import com.cherhy.common.util.Payment.PAYMENT_SERVICE
@@ -6,11 +6,12 @@ import com.cherhy.common.util.Stream.STREAM_DOMAIN
 import com.cherhy.common.util.Stream.STREAM_SERVICE
 import com.cherhy.common.util.User.USER_DOMAIN
 import com.cherhy.common.util.User.USER_SERVICE
-import com.cherhy.payment.jwt.TokenDecoder
-import com.cherhy.payment.util.extension.accessToken
-import com.cherhy.payment.util.extension.userId
-import com.cherhy.payment.util.model.Principal
-import com.cherhy.payment.util.property.DomainProperty
+import com.cherhy.common.util.model.toUserId
+import com.cherhy.gateway.jwt.TokenDecoder
+import com.cherhy.gateway.util.extension.accessToken
+import com.cherhy.gateway.util.extension.userId
+import com.cherhy.gateway.util.model.Principal
+import com.cherhy.gateway.util.property.DomainProperty
 import com.nimbusds.jose.JOSEException
 import mu.KotlinLogging
 import org.springframework.cloud.gateway.route.builder.GatewayFilterSpec
@@ -66,7 +67,7 @@ class Router(
             if (jwt != null) {
                 try {
                     val principal = tokenDecoder.decode(jwt).principal as Principal
-                    exchange.request.userId = principal.userId
+                    exchange.request.userId = principal.userId.toUserId()
                 } catch (e: JOSEException) {
                     logger.info { "public 한 endpoint 에 만료된 jwt 요청이 들어왔습니다." }
                 }
