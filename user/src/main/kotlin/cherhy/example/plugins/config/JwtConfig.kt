@@ -6,10 +6,10 @@ import cherhy.example.plugins.util.constant.JwtProperty.EXPIRATION
 import cherhy.example.plugins.util.constant.JwtProperty.ISSUER
 import cherhy.example.plugins.util.constant.JwtProperty.REALM
 import cherhy.example.plugins.util.constant.JwtProperty.SECRET
-import cherhy.example.plugins.util.constant.SecurityProperty.AUTHORITY
-import cherhy.example.plugins.util.constant.SecurityProperty.USERNAME
 import com.auth0.jwt.JWT
 import com.auth0.jwt.algorithms.Algorithm
+import com.cherhy.common.util.AUTHORITY
+import com.cherhy.common.util.USERNAME
 import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.auth.*
