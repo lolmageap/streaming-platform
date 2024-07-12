@@ -10,6 +10,7 @@ import com.cherhy.plugins.service.WritePostService
 import com.cherhy.plugins.service.WriteVideoService
 import com.cherhy.plugins.usecase.CreatePostUseCase
 import com.cherhy.plugins.usecase.GetPostUseCase
+import com.cherhy.plugins.usecase.GetVideoUseCase
 import com.cherhy.plugins.usecase.UpdatePostUseCase
 import io.ktor.server.application.*
 import org.koin.dsl.module
@@ -25,6 +26,7 @@ val dependencyInjectionModule = module {
     single<CreatePostUseCase> { CreatePostUseCase(get()) }
     single<GetPostUseCase> { GetPostUseCase(get()) }
     single<UpdatePostUseCase> { UpdatePostUseCase(get()) }
+    single<GetVideoUseCase> { GetVideoUseCase(get()) }
 
     single<ReadPostService> { ReadPostService(get()) }
     single<ReadVideoService> { ReadVideoService(get()) }
