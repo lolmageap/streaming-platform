@@ -6,8 +6,8 @@ import com.cherhy.common.util.Stream.Post.GET_POST
 import com.cherhy.common.util.Stream.Post.GET_POSTS
 import com.cherhy.common.util.Stream.Post.UPDATE_POST
 import com.cherhy.common.util.model.PageRequest
-import com.cherhy.plugins.service.WritePostService
 import com.cherhy.plugins.usecase.CreatePostUseCase
+import com.cherhy.plugins.usecase.DeletePostUseCase
 import com.cherhy.plugins.usecase.GetPostUseCase
 import com.cherhy.plugins.usecase.UpdatePostUseCase
 import com.cherhy.plugins.util.extension.getQueryParams
@@ -24,7 +24,7 @@ fun Route.post() {
     val getPostUseCase: GetPostUseCase by inject()
     val createPostUseCase: CreatePostUseCase by inject()
     val updatePostUseCase: UpdatePostUseCase by inject()
-    val writePostService: WritePostService by inject()
+    val deletePostUseCase: DeletePostUseCase by inject()
 
     get(GET_POST) {
         val postId = call.pathVariable.postId
@@ -36,9 +36,9 @@ fun Route.post() {
 
     get(GET_POSTS) {
         val pageRequest = call.getQueryParams<PageRequest>()
-        val getPostRequest = call.getQueryParams<GetPostRequest>()
+        val search = call.getQueryParams<GetPostRequest>()
         val userId = call.request.userId
-        val posts = getPostUseCase.execute(userId, getPostRequest, pageRequest)
+        val posts = getPostUseCase.execute(userId, search, pageRequest)
 
         call.respond(HttpStatusCode.OK, posts)
     }
@@ -46,9 +46,9 @@ fun Route.post() {
     post(CREATE_POST) {
         val userId = call.request.userId
         val video = call.getVideo()
-        val createPostRequest = call.getQueryParams<CreatePostRequest>()
+        val post = call.getQueryParams<CreatePostRequest>()
 
-        createPostUseCase.execute(userId, video, createPostRequest)
+        createPostUseCase.execute(userId, video, post)
         call.respond(HttpStatusCode.Created)
     }
 
@@ -56,16 +56,17 @@ fun Route.post() {
         val userId = call.request.userId
         val postId = call.pathVariable.postId
         val video = call.getVideo()
-        val updatePostRequest = call.getQueryParams<UpdatePostRequest>()
+        val post = call.getQueryParams<UpdatePostRequest>()
 
-        updatePostUseCase.execute(userId, postId, video, updatePostRequest)
+        updatePostUseCase.execute(userId, postId, video, post)
         call.respond(HttpStatusCode.OK)
     }
 
     delete(DELETE_POST) {
         val userId = call.request.userId
         val postId = call.pathVariable.postId
-        writePostService.delete(userId, postId)
+
+        deletePostUseCase.execute(userId, postId)
         call.respond(HttpStatusCode.NoContent)
     }
 }
