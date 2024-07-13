@@ -1,6 +1,9 @@
 package com.cherhy.plugins.util.extension
 
-import com.cherhy.plugins.api.CreateVideoRequest
+import com.cherhy.plugins.api.VideoRequest
+import com.cherhy.plugins.domain.VideoName
+import com.cherhy.plugins.domain.VideoSize
+import com.cherhy.plugins.domain.VideoUniqueName
 import com.cherhy.plugins.util.PathVariable
 import com.cherhy.plugins.util.VideoValidator
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
@@ -21,7 +24,7 @@ inline fun <reified T : Any> ApplicationCall.getQueryParams(): T {
     return this.request.queryParameters.toClass()
 }
 
-suspend fun ApplicationCall.getVideo(): CreateVideoRequest {
+suspend fun ApplicationCall.getVideo(): VideoRequest {
     val multipart = this.receiveMultipart()
 
     val videoName = multipart.readPart()
@@ -45,11 +48,11 @@ suspend fun ApplicationCall.getVideo(): CreateVideoRequest {
     val videoSize = data.available().toLong()
     VideoValidator.validate(videoName, videoSize)
 
-    return CreateVideoRequest.of(
-        name = videoName,
-        uniqueName = UUID.randomUUID().toString(),
+    return VideoRequest.of(
+        name = VideoName.of(videoName),
+        uniqueName = VideoUniqueName.of(UUID.randomUUID().toString()),
         data = data,
-        size = videoSize,
+        size = VideoSize.of(videoSize),
     )
 }
 
