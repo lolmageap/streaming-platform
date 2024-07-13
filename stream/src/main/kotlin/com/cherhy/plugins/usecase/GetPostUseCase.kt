@@ -12,15 +12,22 @@ class GetPostUseCase(
     suspend fun execute(
         userId: UserId,
         postId: PostId,
-    ) {
-        TODO()
-    }
+    ) =
+        readPostService.get(
+            userId,
+            postId,
+        )
 
     suspend fun execute(
         userId: UserId,
-        getPostRequest: GetPostRequest,
+        search: GetPostRequest,
         pageRequest: PageRequest,
-    ) {
-        TODO()
-    }
+    ) =
+        readPostService.get(
+            userId,
+            search.keyword,
+            search.category,
+            pageRequest.page,
+            pageRequest.size,
+        )
 }
