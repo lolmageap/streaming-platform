@@ -1,14 +1,10 @@
 package com.cherhy.common.util.model
 
 data class PageRequest(
-    val page: Int,
-    val size: Int,
-    val sort: String,
+    val page: Page,
+    val size: Size,
+    val sort: Sort,
     val direction: Direction,
 ) {
-    val offset = (page - 1) * size.toLong()
-}
-
-enum class Direction {
-    ASC, DESC,
+    val offset = Offset.of(page, size)
 }
