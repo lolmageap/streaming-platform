@@ -2,7 +2,14 @@ package com.cherhy.plugins.repository
 
 import com.cherhy.common.util.model.UserId
 import com.cherhy.plugins.api.VideoDetailResponse
+import com.cherhy.plugins.config.database
 import com.cherhy.plugins.domain.*
+import com.cherhy.plugins.util.extension.toUnit
+import org.ktorm.dsl.delete
+import org.ktorm.dsl.eq
+import org.ktorm.dsl.insert
+import org.ktorm.dsl.update
+import org.ktorm.entity.find
 
 interface VideoRepository {
     suspend fun save(
@@ -30,11 +37,11 @@ interface VideoRepository {
 
     suspend fun find(
         videoId: VideoId,
-    ): VideoDetailResponse
+    ): VideoDetailResponse?
 
     suspend fun find(
         postId: PostId,
-    ): VideoDetailResponse
+    ): VideoDetailResponse?
 }
 
 class VideoRepositoryImpl : VideoRepository {
@@ -45,9 +52,15 @@ class VideoRepositoryImpl : VideoRepository {
         uniqueName: VideoUniqueName,
         size: VideoSize,
         extension: VideoExtension,
-    ): VideoId {
-        TODO("Not yet implemented")
-    }
+    ) =
+        database.insert(Videos) {
+            set(it.owner, userId.value)
+            set(it.post, postId.value)
+            set(it.name, name.value)
+            set(it.uniqueName, uniqueName.value)
+            set(it.size, size.value)
+            set(it.extension, extension.value)
+        }.toVideoId()
 
     override suspend fun update(
         videoId: VideoId,
@@ -56,26 +69,38 @@ class VideoRepositoryImpl : VideoRepository {
         uniqueName: VideoUniqueName,
         size: VideoSize,
         extension: VideoExtension
-    ) {
-        TODO("Not yet implemented")
-    }
+    ) =
+        database.update(Videos) {
+            set(it.name, name.value)
+            set(it.uniqueName, uniqueName.value)
+            set(it.size, size.value)
+            set(it.extension, extension.value)
+            where {
+                it.id eq videoId.value
+                it.owner eq userId.value
+            }
+        }.toUnit()
 
     override suspend fun delete(
         userId: UserId,
         videoId: VideoId,
-    ) {
-        TODO("Not yet implemented")
-    }
+    ) =
+        database.delete(Videos) {
+            it.id eq videoId.value
+            it.owner eq userId.value
+        }.toUnit()
 
     override suspend fun find(
         videoId: VideoId,
-    ): VideoDetailResponse {
-        TODO("Not yet implemented")
-    }
+    ) =
+        database.videos.find {
+            it.id eq videoId.value
+        }?.let(VideoDetailResponse::of)
 
     override suspend fun find(
         postId: PostId,
-    ): VideoDetailResponse {
-        TODO("Not yet implemented")
-    }
+    ) =
+        database.videos.find {
+            it.post eq postId.value
+        }?.let(VideoDetailResponse::of)
 }

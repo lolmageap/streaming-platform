@@ -3,10 +3,16 @@ package com.cherhy.plugins.repository
 import com.cherhy.common.util.model.*
 import com.cherhy.plugins.api.PostDetailResponse
 import com.cherhy.plugins.api.PostItemResponse
-import com.cherhy.plugins.domain.PostCategory
-import com.cherhy.plugins.domain.PostContent
-import com.cherhy.plugins.domain.PostId
-import com.cherhy.plugins.domain.PostTitle
+import com.cherhy.plugins.config.database
+import com.cherhy.plugins.domain.*
+import com.cherhy.plugins.util.extension.toUnit
+import org.ktorm.dsl.delete
+import org.ktorm.dsl.eq
+import org.ktorm.dsl.insertAndGenerateKey
+import org.ktorm.dsl.update
+import org.ktorm.entity.count
+import org.ktorm.entity.filter
+import org.ktorm.entity.find
 
 interface PostRepository {
     suspend fun save(
@@ -54,9 +60,13 @@ class PostRepositoryImpl : PostRepository {
         title: PostTitle,
         content: PostContent,
         category: PostCategory,
-    ): PostId {
-        TODO("ktorm 문법에 맞게 save logic을 만들어야합니다.")
-    }
+    ) =
+        database.insertAndGenerateKey(Posts) {
+            set(it.title, title.value)
+            set(it.content, content.value)
+            set(it.author, userId.value)
+            set(it.category, category.name)
+        }.toPostId()
 
     override suspend fun update(
         userId: UserId,
@@ -64,30 +74,43 @@ class PostRepositoryImpl : PostRepository {
         title: PostTitle,
         content: PostContent,
         category: PostCategory
-    ) {
-        TODO("ktorm 문법에 맞게 update logic을 만들어야합니다.")
-    }
+    ) =
+        database.update(Posts) {
+            set(it.title, title.value)
+            set(it.content, content.value)
+            set(it.category, category.name)
+            where {
+                it.id eq postId.value
+                it.author eq userId.value
+            }
+        }.toUnit()
 
     override suspend fun delete(
         userId: UserId,
         postId: PostId,
-    ) {
-        TODO("ktorm 문법에 맞게 delete logic을 만들어야합니다.")
-    }
+    ) =
+        database.delete(Posts) {
+            it.id eq postId.value
+            it.author eq userId.value
+        }.toUnit()
 
     override suspend fun isExist(
         userId: UserId,
         postId: PostId,
-    ): Boolean {
-        TODO("Not yet implemented")
-    }
+    ) =
+        database.posts.filter {
+            it.id eq postId.value
+            it.author eq userId.value
+        }.count() > 0
 
     override suspend fun find(
         userId: UserId,
         postId: PostId,
-    ): PostDetailResponse? {
-        TODO("Not yet implemented")
-    }
+    ) =
+        database.posts.find {
+            it.id eq postId.value
+            it.author eq userId.value
+        }?.let(PostDetailResponse::of)
 
     override suspend fun find(
         userId: UserId,
@@ -96,6 +119,6 @@ class PostRepositoryImpl : PostRepository {
         page: Page,
         size: Size
     ): PageResponse<PostItemResponse> {
-        TODO("Not yet implemented")
+        TODO()
     }
 }
