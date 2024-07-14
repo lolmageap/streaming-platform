@@ -23,5 +23,20 @@ data class PageResponse <T> private constructor(
             hasNext = request.page.value < total / request.size.value,
             hasPrevious = request.page.value > 1,
         )
+
+        fun <T> of(
+            data: List<T>,
+            total: Long,
+            page: Page,
+            size: Size,
+        ) = PageResponse(
+            data = data,
+            total = total,
+            page = page,
+            size = size,
+            totalPages = (total / size.value + if (total % size.value == 0L) 0 else 1).toInt(),
+            hasNext = page.value < total / size.value,
+            hasPrevious = page.value > 1,
+        )
     }
 }
