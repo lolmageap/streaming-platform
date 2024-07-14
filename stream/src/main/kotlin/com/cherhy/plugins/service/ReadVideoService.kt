@@ -12,12 +12,12 @@ class ReadVideoService(
     ) =
         videoRepository.find(
             videoId,
-        )
+        ) ?: throw NoSuchElementException("Video not found")
 
     suspend fun get(
         postId: PostId,
     ) =
         videoRepository.find(
             postId,
-        )
+        ) ?: throw NoSuchElementException("Video not found")
 }
