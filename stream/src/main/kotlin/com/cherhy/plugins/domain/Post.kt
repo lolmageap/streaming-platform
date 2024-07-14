@@ -4,6 +4,8 @@ import com.cherhy.common.util.model.UserId
 import com.cherhy.plugins.util.model.BaseEntity
 import com.cherhy.plugins.util.model.BaseEntityFactory
 import com.cherhy.plugins.util.model.BaseTable
+import org.ktorm.database.Database
+import org.ktorm.entity.sequenceOf
 import org.ktorm.schema.long
 import org.ktorm.schema.varchar
 
@@ -35,6 +37,8 @@ value class PostId(
         ) = PostId(value)
     }
 }
+
+fun Any.toPostId() = PostId.of(this as Long)
 
 @JvmInline
 value class PostTitle(
@@ -75,3 +79,5 @@ enum class PostCategory {
     TRAVEL,
     SPORTS,
 }
+
+val Database.posts get() = this.sequenceOf(Posts)

@@ -4,6 +4,8 @@ import com.cherhy.common.util.model.UserId
 import com.cherhy.plugins.util.model.BaseEntity
 import com.cherhy.plugins.util.model.BaseEntityFactory
 import com.cherhy.plugins.util.model.BaseTable
+import org.ktorm.database.Database
+import org.ktorm.entity.sequenceOf
 import org.ktorm.schema.long
 import org.ktorm.schema.varchar
 
@@ -39,6 +41,8 @@ value class VideoId(
         ) = VideoId(value)
     }
 }
+
+fun Any.toVideoId() = VideoId.of(this as Long)
 
 @JvmInline
 value class VideoSize(
@@ -87,3 +91,5 @@ value class VideoExtension(
         ) = VideoExtension(value)
     }
 }
+
+val Database.videos get() = this.sequenceOf(Videos)
