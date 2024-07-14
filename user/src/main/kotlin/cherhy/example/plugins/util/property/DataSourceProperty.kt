@@ -1,4 +1,4 @@
-package cherhy.example.plugins.util.constant
+package cherhy.example.plugins.util.property
 
 object DataSourceProperty {
     const val URL = "url"

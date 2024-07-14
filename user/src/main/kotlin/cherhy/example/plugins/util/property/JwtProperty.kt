@@ -1,4 +1,4 @@
-package cherhy.example.plugins.util.constant
+package cherhy.example.plugins.util.property
 
 object JwtProperty {
     const val SECRET = "secret"
