@@ -12,4 +12,8 @@ object ApplicationConfigUtils {
     fun getMinio(
         key: String,
     ) = getConfigProperty("minio.$key")
+
+    fun getDataSource(
+        key: String,
+    ) = getConfigProperty("database.datasource.$key")
 }
