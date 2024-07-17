@@ -1,15 +1,13 @@
 package com.cherhy.plugins.repository
 
+import com.cherhy.common.util.PageOffsetCalculator
 import com.cherhy.common.util.model.*
 import com.cherhy.plugins.api.PostDetailResponse
 import com.cherhy.plugins.api.PostItemResponse
 import com.cherhy.plugins.config.database
 import com.cherhy.plugins.domain.*
 import com.cherhy.plugins.util.extension.toUnit
-import org.ktorm.dsl.delete
-import org.ktorm.dsl.eq
-import org.ktorm.dsl.insertAndGenerateKey
-import org.ktorm.dsl.update
+import org.ktorm.dsl.*
 import org.ktorm.entity.count
 import org.ktorm.entity.filter
 import org.ktorm.entity.find
@@ -45,7 +43,7 @@ interface PostRepository {
         postId: PostId,
     ): PostDetailResponse?
 
-    suspend fun find(
+    suspend fun findAll(
         userId: UserId,
         keyword: Keyword?,
         category: PostCategory?,
@@ -112,13 +110,33 @@ class PostRepositoryImpl : PostRepository {
             it.author eq userId.value
         }?.let(PostDetailResponse::of)
 
-    override suspend fun find(
+    override suspend fun findAll(
         userId: UserId,
         keyword: Keyword?,
         category: PostCategory?,
         page: Page,
-        size: Size
+        size: Size,
     ): PageResponse<PostItemResponse> {
-        TODO()
+        val generator = PageOffsetCalculator.of(page, size)
+        val expression = database.posts
+            .filter { it.author eq userId.value }
+            .also { query ->
+                keyword?.let { query.filter { it.title like "%$it%" } }
+                category?.let { query.filter { it.category.name eq it.category } }
+            }
+
+        val count = expression.count().toLong()
+        val data = expression.query.limit(generator.offset, generator.limit)
+            .map { row ->
+                val post = Posts.createEntity(row)
+                PostItemResponse.of(post)
+            }
+
+        return PageResponse.of(
+            data = data,
+            total = count,
+            page = page,
+            size = size,
+        )
     }
 }
