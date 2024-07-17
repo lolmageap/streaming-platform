@@ -23,7 +23,7 @@ class GetPostUseCase(
         search: GetPostRequest,
         pageRequest: PageRequest,
     ) =
-        readPostService.get(
+        readPostService.getAll(
             userId,
             search.keyword,
             search.category,

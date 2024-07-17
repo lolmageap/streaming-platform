@@ -34,14 +34,14 @@ class ReadPostService(
             postId,
         ) ?: throw NoSuchElementException("사용자의 게시물이 아닙니다.")
 
-    suspend fun get(
+    suspend fun getAll(
         userId: UserId,
         keyword: Keyword?,
         category: PostCategory?,
         page: Page,
         size: Size,
     ) =
-        postRepository.find(
+        postRepository.findAll(
             userId,
             keyword,
             category,
