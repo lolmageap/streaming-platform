@@ -9,6 +9,8 @@ import com.cherhy.plugins.util.property.DataSourceProperty.USERNAME
 import com.zaxxer.hikari.HikariConfig
 import com.zaxxer.hikari.HikariDataSource
 import org.ktorm.database.Database
+import org.ktorm.database.Transaction
+import org.ktorm.database.TransactionIsolation
 
 val database = Database.connect(
     HikariDataSource(
@@ -21,3 +23,12 @@ val database = Database.connect(
         }
     )
 )
+
+val transactionManager = database.transactionManager
+suspend fun <T> reactiveTransaction(
+    transaction: Transaction = transactionManager.newTransaction(TransactionIsolation.READ_COMMITTED),
+    block: suspend () -> T,
+) =
+    transaction.connection.use {
+        block.invoke()
+    }
