@@ -29,7 +29,7 @@ class WritePostService(
         title: PostTitle,
         content: PostContent,
         category: PostCategory,
-    ) {
+    ) =
         postRepository.update(
             userId,
             postId,
@@ -37,15 +37,13 @@ class WritePostService(
             content,
             category,
         )
-    }
 
     suspend fun delete(
         userId: UserId,
         postId: PostId,
-    ) {
+    ) =
         postRepository.delete(
             userId,
             postId,
         )
-    }
 }

@@ -14,14 +14,15 @@ class WriteVideoService(
         uniqueName: VideoUniqueName,
         size: VideoSize,
         extension: VideoExtension,
-    ) = videoRepository.save(
-        userId,
-        postId,
-        name,
-        uniqueName,
-        size,
-        extension,
-    )
+    ) =
+        videoRepository.save(
+            userId,
+            postId,
+            name,
+            uniqueName,
+            size,
+            extension,
+        )
 
     suspend fun update(
         videoId: VideoId,
@@ -30,20 +31,22 @@ class WriteVideoService(
         uniqueName: VideoUniqueName,
         size: VideoSize,
         extension: VideoExtension,
-    ) = videoRepository.update(
-        videoId,
-        userId,
-        name,
-        uniqueName,
-        size,
-        extension,
-    )
+    ) =
+        videoRepository.update(
+            videoId,
+            userId,
+            name,
+            uniqueName,
+            size,
+            extension,
+        )
 
     suspend fun delete(
         userId: UserId,
         videoId: VideoId,
-    ) = videoRepository.delete(
-        userId,
-        videoId,
-    )
+    ) =
+        videoRepository.delete(
+            userId,
+            videoId,
+        )
 }

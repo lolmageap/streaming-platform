@@ -126,11 +126,10 @@ class PostRepositoryImpl : PostRepository {
             }
 
         val count = expression.count().toLong()
-        val data = expression.query.limit(generator.offset, generator.limit)
-            .map { row ->
-                val post = Posts.createEntity(row)
-                PostItemResponse.of(post)
-            }
+        val data = expression.query
+            .limit(generator.offset, generator.limit)
+            .map(Posts::createEntity)
+            .map(PostItemResponse::of)
 
         return PageResponse.of(
             data = data,

@@ -2,6 +2,7 @@ package com.cherhy.plugins.usecase
 
 import com.cherhy.common.util.model.UserId
 import com.cherhy.plugins.config.MinioFactory
+import com.cherhy.plugins.config.reactiveTransaction
 import com.cherhy.plugins.domain.PostId
 import com.cherhy.plugins.domain.VideoId
 import com.cherhy.plugins.service.ReadVideoService
@@ -16,7 +17,8 @@ class GetVideoUseCase(
         postId: PostId,
         videoId: VideoId,
         lastVideoByte: Byte?,
-    ) {
-        TODO()
-    }
+    ): Nothing =
+        reactiveTransaction {
+            TODO()
+        }
 }
