@@ -3,6 +3,7 @@ package com.cherhy.plugins.usecase
 import com.cherhy.common.util.model.PageRequest
 import com.cherhy.common.util.model.UserId
 import com.cherhy.plugins.api.GetPostRequest
+import com.cherhy.plugins.config.reactiveTransaction
 import com.cherhy.plugins.domain.PostId
 import com.cherhy.plugins.service.ReadPostService
 
@@ -13,21 +14,25 @@ class GetPostUseCase(
         userId: UserId,
         postId: PostId,
     ) =
-        readPostService.get(
-            userId,
-            postId,
-        )
+        reactiveTransaction {
+            readPostService.get(
+                userId,
+                postId,
+            )
+        }
 
     suspend fun execute(
         userId: UserId,
         search: GetPostRequest,
         pageRequest: PageRequest,
     ) =
-        readPostService.getAll(
-            userId,
-            search.keyword,
-            search.category,
-            pageRequest.page,
-            pageRequest.size,
-        )
+        reactiveTransaction {
+            readPostService.getAll(
+                userId,
+                search.keyword,
+                search.category,
+                pageRequest.page,
+                pageRequest.size,
+            )
+        }
 }
