@@ -1,7 +1,6 @@
 package cherhy.example.plugins.util
 
 import cherhy.example.plugins.domain.Role
-import cherhy.example.plugins.domain.UserId
 import cherhy.example.plugins.domain.Username
 import cherhy.example.plugins.util.property.JwtProperty.AUDIENCE
 import cherhy.example.plugins.util.property.JwtProperty.EXPIRATION
@@ -12,6 +11,7 @@ import com.auth0.jwt.algorithms.Algorithm
 import com.cherhy.common.util.ROLE
 import com.cherhy.common.util.USERNAME
 import com.cherhy.common.util.USER_ID
+import com.cherhy.common.util.model.UserId
 import mu.KotlinLogging
 import java.util.*
 
