@@ -16,6 +16,7 @@ import com.cherhy.plugins.util.extension.pathVariable
 import com.cherhy.plugins.util.extension.userId
 import io.ktor.http.*
 import io.ktor.server.application.*
+import io.ktor.server.request.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import org.koin.ktor.ext.inject
@@ -46,7 +47,7 @@ fun Route.post() {
     post(CREATE_POST) {
         val userId = call.request.userId
         val video = call.getVideo()
-        val post = call.getQueryParams<CreatePostRequest>()
+        val post = call.receive<CreatePostRequest>()
 
         createPostUseCase.execute(userId, video, post)
         call.respond(HttpStatusCode.Created)
@@ -56,7 +57,7 @@ fun Route.post() {
         val userId = call.request.userId
         val postId = call.pathVariable.postId
         val video = call.getVideo()
-        val post = call.getQueryParams<UpdatePostRequest>()
+        val post = call.receive<UpdatePostRequest>()
 
         updatePostUseCase.execute(userId, postId, video, post)
         call.respond(HttpStatusCode.OK)
