@@ -22,7 +22,7 @@ class SignUpUseCase(
         readUserService.ifUserExists(userRequest.email)
         val password = userRequest.password.value
         val salt = SaltGenerator.generate()
-        val encodedPassword = Encoder.encodeBCrypt(password + salt)
+        val encodedPassword = Encoder.encode(password + salt)
 
         val user = writeUserService.createUser(
             userRequest.email,

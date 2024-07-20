@@ -1,18 +1,19 @@
 package cherhy.example.plugins.util
 
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
+import at.favre.lib.crypto.bcrypt.BCrypt
 
 object Encoder {
-    fun encodeBCrypt(
+    fun encode(
         value: String,
-    ) = BCryptPasswordEncoder().encode(value)!!
+    ) = BCrypt.withDefaults().hashToString(12, value.toCharArray())!!
 
-    fun matchesBCrypt(
+
+    fun ifMatches(
         value: String,
         encoded: String,
         block: () -> IllegalStateException = { throw IllegalStateException("Password does not match") }
     ) {
-        val isMatched = BCryptPasswordEncoder().matches(value, encoded)
+        val isMatched = BCrypt.verifyer().verify(value.toCharArray(), encoded).verified
         if (isMatched.not()) block()
     }
 }

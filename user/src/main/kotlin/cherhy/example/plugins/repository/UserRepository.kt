@@ -50,7 +50,7 @@ class UserRepositoryImpl : UserRepository {
         password: UserPassword,
     ) =
         User.findByIdAndUpdate(userId.value) {
-            val encodedPassword = Encoder.encodeBCrypt(password.value + it.salt)
+            val encodedPassword = Encoder.encode(password.value + it.salt)
             it.email = email.value
             it.password = encodedPassword
         }
