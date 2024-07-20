@@ -26,7 +26,7 @@ dependencies {
     testImplementation("io.ktor:ktor-server-tests-jvm")
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit")
     implementation("io.ktor:ktor-server-status-pages")
-    implementation("org.springframework.security:spring-security-crypto:6.3.0")
+    implementation("at.favre.lib:bcrypt:0.10.2")
 
     implementation("io.ktor:ktor-server-auth-jvm")
     implementation("io.ktor:ktor-server-auth-jwt-jvm")
