@@ -1,6 +1,10 @@
 package cherhy.example.plugins.repository
 
-import cherhy.example.plugins.domain.*
+import cherhy.example.plugins.domain.Authorities
+import cherhy.example.plugins.domain.Authority
+import cherhy.example.plugins.domain.Role
+import cherhy.example.plugins.domain.Users
+import com.cherhy.common.util.model.UserId
 import org.jetbrains.exposed.dao.id.EntityID
 
 interface AuthorityRepository {

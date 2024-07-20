@@ -1,5 +1,7 @@
 package cherhy.example.plugins.domain
 
+import com.cherhy.common.util.model.UserId
+
 data class AuthorityDomain(
     val id: AuthorityId,
     val userId: UserId,
@@ -20,13 +22,18 @@ data class AuthorityDomain(
 }
 
 @JvmInline
-value class AuthorityId private constructor(val value: Long): Comparable<AuthorityId> {
-    override fun compareTo(other: AuthorityId): Int {
-        return value.compareTo(other.value)
-    }
+value class AuthorityId private constructor(
+    val value: Long,
+) : Comparable<AuthorityId> {
+    override fun compareTo(
+        other: AuthorityId,
+    ) = value.compareTo(other.value)
+
     companion object {
         @JvmStatic
-        fun of(value: Long) = AuthorityId(value)
+        fun of(
+            value: Long,
+        ) = AuthorityId(value)
     }
 }
 

@@ -2,6 +2,7 @@ package cherhy.example.plugins.repository
 
 import cherhy.example.plugins.domain.*
 import cherhy.example.plugins.util.Encoder
+import com.cherhy.common.util.model.UserId
 
 interface UserRepository {
     suspend fun save(
@@ -19,7 +20,9 @@ interface UserRepository {
         email: UserEmail,
     ): User?
 
-    suspend fun findById(userId: UserId): User?
+    suspend fun findById(
+        userId: UserId,
+    ): User?
     suspend fun save(
         userId: UserId,
         email: UserEmail,

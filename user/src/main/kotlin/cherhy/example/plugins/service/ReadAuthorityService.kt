@@ -7,7 +7,9 @@ import com.cherhy.common.util.model.UserId
 class ReadAuthorityService(
     private val authorityRepository: AuthorityRepository,
 ) {
-    suspend fun get(userId: UserId) =
+    suspend fun get(
+        userId: UserId,
+    ) =
         authorityRepository.findByUserId(userId)
             .map { Role.valueOf(it.role) }
 }

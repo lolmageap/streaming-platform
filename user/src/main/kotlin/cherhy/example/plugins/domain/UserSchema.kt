@@ -3,6 +3,7 @@ package cherhy.example.plugins.domain
 import cherhy.example.plugins.util.model.BaseEntity
 import cherhy.example.plugins.util.model.BaseEntityClass
 import cherhy.example.plugins.util.model.BaseLongIdTable
+import com.cherhy.common.util.model.UserId
 import org.jetbrains.exposed.dao.id.EntityID
 
 object Users: BaseLongIdTable("user", "id") {
