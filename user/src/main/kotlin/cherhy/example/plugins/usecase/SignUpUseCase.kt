@@ -1,6 +1,7 @@
 package cherhy.example.plugins.usecase
 
 import cherhy.example.plugins.api.SignUpRequest
+import cherhy.example.plugins.config.reactiveTransaction
 import cherhy.example.plugins.domain.Role
 import cherhy.example.plugins.domain.UserPassword
 import cherhy.example.plugins.domain.UserSalt
@@ -15,7 +16,9 @@ class SignUpUseCase(
     private val writeUserService: WriteUserService,
     private val writeAuthorityService: WriteAuthorityService,
 ) {
-    suspend fun execute(userRequest: SignUpRequest) {
+    suspend fun execute(
+        userRequest: SignUpRequest
+    ) = reactiveTransaction {
         readUserService.ifUserExists(userRequest.email)
         val password = userRequest.password.value
         val salt = SaltGenerator.generate()
