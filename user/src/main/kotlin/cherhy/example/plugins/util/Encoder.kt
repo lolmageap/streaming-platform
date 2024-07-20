@@ -7,7 +7,6 @@ object Encoder {
         value: String,
     ) = BCrypt.withDefaults().hashToString(12, value.toCharArray())!!
 
-
     fun ifMatches(
         value: String,
         encoded: String,
