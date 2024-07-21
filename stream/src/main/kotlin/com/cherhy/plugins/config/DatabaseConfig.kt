@@ -8,6 +8,8 @@ import com.cherhy.plugins.util.property.DataSourceProperty.URL
 import com.cherhy.plugins.util.property.DataSourceProperty.USERNAME
 import com.zaxxer.hikari.HikariConfig
 import com.zaxxer.hikari.HikariDataSource
+import kotlinx.coroutines.Dispatchers.IO
+import kotlinx.coroutines.withContext
 import org.ktorm.database.Database
 import org.ktorm.database.Transaction
 import org.ktorm.database.TransactionIsolation
@@ -29,6 +31,8 @@ suspend fun <T> reactiveTransaction(
     transaction: Transaction = transactionManager.newTransaction(TransactionIsolation.READ_COMMITTED),
     block: suspend () -> T,
 ) =
-    transaction.connection.use {
-        block.invoke()
+    withContext(IO) {
+        transaction.connection.use {
+            block.invoke()
+        }
     }
