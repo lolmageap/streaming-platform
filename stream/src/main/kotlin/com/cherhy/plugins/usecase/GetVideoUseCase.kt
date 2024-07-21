@@ -1,11 +1,16 @@
 package com.cherhy.plugins.usecase
 
 import com.cherhy.common.util.model.UserId
+import com.cherhy.plugins.api.GetVideoResponse
 import com.cherhy.plugins.config.MinioFactory
 import com.cherhy.plugins.config.reactiveTransaction
 import com.cherhy.plugins.domain.PostId
 import com.cherhy.plugins.domain.VideoId
 import com.cherhy.plugins.service.ReadVideoService
+import com.cherhy.plugins.util.ApplicationConfigUtils
+import com.cherhy.plugins.util.extension.download
+import com.cherhy.plugins.util.model.Bucket
+import com.cherhy.plugins.util.property.MinioProperty
 
 class GetVideoUseCase(
     private val readVideoService: ReadVideoService,
@@ -17,8 +22,28 @@ class GetVideoUseCase(
         postId: PostId,
         videoId: VideoId,
         lastVideoByte: Byte?,
-    ): Nothing =
+    ) =
         reactiveTransaction {
-            TODO()
+            val video = readVideoService.get(
+                userId,
+                postId,
+                videoId,
+            )
+
+            val videoStream = minioFactory.download(
+                bucket,
+                video.uniqueName,
+                video.extension,
+                lastVideoByte,
+            ).readAllBytes()!!
+
+            GetVideoResponse.of(videoStream, video.size)
         }
+
+    companion object {
+        @JvmStatic
+        private val bucket = Bucket.of(
+            ApplicationConfigUtils.getMinio(MinioProperty.BUCKET)
+        )
+    }
 }

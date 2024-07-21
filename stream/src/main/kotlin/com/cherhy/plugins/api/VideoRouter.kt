@@ -2,10 +2,14 @@ package com.cherhy.plugins.api
 
 import com.cherhy.common.util.Stream.Video.GET_VIDEO
 import com.cherhy.plugins.usecase.GetVideoUseCase
+import com.cherhy.plugins.util.ContentRangeGenerator
 import com.cherhy.plugins.util.extension.lastWatchedCheckpoint
 import com.cherhy.plugins.util.extension.pathVariable
 import com.cherhy.plugins.util.extension.userId
+import com.google.common.net.HttpHeaders.CONTENT_RANGE
+import io.ktor.http.*
 import io.ktor.server.application.*
+import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import org.koin.ktor.ext.inject
 
@@ -18,6 +22,21 @@ fun Route.video() {
         val videoId = call.pathVariable.videoId
         val lastVideoByte = call.request.lastWatchedCheckpoint
 
-        getVideoUseCase.execute(userId, postId, videoId, lastVideoByte)
+        val video = getVideoUseCase.execute(
+            userId,
+            postId,
+            videoId,
+            lastVideoByte,
+        )
+
+        val contentRangeValue = ContentRangeGenerator.generate(
+            lastVideoByte,
+            video.currentSize,
+            video.totalSize,
+        )
+
+        call.respondBytes(video.videoStream, ContentType.Video.MP4)
+        call.respond(HttpStatusCode.OK)
+        call.response.header(CONTENT_RANGE, contentRangeValue)
     }
 }

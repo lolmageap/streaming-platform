@@ -42,6 +42,12 @@ interface VideoRepository {
     suspend fun find(
         postId: PostId,
     ): VideoDetailResponse?
+
+    fun find(
+        userId: UserId,
+        postId: PostId,
+        videoId: VideoId,
+    ): VideoDetailResponse?
 }
 
 class VideoRepositoryImpl : VideoRepository {
@@ -102,5 +108,16 @@ class VideoRepositoryImpl : VideoRepository {
     ) =
         database.videos.find {
             it.post eq postId.value
+        }?.let(VideoDetailResponse::of)
+
+    override fun find(
+        userId: UserId,
+        postId: PostId,
+        videoId: VideoId
+    ) =
+        database.videos.find {
+            it.owner eq userId.value
+            it.post eq postId.value
+            it.id eq videoId.value
         }?.let(VideoDetailResponse::of)
 }
