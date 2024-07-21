@@ -5,8 +5,11 @@ import com.cherhy.plugins.domain.VideoSize
 import com.cherhy.plugins.domain.VideoUniqueName
 import com.cherhy.plugins.util.model.Bucket
 import com.cherhy.plugins.util.property.StreamingProperty
+import com.cherhy.plugins.util.property.StreamingProperty.CHUNK_SIZE
+import io.minio.GetObjectArgs
 import io.minio.MinioClient
 import io.minio.PutObjectArgs
+import io.minio.RemoveObjectArgs
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.io.ByteArrayInputStream
@@ -39,9 +42,26 @@ suspend fun MinioClient.remove(
 ) =
     withContext(Dispatchers.IO) {
         removeObject(
-            io.minio.RemoveObjectArgs.builder()
+            RemoveObjectArgs.builder()
                 .bucket(bucket.value)
                 .`object`("${uniqueName.value}.${extension.value}")
                 .build()
         )
+    }
+
+suspend fun MinioClient.download(
+    bucket: Bucket,
+    uniqueName: VideoUniqueName,
+    extension: VideoExtension,
+    lastByte: Byte?,
+) =
+    withContext(Dispatchers.IO) {
+        getObject(
+            GetObjectArgs.builder()
+                .bucket(bucket.value)
+                .`object`("${uniqueName.value}.${extension.value}")
+                .length(CHUNK_SIZE)
+                .offset(lastByte?.toLong() ?: 0)
+                .build()
+        ) ?: throw NoSuchElementException("Video not found")
     }
