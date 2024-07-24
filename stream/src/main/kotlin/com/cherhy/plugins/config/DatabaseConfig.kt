@@ -11,7 +11,6 @@ import com.zaxxer.hikari.HikariDataSource
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.withContext
 import org.ktorm.database.Database
-import org.ktorm.database.Transaction
 import org.ktorm.database.TransactionIsolation
 
 val database = Database.connect(
@@ -28,10 +27,11 @@ val database = Database.connect(
 
 val transactionManager = database.transactionManager
 suspend fun <T> reactiveTransaction(
-    transaction: Transaction = transactionManager.newTransaction(TransactionIsolation.READ_COMMITTED),
+    isolation: TransactionIsolation = TransactionIsolation.READ_COMMITTED,
     block: suspend () -> T,
 ) =
     withContext(IO) {
+        val transaction = transactionManager.newTransaction(isolation)
         transaction.connection.use {
             block.invoke()
         }
