@@ -12,7 +12,7 @@ import com.zaxxer.hikari.HikariDataSource
 import io.ktor.server.application.*
 import kotlinx.coroutines.Dispatchers.IO
 import org.jetbrains.exposed.sql.Database
-import org.jetbrains.exposed.sql.transactions.experimental.suspendedTransactionAsync
+import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
 
 fun Application.configureDatabase() {
     val hikari = HikariDataSource(
@@ -32,4 +32,4 @@ fun Application.configureDatabase() {
 
 suspend fun <T> reactiveTransaction(
     block: suspend () -> T,
-) = suspendedTransactionAsync(IO) { block() }.await()
+) = newSuspendedTransaction(IO) { block() }
