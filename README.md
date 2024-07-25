@@ -14,10 +14,10 @@
  - 인프라: Docker, Docker Compose
  - 언어 : Kotlin 2.0, Java 21
  - 프레임워크 : Spring Boot 3.2.5, Ktor, Axon Framework, Axon Server, Spring Batch
- - 데이터베이스 : H2, PostgreSQL, Redis
+ - 데이터베이스 : H2, PostgreSQL, Redis, MongoDB
  - 메시징 : Kafka
  - API Gateway : Spring Cloud Gateway
- - Mapper : Spring Data R2DBC, Exposed, Ktorm, JDBC Template
+ - Mapper : Spring Data R2DBC, Exposed, Ktorm, JDBC Template, kMongo
  - CI/CD : Github Actions (예정)
 
 ## TODO
