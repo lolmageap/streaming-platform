@@ -34,6 +34,9 @@ dependencies {
 	implementation("io.insert-koin:koin-ktor:3.5.6")
 	implementation("org.ktorm:ktorm-core:4.0.0")
 
+	implementation("org.litote.kmongo:kmongo-coroutine-core:5.1.0")
+	implementation("org.litote.kmongo:kmongo-coroutine:5.1.0")
+
 	testImplementation("io.ktor:ktor-server-tests-jvm")
 	testImplementation("org.jetbrains.kotlin:kotlin-test-junit")
 }
