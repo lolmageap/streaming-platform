@@ -4,6 +4,7 @@ import com.cherhy.plugins.util.ApplicationConfigUtils.getDataSource
 import com.cherhy.plugins.util.property.DataSourceProperty.DRIVER_CLASS_NAME
 import com.cherhy.plugins.util.property.DataSourceProperty.MAX_POOL_SIZE
 import com.cherhy.plugins.util.property.DataSourceProperty.PASSWORD
+import com.cherhy.plugins.util.property.DataSourceProperty.TRANSACTION_ISOLATION
 import com.cherhy.plugins.util.property.DataSourceProperty.URL
 import com.cherhy.plugins.util.property.DataSourceProperty.USERNAME
 import com.zaxxer.hikari.HikariConfig
@@ -21,6 +22,8 @@ val database = Database.connect(
             username = getDataSource(PASSWORD)
             password = getDataSource(DRIVER_CLASS_NAME)
             maximumPoolSize = getDataSource(MAX_POOL_SIZE).toInt()
+            transactionIsolation = TRANSACTION_ISOLATION
+            isAutoCommit = false
         }
     )
 )
