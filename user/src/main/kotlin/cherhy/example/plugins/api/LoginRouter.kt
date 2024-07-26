@@ -16,8 +16,8 @@ import io.ktor.server.routing.*
 import org.koin.ktor.ext.inject
 
 fun Route.login() {
-    val loginUseCase: LoginUseCase by inject()
-    val refreshTokenUseCase: RefreshTokenUseCase by inject()
+    val loginUseCase by inject<LoginUseCase>()
+    val refreshTokenUseCase by inject<RefreshTokenUseCase>()
 
     post(LOGIN) {
         val loginRequest = call.receive<LoginRequest>()

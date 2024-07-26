@@ -22,10 +22,10 @@ import io.ktor.server.routing.*
 import org.koin.ktor.ext.inject
 
 fun Route.post() {
-    val getPostUseCase: GetPostUseCase by inject()
-    val createPostUseCase: CreatePostUseCase by inject()
-    val updatePostUseCase: UpdatePostUseCase by inject()
-    val deletePostUseCase: DeletePostUseCase by inject()
+    val getPostUseCase by inject<GetPostUseCase>()
+    val createPostUseCase by inject<CreatePostUseCase>()
+    val updatePostUseCase by inject<UpdatePostUseCase>()
+    val deletePostUseCase by inject<DeletePostUseCase>()
 
     get(GET_POST) {
         val postId = call.pathVariable.postId

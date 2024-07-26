@@ -19,10 +19,10 @@ import io.ktor.server.routing.*
 import org.koin.ktor.ext.inject
 
 fun Route.user() {
-    val signUpUseCase: SignUpUseCase by inject()
-    val loginUseCase: LoginUseCase by inject()
-    val readUserService: ReadUserService by inject()
-    val writeUserService: WriteUserService by inject()
+    val signUpUseCase by inject<SignUpUseCase>()
+    val loginUseCase by inject<LoginUseCase>()
+    val readUserService by inject<ReadUserService>()
+    val writeUserService by inject<WriteUserService>()
 
     post(SIGN_UP) {
         val userRequest = call.receive<SignUpRequest>()
