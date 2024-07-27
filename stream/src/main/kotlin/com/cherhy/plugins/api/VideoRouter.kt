@@ -22,18 +22,10 @@ fun Route.video() {
         val videoId = call.pathVariable.videoId
         val lastVideoByte = call.request.lastWatchedCheckpoint
 
-        val video = getVideoUseCase.execute(
-            userId,
-            postId,
-            videoId,
-            lastVideoByte,
-        )
+        val video = getVideoUseCase.execute(userId, postId, videoId, lastVideoByte)
 
-        val contentRangeValue = ContentRangeGenerator.generate(
-            lastVideoByte,
-            video.currentSize,
-            video.totalSize,
-        )
+        val contentRangeValue =
+            ContentRangeGenerator.generate(lastVideoByte, video.currentSize, video.totalSize)
 
         call.respondBytes(video.videoStream, ContentType.Video.MP4)
         call.respond(HttpStatusCode.OK)

@@ -25,28 +25,15 @@ class DeletePostUseCase(
         postId: PostId,
     ) =
         reactiveTransaction {
-            readPostService.ifNotExist(
-                userId,
-                postId,
-            )
+            readPostService.ifNotExist(userId, postId)
 
             val originalVideo = readVideoService.get(postId)
 
-            writePostService.delete(
-                userId,
-                postId,
-            )
+            writePostService.delete(userId, postId)
 
-            writeVideoService.delete(
-                userId,
-                originalVideo.id,
-            )
+            writeVideoService.delete(userId, originalVideo.id)
 
-            minioClient.remove(
-                bucket,
-                originalVideo.uniqueName,
-                extension = originalVideo.extension,
-            )
+            minioClient.remove(bucket, originalVideo.uniqueName, originalVideo.extension)
         }
 
     companion object {

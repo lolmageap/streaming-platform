@@ -24,30 +24,10 @@ class CreatePostUseCase(
         post: CreatePostRequest,
     ) =
         reactiveTransaction {
-            val postId = writePostService.create(
-                userId,
-                post.title,
-                post.content,
-                post.category,
-            )
+            val postId = writePostService.create(userId, post.title, post.content, post.category)
 
-            writeVideoService.create(
-                userId,
-                postId,
-                video.name,
-                video.uniqueName,
-                video.size,
-                video.extension,
-            )
-
-            minioClient.upload(
-                bucket,
-                video.uniqueName,
-                video.data,
-                video.size,
-                video.extension,
-            )
-
+            writeVideoService.create(userId, postId, video.name, video.uniqueName, video.size, video.extension)
+            minioClient.upload(bucket, video.uniqueName, video.data, video.size, video.extension)
             Unit
         }
 

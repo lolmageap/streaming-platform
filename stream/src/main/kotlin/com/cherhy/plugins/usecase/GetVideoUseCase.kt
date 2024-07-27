@@ -26,26 +26,15 @@ class GetVideoUseCase(
         lastVideoByte: Byte?,
     ) =
         reactiveTransaction {
-            val video = readVideoService.get(
-                userId,
-                postId,
-                videoId,
-            )
+            val video = readVideoService.get(userId, postId, videoId)
 
-            val videoStream = minioFactory.download(
-                bucket,
-                video.uniqueName,
-                video.extension,
-                lastVideoByte,
-            ).readAllBytes()!!
+            val videoStream =
+                minioFactory.download(bucket, video.uniqueName, video.extension, lastVideoByte)
+                    .readAllBytes()!!
 
-            val actionHistory = ActionHistory.of(
-                userId,
-                Action.SHOW_VIDEO,
-                ZonedDateTime.now(),
-            )
+            val actionHistory = ActionHistory.of(userId, Action.SHOW_VIDEO, ZonedDateTime.now())
+
             coroutineDatabase.actionHistory.insertOne(actionHistory)
-
             GetVideoResponse.of(videoStream, video.size)
         }
 

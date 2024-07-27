@@ -1,7 +1,9 @@
 package com.cherhy.common.util.model
 
 @JvmInline
-value class UserId private constructor(val value: Long): Comparable<UserId> {
+value class UserId private constructor(
+    val value: Long,
+): Comparable<UserId> {
     override fun compareTo(other: UserId): Int {
         return value.compareTo(other.value)
     }

@@ -31,20 +31,11 @@ class UpdatePostUseCase(
         updatePost: UpdatePostRequest,
     ) =
         reactiveTransaction {
-            readPostService.ifNotExist(
-                userId,
-                postId,
-            )
+            readPostService.ifNotExist(userId, postId)
 
             val originalVideo = readVideoService.get(postId)
 
-            writePostService.update(
-                userId,
-                postId,
-                updatePost.title,
-                updatePost.content,
-                updatePost.category,
-            )
+            writePostService.update(userId, postId, updatePost.title, updatePost.content, updatePost.category)
 
             writeVideoService.update(
                 originalVideo.id,
@@ -63,11 +54,7 @@ class UpdatePostUseCase(
                 updateVideo.extension,
             )
 
-            minioClient.remove(
-                bucket,
-                originalVideo.uniqueName,
-                originalVideo.extension,
-            )
+            minioClient.remove(bucket, originalVideo.uniqueName, originalVideo.extension)
         }
 
     companion object {
