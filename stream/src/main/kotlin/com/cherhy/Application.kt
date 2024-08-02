@@ -1,7 +1,7 @@
 package com.cherhy
 
-import com.cherhy.plugins.config.configureDependencyInjection
-import com.cherhy.plugins.config.configureRouting
+import com.cherhy.plugins.configureDependencyInjection
+import com.cherhy.plugins.configureRouting
 import io.ktor.server.application.*
 import io.ktor.server.engine.*
 import io.ktor.server.netty.*
