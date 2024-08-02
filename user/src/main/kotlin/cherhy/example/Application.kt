@@ -1,6 +1,6 @@
 package cherhy.example
 
-import cherhy.example.plugins.config.*
+import cherhy.example.plugins.*
 import io.ktor.server.application.*
 
 fun main(args: Array<String>) {
