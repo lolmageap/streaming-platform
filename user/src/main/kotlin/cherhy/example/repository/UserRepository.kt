@@ -1,11 +1,10 @@
 package cherhy.example.repository
 
 import cherhy.example.domain.*
+import cherhy.example.domain.Authorities.pessimisticLock
 import cherhy.example.util.Encoder
 import com.cherhy.common.util.model.UserId
 import org.jetbrains.exposed.sql.selectAll
-import org.jetbrains.exposed.sql.vendors.ForUpdateOption
-import org.jetbrains.exposed.sql.vendors.ForUpdateOption.PostgreSQL.MODE
 
 interface UserRepository {
     suspend fun save(
@@ -81,11 +80,7 @@ class UserRepositoryImpl : UserRepository {
         userId: UserId,
     ) =
         Users.selectAll()
-            .forUpdate(
-                ForUpdateOption.PostgreSQL.ForUpdate(
-                    MODE.NO_WAIT,
-                )
-            )
+            .pessimisticLock()
             .where { Users.id eq userId.value }
             .map(UserModel.Cherhy::fromResultRow)
             .singleOrNull()
