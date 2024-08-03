@@ -3,6 +3,9 @@ package cherhy.example.repository
 import cherhy.example.domain.*
 import cherhy.example.util.Encoder
 import com.cherhy.common.util.model.UserId
+import org.jetbrains.exposed.sql.selectAll
+import org.jetbrains.exposed.sql.vendors.ForUpdateOption
+import org.jetbrains.exposed.sql.vendors.ForUpdateOption.PostgreSQL.MODE
 
 interface UserRepository {
     suspend fun save(
@@ -23,6 +26,7 @@ interface UserRepository {
     suspend fun findById(
         userId: UserId,
     ): User?
+
     suspend fun save(
         userId: UserId,
         email: UserEmail,
@@ -58,15 +62,31 @@ class UserRepositoryImpl : UserRepository {
     override suspend fun existsByEmail(
         email: UserEmail,
     ) =
-        User.find { Users.email eq email.value }.empty()
+        User.find { Users.email eq email.value }
+            .empty()
+            .not()
 
     override suspend fun findByEmail(
         email: UserEmail
     ) =
-        User.find { Users.email eq email.value }.firstOrNull()
+        User.find { Users.email eq email.value }
+            .firstOrNull()
 
     override suspend fun findById(
         userId: UserId,
     ) =
         User.findById(userId.value)
+
+    suspend fun pessimisticLock(
+        userId: UserId,
+    ) =
+        Users.selectAll()
+            .forUpdate(
+                ForUpdateOption.PostgreSQL.ForUpdate(
+                    MODE.NO_WAIT,
+                )
+            )
+            .where { Users.id eq userId.value }
+            .map(UserModel.Cherhy::fromResultRow)
+            .singleOrNull()
 }
