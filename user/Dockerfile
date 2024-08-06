@@ -1,7 +1,6 @@
 FROM openjdk:21
 LABEL authors="cherhy"
-ARG JAR_FILE=build/libs/user-0.0.1-SNAPSHOT.jar
-COPY ${JAR_FILE} app.jar
+COPY ./build/libs/user-all.jar app.jar
 
 ENV TZ=Asia/Seoul
 ENV PROFILE dev
