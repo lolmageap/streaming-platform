@@ -11,6 +11,8 @@ import com.cherhy.service.ReadVideoService
 import com.cherhy.service.WritePostService
 import com.cherhy.service.WriteVideoService
 import com.cherhy.util.ApplicationConfigUtils
+import com.cherhy.util.extension.remove
+import com.cherhy.util.extension.upload
 import com.cherhy.util.model.Bucket
 import com.cherhy.util.property.MinioProperty.BUCKET
 
