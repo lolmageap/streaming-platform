@@ -1,67 +1,31 @@
-import org.jetbrains.kotlin.gradle.dsl.JvmTarget
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-import org.jetbrains.kotlin.gradle.tasks.KotlinJvmCompile
-
 plugins {
-    id("org.springframework.boot") version "3.2.5"
-    id("io.spring.dependency-management") version "1.1.4"
     kotlin("jvm") version "2.0.0"
-    kotlin("plugin.spring") version "2.0.0"
-    kotlin("plugin.allopen") version "2.0.0"
-    kotlin("plugin.noarg") version "2.0.0"
+    id("io.ktor.plugin") version "2.3.11"
+}
+
+val exposedVersion = "0.49.0"
+
+application {
+    mainClass.set("io.ktor.server.netty.EngineMain")
+
+    val isDevelopment: Boolean = project.ext.has("development")
+    applicationDefaultJvmArgs = listOf("-Dio.ktor.development=$isDevelopment")
+}
+
+dependencies {
+    implementation(project(":common"))
+    implementation("io.ktor:ktor-server-core-jvm")
+    implementation("io.ktor:ktor-server-netty-jvm")
+    implementation("org.jetbrains.exposed:exposed-core:$exposedVersion")
+    implementation("org.jetbrains.exposed:exposed-jdbc:$exposedVersion")
+    implementation("org.jetbrains.exposed:exposed-dao:$exposedVersion")
+    implementation("org.jetbrains.exposed:exposed-java-time:$exposedVersion")
+    implementation("ch.qos.logback:logback-classic:1.5.6")
+    implementation("com.zaxxer:HikariCP:5.1.0")
+    testImplementation("io.ktor:ktor-server-test-host-jvm")
+    testImplementation("org.jetbrains.kotlin:kotlin-test-junit")
 }
 
 java {
     sourceCompatibility = JavaVersion.VERSION_21
-}
-
-allprojects {
-    group = "com.cherhy"
-    version = "0.0.1-SNAPSHOT"
-    repositories {
-        mavenCentral()
-    }
-}
-
-subprojects {
-    apply(plugin = "kotlin")
-    apply(plugin = "kotlin-spring")
-    apply(plugin = "io.spring.dependency-management")
-
-    dependencies {
-        implementation("io.github.microutils:kotlin-logging:3.0.5")
-
-        testRuntimeOnly("org.junit.platform:junit-platform-launcher")
-        testImplementation("io.kotest:kotest-runner-junit5:5.7.2")
-        testImplementation("io.kotest:kotest-assertions-core:5.7.2")
-        testImplementation("io.kotest.extensions:kotest-extensions-spring:1.1.3")
-    }
-
-    dependencyManagement {
-        imports {
-            mavenBom("org.springframework.cloud:spring-cloud-dependencies:2022.0.3")
-        }
-    }
-
-    tasks.withType<KotlinJvmCompile>()
-        .configureEach {
-            compilerOptions
-                .languageVersion
-                .set(
-                    org.jetbrains.kotlin.gradle.dsl.KotlinVersion.KOTLIN_2_0
-                )
-        }
-
-    tasks.withType<KotlinCompile> {
-        kotlin {
-            compilerOptions {
-                freeCompilerArgs.add("-Xexport-kdoc")
-                jvmTarget.set(JvmTarget.JVM_21)
-            }
-        }
-    }
-
-    tasks.withType<Test> {
-        useJUnitPlatform()
-    }
 }
