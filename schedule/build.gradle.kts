@@ -21,6 +21,7 @@ dependencies {
     implementation("org.jetbrains.exposed:exposed-dao:$exposedVersion")
     implementation("org.jetbrains.exposed:exposed-java-time:$exposedVersion")
     implementation("ch.qos.logback:logback-classic:1.5.6")
+    implementation("io.insert-koin:koin-ktor:3.5.6")
     implementation("com.zaxxer:HikariCP:5.1.0")
     testImplementation("io.ktor:ktor-server-test-host-jvm")
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit")
