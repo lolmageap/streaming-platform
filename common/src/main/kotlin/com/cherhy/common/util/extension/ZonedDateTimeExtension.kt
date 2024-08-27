@@ -1,7 +1,7 @@
 package com.cherhy.common.util.extension
 
+import com.cherhy.common.util.SEOUL
 import java.time.LocalDateTime
-import java.time.ZoneId
 import java.time.ZoneOffset
 import java.time.ZoneOffset.UTC
 import java.time.ZonedDateTime
@@ -23,5 +23,3 @@ fun ZonedDateTime.toUtcTime(): ZonedDateTime =
 fun LocalDateTime.toZonedDateTime(
     zoneOffset: ZoneOffset = UTC,
 ) = ZonedDateTime.of(this, zoneOffset)!!
-
-private val SEOUL = ZoneId.of("Asia/Seoul")
