@@ -23,3 +23,7 @@ fun ZonedDateTime.toUtcTime(): ZonedDateTime =
 fun LocalDateTime.toZonedDateTime(
     zoneOffset: ZoneOffset = UTC,
 ) = ZonedDateTime.of(this, zoneOffset)!!
+
+infix fun ZonedDateTime.between(
+    closedRange: ClosedRange<ZonedDateTime>,
+) =  this >= closedRange.start && this <= closedRange.endInclusive

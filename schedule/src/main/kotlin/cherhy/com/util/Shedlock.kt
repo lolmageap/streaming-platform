@@ -2,6 +2,7 @@ package cherhy.com.util
 
 import cherhy.com.plugins.reactiveTransaction
 import cherhy.com.util.Shedlocks.pessimisticLock
+import com.cherhy.common.util.extension.between
 import org.jetbrains.exposed.sql.ResultRow
 import org.jetbrains.exposed.sql.insert
 import org.jetbrains.exposed.sql.selectAll
@@ -27,14 +28,14 @@ suspend fun <T> shedlock(
 
             val shedLock = resultRow.toShedLock()
 
-            if (now >= shedLock.lockedAt && now <= shedLock.lockUntil) {
+            if (now between shedLock.lockedAt..shedLock.lockUntil) {
                 throw RuntimeException("Already locked")
             }
 
             Shedlocks.update({ Shedlocks.name eq name }) {
-                val now2 = ZonedDateTime.now(UTC)
-                it[lockedAt] = now2.toLocalDateTime()
-                it[lockUntil] = now2.toLocalDateTime() + duration
+                val updatedAt = ZonedDateTime.now(UTC)
+                it[lockedAt] = updatedAt.toLocalDateTime()
+                it[lockUntil] = updatedAt.toLocalDateTime() + duration
             }
         } catch (e: Exception) {
             throw RuntimeException("Already locked")
