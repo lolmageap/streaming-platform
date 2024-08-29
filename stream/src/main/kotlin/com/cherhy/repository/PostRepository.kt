@@ -7,7 +7,7 @@ import com.cherhy.common.util.model.*
 import com.cherhy.domain.*
 import com.cherhy.plugins.database
 import com.cherhy.util.extension.contains
-import com.cherhy.util.extension.toUnit
+import com.cherhy.common.util.extension.toUnit
 import org.ktorm.dsl.*
 import org.ktorm.entity.count
 import org.ktorm.entity.filter
@@ -120,8 +120,8 @@ class PostRepositoryImpl : PostRepository {
     ): PageResponse<PostItemResponse> {
         val generator = PageOffsetCalculator.of(page, size)
         val expression = database.posts
-            .filter { it.author eq userId.value }
             .also { query ->
+                query.filter { it.author eq userId.value }
                 keyword?.let { keyword ->
                     query.filter { it.title contains keyword.value }
                 }

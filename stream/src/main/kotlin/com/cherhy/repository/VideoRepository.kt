@@ -4,11 +4,8 @@ import com.cherhy.api.VideoDetailResponse
 import com.cherhy.common.util.model.UserId
 import com.cherhy.domain.*
 import com.cherhy.plugins.database
-import com.cherhy.util.extension.toUnit
-import org.ktorm.dsl.delete
-import org.ktorm.dsl.eq
-import org.ktorm.dsl.insert
-import org.ktorm.dsl.update
+import com.cherhy.common.util.extension.toUnit
+import org.ktorm.dsl.*
 import org.ktorm.entity.find
 
 interface VideoRepository {
