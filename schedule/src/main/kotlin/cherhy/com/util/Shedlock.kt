@@ -37,7 +37,7 @@ suspend fun <T> shedlock(
                 it[lockedAt] = updatedAt.toLocalDateTime()
                 it[lockUntil] = updatedAt.toLocalDateTime() + duration
             }
-        } catch (e: Exception) {
+        } catch (e: IllegalStateException) {
             throw RuntimeException("Already locked")
         }
     }
