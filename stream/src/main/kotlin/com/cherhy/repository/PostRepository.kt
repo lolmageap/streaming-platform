@@ -6,6 +6,7 @@ import com.cherhy.common.util.PageOffsetCalculator
 import com.cherhy.common.util.model.*
 import com.cherhy.domain.*
 import com.cherhy.plugins.database
+import com.cherhy.util.extension.contains
 import com.cherhy.util.extension.toUnit
 import org.ktorm.dsl.*
 import org.ktorm.entity.count
@@ -121,8 +122,12 @@ class PostRepositoryImpl : PostRepository {
         val expression = database.posts
             .filter { it.author eq userId.value }
             .also { query ->
-                keyword?.let { query.filter { it.title like "%$it%" } }
-                category?.let { query.filter { it.category.name eq it.category } }
+                keyword?.let { keyword ->
+                    query.filter { it.title contains keyword.value }
+                }
+                category?.let { category ->
+                    query.filter { it.category eq category.name }
+                }
             }
 
         val count = expression.count().toLong()
