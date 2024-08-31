@@ -14,7 +14,7 @@ import java.time.ZonedDateTime
 
 suspend fun <T> shedlock(
     name: String,
-    duration: Duration,
+    lockAtMostFor: Duration,
     block: suspend () -> T,
 ) {
     reactiveTransaction {
@@ -24,7 +24,7 @@ suspend fun <T> shedlock(
                 .where { Shedlocks.name eq name }
                 .pessimisticLock(NO_WAIT)
                 .singleOrNull()
-                ?: insertNewShedlock(name, duration)
+                ?: insertNewShedlock(name, lockAtMostFor)
 
             val shedLock = resultRow.toShedLock()
 
@@ -35,7 +35,7 @@ suspend fun <T> shedlock(
             Shedlocks.update({ Shedlocks.name eq name }) {
                 val updatedAt = ZonedDateTime.now(UTC)
                 it[lockedAt] = updatedAt.toLocalDateTime()
-                it[lockUntil] = updatedAt.toLocalDateTime() + duration
+                it[lockUntil] = updatedAt.toLocalDateTime() + lockAtMostFor
             }
         } catch (e: IllegalStateException) {
             throw RuntimeException("Already locked")
