@@ -9,6 +9,7 @@ import cherhy.example.util.Encoder
 import cherhy.example.util.JwtManager
 import cherhy.example.util.TokenType.ACCESS
 import cherhy.example.util.TokenType.REFRESH
+import cherhy.example.util.TransactionType.READ_ONLY
 
 class LoginUseCase(
     private val readUserService: ReadUserService,
@@ -17,7 +18,7 @@ class LoginUseCase(
 ) {
     suspend fun execute(
         loginRequest: LoginRequest,
-    ) = reactiveTransaction {
+    ) = reactiveTransaction(READ_ONLY) {
         val user = readUserService.get(loginRequest.email)
         val password = loginRequest.password.value
         val salt = user.salt.value

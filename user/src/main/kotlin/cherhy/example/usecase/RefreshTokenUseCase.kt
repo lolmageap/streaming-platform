@@ -5,6 +5,7 @@ import cherhy.example.service.ReadAuthorityService
 import cherhy.example.service.ReadUserService
 import cherhy.example.util.JwtManager
 import cherhy.example.util.TokenType.ACCESS
+import cherhy.example.util.TransactionType.READ_ONLY
 import com.cherhy.common.util.model.UserId
 
 class RefreshTokenUseCase(
@@ -14,7 +15,7 @@ class RefreshTokenUseCase(
 ) {
     suspend fun execute(
         userId: UserId,
-    ) = reactiveTransaction {
+    ) = reactiveTransaction(READ_ONLY) {
         val user = readUserService.get(userId)
         val roles = readAuthorityService.get(user.id)
         jwtManager.createToken(user.id, user.name, roles, ACCESS)
