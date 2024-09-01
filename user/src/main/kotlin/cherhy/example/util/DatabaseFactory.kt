@@ -2,7 +2,7 @@ package cherhy.example.util
 
 import org.jetbrains.exposed.sql.Database
 
-object DatabaseType {
+object DatabaseFactory {
     lateinit var masterDatabase: Database
     lateinit var slaveDatabase: Database
 }

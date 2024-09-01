@@ -1,6 +1,6 @@
 package cherhy.example.plugins
 
-import cherhy.example.util.DatabaseType
+import cherhy.example.util.DatabaseFactory
 import cherhy.example.util.TransactionType
 import kotlinx.coroutines.Dispatchers
 import org.jetbrains.exposed.sql.Transaction
@@ -15,17 +15,17 @@ suspend fun <T> reactiveTransaction(
     block: suspend () -> T,
 ): T =
     if (transactionType == TransactionType.WRITE) {
-        newSuspendedTransaction(Dispatchers.IO, DatabaseType.masterDatabase) {
+        newSuspendedTransaction(Dispatchers.IO, DatabaseFactory.masterDatabase) {
             block()
         }
     } else {
-        newSuspendedTransaction(Dispatchers.IO, DatabaseType.slaveDatabase) {
+        newSuspendedTransaction(Dispatchers.IO, DatabaseFactory.slaveDatabase) {
             TransactionManager.current().registerInterceptor(TransactionInterceptor)
             block()
         }
     }
 
-private object TransactionInterceptor : StatementInterceptor {
+private object TransactionInterceptor: StatementInterceptor {
     override fun beforeExecution(
         transaction: Transaction,
         context: StatementContext,
