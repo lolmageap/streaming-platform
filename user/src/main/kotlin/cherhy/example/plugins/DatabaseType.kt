@@ -3,6 +3,7 @@ package cherhy.example.plugins
 import cherhy.example.util.ApplicationConfigUtils.getDataSource
 import cherhy.example.util.DataSourceType.MASTER
 import cherhy.example.util.DataSourceType.SLAVE
+import cherhy.example.util.DatabaseType
 import cherhy.example.util.property.DataSourceProperty.DRIVER_CLASS_NAME
 import cherhy.example.util.property.DataSourceProperty.ISOLATION_LEVEL
 import cherhy.example.util.property.DataSourceProperty.MAX_POOL_SIZE
@@ -43,16 +44,11 @@ fun Application.configureDatabase() {
         }
     )
 
-    DatabaseConfig.masterDatabase = Database.connect(masterDatabase)
-    DatabaseConfig.slaveDatabase = Database.connect(slaveDatabase)
+    DatabaseType.masterDatabase = Database.connect(masterDatabase)
+    DatabaseType.slaveDatabase = Database.connect(slaveDatabase)
 
     environment.monitor.subscribe(ApplicationStopped) {
         masterDatabase.close()
         slaveDatabase.close()
     }
-}
-
-object DatabaseConfig {
-    lateinit var masterDatabase: Database
-    lateinit var slaveDatabase: Database
 }
