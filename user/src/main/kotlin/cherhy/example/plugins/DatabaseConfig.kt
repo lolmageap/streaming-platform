@@ -1,6 +1,8 @@
 package cherhy.example.plugins
 
 import cherhy.example.util.ApplicationConfigUtils.getDataSource
+import cherhy.example.util.DataSourceType.MASTER
+import cherhy.example.util.DataSourceType.SLAVE
 import cherhy.example.util.property.DataSourceProperty.DRIVER_CLASS_NAME
 import cherhy.example.util.property.DataSourceProperty.ISOLATION_LEVEL
 import cherhy.example.util.property.DataSourceProperty.MAX_POOL_SIZE
@@ -10,26 +12,47 @@ import cherhy.example.util.property.DataSourceProperty.USERNAME
 import com.zaxxer.hikari.HikariConfig
 import com.zaxxer.hikari.HikariDataSource
 import io.ktor.server.application.*
-import kotlinx.coroutines.Dispatchers.IO
 import org.jetbrains.exposed.sql.Database
-import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
 
 fun Application.configureDatabase() {
-    val hikari = HikariDataSource(
+    val masterDatabase = HikariDataSource(
         HikariConfig().apply {
-            jdbcUrl = getDataSource(URL)
-            username = getDataSource(USERNAME)
-            password = getDataSource(PASSWORD)
-            driverClassName = getDataSource(DRIVER_CLASS_NAME)
-            maximumPoolSize = getDataSource(MAX_POOL_SIZE).toInt()
+            jdbcUrl = getDataSource(MASTER, URL)
+            username = getDataSource(MASTER, USERNAME)
+            password = getDataSource(MASTER, PASSWORD)
+            driverClassName = getDataSource(MASTER, DRIVER_CLASS_NAME)
+            maximumPoolSize = getDataSource(MASTER, MAX_POOL_SIZE).toInt()
             isAutoCommit = false
-            transactionIsolation = getDataSource(ISOLATION_LEVEL)
+            transactionIsolation = getDataSource(MASTER, ISOLATION_LEVEL)
+            isReadOnly = false
             validate()
         }
     )
-    Database.connect(hikari)
+
+    val slaveDatabase = HikariDataSource(
+        HikariConfig().apply {
+            jdbcUrl = getDataSource(SLAVE, URL)
+            username = getDataSource(SLAVE, USERNAME)
+            password = getDataSource(SLAVE, PASSWORD)
+            driverClassName = getDataSource(SLAVE, DRIVER_CLASS_NAME)
+            maximumPoolSize = getDataSource(SLAVE, MAX_POOL_SIZE).toInt()
+            isAutoCommit = false
+            transactionIsolation = getDataSource(SLAVE, ISOLATION_LEVEL)
+            isReadOnly = true
+            validate()
+        }
+    )
+
+    DatabaseConfig.masterDatabase = Database.connect(masterDatabase)
+    DatabaseConfig.slaveDatabase = Database.connect(slaveDatabase)
+
+    environment.monitor.subscribe(ApplicationStopped) {
+        masterDatabase.close()
+        slaveDatabase.close()
+    }
 }
 
-suspend fun <T> reactiveTransaction(
-    block: suspend () -> T,
-) = newSuspendedTransaction(IO) { block() }
+object DatabaseConfig {
+    lateinit var masterDatabase: Database
+    lateinit var slaveDatabase: Database
+}
