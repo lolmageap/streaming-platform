@@ -1,10 +1,8 @@
 package cherhy.example.repository
 
 import cherhy.example.domain.*
-import cherhy.example.domain.Authorities.pessimisticLock
 import cherhy.example.util.Encoder
 import com.cherhy.common.util.model.UserId
-import org.jetbrains.exposed.sql.selectAll
 
 interface UserRepository {
     suspend fun save(
@@ -14,15 +12,15 @@ interface UserRepository {
         salt: UserSalt,
     ): User
 
-    suspend fun existsByEmail(
+    suspend fun isExists(
         email: UserEmail,
     ): Boolean
 
-    suspend fun findByEmail(
+    suspend fun findOne(
         email: UserEmail,
     ): User?
 
-    suspend fun findById(
+    suspend fun findOne(
         userId: UserId,
     ): User?
 
@@ -58,30 +56,21 @@ class UserRepositoryImpl : UserRepository {
             it.password = encodedPassword
         }
 
-    override suspend fun existsByEmail(
+    override suspend fun isExists(
         email: UserEmail,
     ) =
         User.find { Users.email eq email.value }
             .empty()
             .not()
 
-    override suspend fun findByEmail(
+    override suspend fun findOne(
         email: UserEmail
     ) =
         User.find { Users.email eq email.value }
             .firstOrNull()
 
-    override suspend fun findById(
+    override suspend fun findOne(
         userId: UserId,
     ) =
         User.findById(userId.value)
-
-    suspend fun pessimisticLock(
-        userId: UserId,
-    ) =
-        Users.selectAll()
-            .pessimisticLock()
-            .where { Users.id eq userId.value }
-            .map(UserModel.Cherhy::fromResultRow)
-            .singleOrNull()
 }

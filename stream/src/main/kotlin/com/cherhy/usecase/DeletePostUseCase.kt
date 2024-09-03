@@ -26,7 +26,7 @@ class DeletePostUseCase(
         postId: PostId,
     ) =
         reactiveTransaction {
-            readPostService.ifNotExist(userId, postId)
+            readPostService.checkIfNotExists(userId, postId)
 
             val originalVideo = readVideoService.get(postId)
 

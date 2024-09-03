@@ -11,23 +11,23 @@ class ReadVideoService(
     suspend fun get(
         videoId: VideoId,
     ) =
-        videoRepository.find(
+        videoRepository.findOne(
             videoId,
         ) ?: throw NoSuchElementException("Video not found")
 
     suspend fun get(
         postId: PostId,
     ) =
-        videoRepository.find(
+        videoRepository.findOne(
             postId,
         ) ?: throw NoSuchElementException("Video not found")
 
-    fun get(
+    suspend fun get(
         userId: UserId,
         postId: PostId,
         videoId: VideoId,
     ) =
-        videoRepository.find(
+        videoRepository.findOne(
             userId,
             postId,
             videoId,

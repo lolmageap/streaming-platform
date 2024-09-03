@@ -8,24 +8,24 @@ import com.cherhy.common.util.model.UserId
 class ReadUserService(
     private val userRepository: UserRepository,
 ) {
-    suspend fun ifUserExists(
+    suspend fun checkIfExists(
         email: UserEmail,
         block: () -> IllegalStateException = { IllegalStateException("User already exists") },
     ) =
-        userRepository.existsByEmail(email).let {
+        userRepository.isExists(email).let {
             if (it) block()
         }
 
     suspend fun get(
         email: UserEmail,
     ) =
-        userRepository.findByEmail(email)
+        userRepository.findOne(email)
             ?.let(UserDomain::of)
             ?: throw IllegalStateException("User not found")
 
     suspend fun get(
         userId: UserId,
-    ) = userRepository.findById(userId)
+    ) = userRepository.findOne(userId)
         ?.let(UserDomain::of)
         ?: throw IllegalStateException("User not found")
 }

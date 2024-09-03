@@ -32,15 +32,15 @@ interface VideoRepository {
         videoId: VideoId,
     )
 
-    suspend fun find(
+    suspend fun findOne(
         videoId: VideoId,
     ): VideoDetailResponse?
 
-    suspend fun find(
+    suspend fun findOne(
         postId: PostId,
     ): VideoDetailResponse?
 
-    fun find(
+    suspend fun findOne(
         userId: UserId,
         postId: PostId,
         videoId: VideoId,
@@ -93,21 +93,21 @@ class VideoRepositoryImpl : VideoRepository {
             it.owner eq userId.value
         }.toUnit()
 
-    override suspend fun find(
+    override suspend fun findOne(
         videoId: VideoId,
     ) =
         database.videos.find {
             it.id eq videoId.value
         }?.let(VideoDetailResponse::of)
 
-    override suspend fun find(
+    override suspend fun findOne(
         postId: PostId,
     ) =
         database.videos.find {
             it.post eq postId.value
         }?.let(VideoDetailResponse::of)
 
-    override fun find(
+    override suspend fun findOne(
         userId: UserId,
         postId: PostId,
         videoId: VideoId

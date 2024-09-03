@@ -10,6 +10,6 @@ class ReadAuthorityService(
     suspend fun get(
         userId: UserId,
     ) =
-        authorityRepository.findByUserId(userId)
+        authorityRepository.findOne(userId)
             .map { Role.valueOf(it.role) }
 }

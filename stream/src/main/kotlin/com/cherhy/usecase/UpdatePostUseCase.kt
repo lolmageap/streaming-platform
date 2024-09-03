@@ -31,7 +31,7 @@ class UpdatePostUseCase(
         updatePost: UpdatePostRequest,
     ) =
         reactiveTransaction {
-            readPostService.ifNotExist(userId, postId)
+            readPostService.checkIfNotExists(userId, postId)
 
             val originalVideo = readVideoService.get(postId)
 

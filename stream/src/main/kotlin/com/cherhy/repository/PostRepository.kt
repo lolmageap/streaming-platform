@@ -34,12 +34,12 @@ interface PostRepository {
         postId: PostId,
     )
 
-    suspend fun isExist(
+    suspend fun isExists(
         userId: UserId,
         postId: PostId,
     ): Boolean
 
-    suspend fun find(
+    suspend fun findOne(
         userId: UserId,
         postId: PostId,
     ): PostDetailResponse?
@@ -93,7 +93,7 @@ class PostRepositoryImpl : PostRepository {
             it.author eq userId.value
         }.toUnit()
 
-    override suspend fun isExist(
+    override suspend fun isExists(
         userId: UserId,
         postId: PostId,
     ) =
@@ -102,7 +102,7 @@ class PostRepositoryImpl : PostRepository {
             it.author eq userId.value
         }.count() > 0
 
-    override suspend fun find(
+    override suspend fun findOne(
         userId: UserId,
         postId: PostId,
     ) =

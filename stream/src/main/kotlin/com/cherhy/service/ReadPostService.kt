@@ -11,12 +11,12 @@ import com.cherhy.repository.PostRepository
 class ReadPostService(
     private val postRepository: PostRepository,
 ) {
-    suspend fun ifNotExist(
+    suspend fun checkIfNotExists(
         userId: UserId,
         postId: PostId,
         block: () -> Exception = { NoSuchElementException("사용자의 게시물이 아닙니다.") }
     ) =
-        postRepository.isExist(
+        postRepository.isExists(
             userId,
             postId,
         ).let { isExist ->
@@ -27,7 +27,7 @@ class ReadPostService(
         userId: UserId,
         postId: PostId,
     ) =
-        postRepository.find(
+        postRepository.findOne(
             userId,
             postId,
         ) ?: throw NoSuchElementException("사용자의 게시물이 아닙니다.")

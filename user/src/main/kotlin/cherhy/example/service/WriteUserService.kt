@@ -7,7 +7,7 @@ import com.cherhy.common.util.model.UserId
 class WriteUserService(
     private val userRepository: UserRepository,
 ) {
-    suspend fun createUser(
+    suspend fun create(
         email: UserEmail,
         name: Username,
         password: UserPassword,

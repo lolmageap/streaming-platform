@@ -13,7 +13,7 @@ interface AuthorityRepository {
         role: Role,
     ): Authority
 
-    suspend fun findByUserId(
+    suspend fun findOne(
         userId: UserId,
     ): List<Authority>
 }
@@ -28,7 +28,7 @@ class AuthorityRepositoryImpl: AuthorityRepository {
             this.role = role.name
         }
 
-    override suspend fun findByUserId(
+    override suspend fun findOne(
         userId: UserId,
     ) =
         Authority.find { Authorities.userId eq userId.value }.toList()

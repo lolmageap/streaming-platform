@@ -19,12 +19,12 @@ class SignUpUseCase(
     suspend fun execute(
         userRequest: SignUpRequest
     ) = reactiveTransaction {
-        readUserService.ifUserExists(userRequest.email)
+        readUserService.checkIfExists(userRequest.email)
         val password = userRequest.password.value
         val salt = SaltGenerator.generate()
         val encodedPassword = Encoder.encode(password + salt)
 
-        val user = writeUserService.createUser(
+        val user = writeUserService.create(
             userRequest.email,
             userRequest.name,
             UserPassword.of(encodedPassword),
