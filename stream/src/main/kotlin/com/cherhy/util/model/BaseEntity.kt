@@ -7,9 +7,9 @@ import java.time.ZonedDateTime
 
 abstract class BaseTable<T : Entity<T>>(
     name: String,
-): Table<T>(name) {
-    val createdAt = datetime("created_at").bindTo { ZonedDateTime.now().toLocalDateTime() }
-    val updatedAt = datetime("updated_at").bindTo { ZonedDateTime.now().toLocalDateTime() }
+) : Table<T>(name) {
+    val createdAt = datetime("created_at").bindTo { now }
+    val updatedAt = datetime("updated_at").bindTo { now }
 }
 
 interface BaseEntity<T : Entity<T>> : Entity<T> {
@@ -44,3 +44,6 @@ value class UpdatedAt(
         ) = UpdatedAt(value)
     }
 }
+
+private val now
+    get() = ZonedDateTime.now().toLocalDateTime()
