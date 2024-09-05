@@ -28,7 +28,7 @@ class TestPersistenceAdapter(
         status: TestStatus?,
         pageable: Pageable,
     ): Page<TestDomain> {
-        return testCoroutineRepository.findAllByNameAndStatus(
+        return testCoroutineRepository.findAll(
             name = name?.value,
             status = status?.value?.name,
             pageable = pageable,

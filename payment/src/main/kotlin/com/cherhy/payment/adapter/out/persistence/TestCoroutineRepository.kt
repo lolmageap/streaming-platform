@@ -11,7 +11,7 @@ interface TestCoroutineRepository : CoroutineCrudRepository<TestR2dbcEntity, Lon
 }
 
 interface TestRepositoryCustom {
-    suspend fun findAllByNameAndStatus(
+    suspend fun findAll(
         name: String?,
         status: String?,
         pageable: Pageable,
@@ -21,7 +21,7 @@ interface TestRepositoryCustom {
 class TestRepositoryCustomImpl(
     private val sessionFactory: SpringDataQueryFactory,
 ) : TestRepositoryCustom {
-    override suspend fun findAllByNameAndStatus(
+    override suspend fun findAll(
         name: String?,
         status: String?,
         pageable: Pageable
