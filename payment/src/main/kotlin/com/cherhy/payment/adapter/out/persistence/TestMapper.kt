@@ -10,9 +10,10 @@ import com.cherhy.payment.domain.TestStatus
 class TestMapper {
     fun mapToDomainEntity(
         entity: TestR2dbcEntity,
-    ) = TestDomain.generateTestDomain(
-        id = TestId(entity.id.toString()),
-        name = TestName(entity.name),
-        status = TestStatus.fromString(entity.status),
-    )
+    ) =
+        TestDomain.generateTestDomain(
+            id = TestId(entity.id.toString()),
+            name = TestName(entity.name),
+            status = TestStatus.fromString(entity.status),
+        )
 }

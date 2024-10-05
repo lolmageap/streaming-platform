@@ -54,10 +54,11 @@ class TestPersistenceAdapter(
         val entity = testCoroutineRepository.findById(id.value.toLong())
             ?: throw IllegalArgumentException("Test not found")
 
-        val updateEntity = entity.copy(
-            name = name.value,
-            status = status.value.name,
-        )
+        val updateEntity =
+            entity.copy(
+                name = name.value,
+                status = status.value.name,
+            )
 
         testCoroutineRepository.save(updateEntity)
     }
