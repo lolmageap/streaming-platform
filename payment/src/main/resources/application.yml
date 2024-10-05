@@ -3,6 +3,10 @@ server:
 spring:
   application:
     name: payment
+  cache:
+    redis:
+      time-to-live: 60000
+      key-prefix: payment
   threads:
     virtual:
       enabled: true
