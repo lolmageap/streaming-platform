@@ -18,6 +18,7 @@ dependencies {
 	implementation("io.ktor:ktor-server-config-yaml")
 	implementation("io.ktor:ktor-serialization-jackson-jvm")
 	implementation("io.ktor:ktor-server-call-logging-jvm")
+	implementation("org.apache.kafka:kafka-clients:3.8.0")
 	implementation("io.ktor:ktor-server-swagger-jvm")
 	implementation("io.ktor:ktor-server-netty-jvm")
 	implementation("io.ktor:ktor-server-websockets-jvm:2.3.2")
