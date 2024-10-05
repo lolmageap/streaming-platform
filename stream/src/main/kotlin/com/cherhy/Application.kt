@@ -1,9 +1,12 @@
 package com.cherhy
 
 import com.cherhy.plugins.configureDependencyInjection
+import com.cherhy.plugins.configureKafka
 import com.cherhy.plugins.configureRouting
 import io.ktor.server.application.*
 import io.ktor.server.netty.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 fun main(args: Array<String>) {
     EngineMain.main(args)
@@ -12,4 +15,7 @@ fun main(args: Array<String>) {
 fun Application.module() {
     configureRouting()
     configureDependencyInjection()
+    launch(Dispatchers.IO) {
+        configureKafka()
+    }
 }
