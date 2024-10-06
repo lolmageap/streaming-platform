@@ -7,3 +7,9 @@ data class CacheProperty(
     val timeToLive: Long,
     val keyPrefix: String,
 )
+
+@ConfigurationProperties(prefix = "spring.data.redis")
+data class RedisProperty(
+    val host: String,
+    val port: Int,
+)

@@ -9,6 +9,7 @@ data class R2dbcDataSourceProperty(
 )
 
 data class R2dbcProperty(
+    val driverClassName: String,
     val url: String,
     val username: String,
     val password: String,
