@@ -1,48 +1,80 @@
 package com.cherhy.payment
 
 import com.cherhy.common.util.CacheConstant.TEST
-import com.cherhy.payment.adapter.out.CacheWriter
+import com.cherhy.common.util.extension.toSeconds
+import com.cherhy.payment.FlywayConfigurer.flyway
+import com.cherhy.payment.TestContainers.postgresContainer
+import com.cherhy.payment.TestContainers.redisContainer
 import com.cherhy.payment.adapter.out.persistence.TestCoroutineRepository
 import com.cherhy.payment.application.port.`in`.FindTestCommand
 import com.cherhy.payment.application.port.`in`.FindTestUseCase
 import com.cherhy.payment.domain.TestId
+import com.fasterxml.jackson.databind.ObjectMapper
+import com.ninjasquad.springmockk.MockkBean
 import io.kotest.core.spec.style.BehaviorSpec
+import io.kotest.extensions.testcontainers.perSpec
+import io.mockk.clearMocks
+import io.mockk.coEvery
+import io.mockk.coVerify
+import kotlinx.coroutines.delay
 import org.springframework.boot.test.context.SpringBootTest
-import org.testcontainers.containers.GenericContainer
+import org.springframework.data.redis.core.StringRedisTemplate
 
 @SpringBootTest
 class CacheTests(
+    private val objectMapper: ObjectMapper,
     private val findTestUseCase: FindTestUseCase,
-    private val testCoroutineRepository: TestCoroutineRepository,
-    private val cacheWriter: CacheWriter,
+    private val stringRedisTemplate: StringRedisTemplate,
+    @MockkBean private val testRepository: TestCoroutineRepository,
 ) : BehaviorSpec({
-    val redisContainer = GenericContainer<Nothing>("redis:5.0.3-alpine")
     beforeSpec {
-        redisContainer.portBindings.add("16379:6379")
+        postgresContainer.start()
+        listener(postgresContainer.perSpec())
+
         redisContainer.start()
+        listener(redisContainer.perSpec())
+
+        flyway.migrate()
     }
 
-    Given("@Cacheable이 적용된 메서드가 있을 때") {
-        val new = EntityFactory.generateTestR2dbcEntity()
-        val testEntity = testCoroutineRepository.save(new)
+    afterEach {
+        stringRedisTemplate.deleteAll()
+        clearMocks(testRepository)
+    }
 
+    Given("@Cacheable이 적용된 메서드가 존재 하고 ") {
+        val testEntity = EntityFactory.generateTestR2dbcEntity(id = 1)
+
+        val serializedValue = objectMapper.writeValueAsString(testEntity)
         val request = FindTestCommand(id = TestId(testEntity.id.toString()))
 
-        When("값이 캐시에 없는 경우") {
-            val result = findTestUseCase.execute(request)
+        When("값이 캐시에 없는 경우 ") {
+            coEvery { testRepository.findById(testEntity.id) } returns testEntity
+            findTestUseCase.execute(request)
 
-            Then("메서드가 실행되고 결과가 캐시에 저장되어 반환된다") {
-                // 데이터베이스가 호출 되었는지 테스트 코드로 파악하는 방법
+            Then("메서드가 실행 되고 결과가 캐시에 저장 되어 반환 된다") {
+                coVerify(exactly = 1) { testRepository.findById(testEntity.id) }
             }
         }
 
-        When("값이 캐시에 있는 경우") {
-            cacheWriter.write("$TEST:${testEntity.id}", "test")
+        When("값이 캐시에 있는 경우 ") {
+            stringRedisTemplate.opsForValue().set("$TEST::${testEntity.id}", serializedValue, 1.toSeconds())
+            findTestUseCase.execute(request)
 
-            val result = findTestUseCase.execute(request)
+            Then("메서드가 실행 되지 않고 캐시에 저장된 결과가 반환 된다") {
+                coVerify(exactly = 0) { testRepository.findById(testEntity.id) }
+            }
+        }
 
-            Then("메서드가 실행되지 않고 캐시에 저장된 결과가 반환된다") {
+        When("TTL에 적용된 시간이 지나서 삭제 되면 ") {
+            coEvery { testRepository.findById(testEntity.id) } returns testEntity
+            stringRedisTemplate.opsForValue().set("$TEST::${testEntity.id}", serializedValue, 1.toSeconds())
 
+            delay(1000)
+            findTestUseCase.execute(request)
+
+            Then("메서드가 실행 되고 결과가 캐시에 저장 되어 반환 된다") {
+                coVerify(exactly = 1) { testRepository.findById(testEntity.id) }
             }
         }
     }
