@@ -1,10 +1,7 @@
 package com.cherhy.payment.config
 
-import com.cherhy.common.util.CacheConstant.TEST
-import com.cherhy.common.util.CacheConstant.TEST2
 import com.cherhy.payment.util.property.CacheProperty
 import mu.KotlinLogging
-import org.springframework.boot.autoconfigure.cache.RedisCacheManagerBuilderCustomizer
 import org.springframework.cache.Cache
 import org.springframework.cache.CacheManager
 import org.springframework.cache.annotation.EnableCaching
@@ -14,7 +11,8 @@ import org.springframework.data.redis.cache.RedisCacheConfiguration
 import org.springframework.data.redis.cache.RedisCacheManager
 import org.springframework.data.redis.connection.RedisStandaloneConfiguration
 import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory
-import java.time.Duration
+import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer
+import org.springframework.data.redis.serializer.RedisSerializationContext.SerializationPair.fromSerializer
 
 @EnableCaching
 @Configuration
@@ -24,39 +22,27 @@ class CacheConfig(
     @Bean
     fun redisConnectionFactory() =
         LettuceConnectionFactory(
-            RedisStandaloneConfiguration("localhost", 6379)
+            RedisStandaloneConfiguration(cacheProperty.host, cacheProperty.port)
         )
-
-    @Bean
-    fun redisCacheManagerBuilderCustomizer() =
-        RedisCacheManagerBuilderCustomizer { builder ->
-            builder
-                .withCacheConfiguration(
-                    TEST,
-                    RedisCacheConfiguration
-                        .defaultCacheConfig()
-                        .entryTtl(
-                            Duration.ofSeconds(5)
-                        )
-                )
-                .withCacheConfiguration(
-                    TEST2,
-                    RedisCacheConfiguration
-                        .defaultCacheConfig()
-                        .entryTtl(
-                            Duration.ofMinutes(1)
-                        )
-                )
-        }
 
     @Bean
     fun localCacheManager(): CacheManager {
         return object : CacheManager {
             private val logger = KotlinLogging.logger {}
 
+            val cacheConfiguration =
+                RedisCacheConfiguration
+                    .defaultCacheConfig()
+                    .serializeValuesWith(
+                        fromSerializer(
+                            Jackson2JsonRedisSerializer(Any::class.java)
+                        )
+                    )
+
             private val delegate =
                 RedisCacheManager
                     .builder(redisConnectionFactory())
+                    .cacheDefaults(cacheConfiguration)
                     .enableCreateOnMissingCache()
                     .build()
 
@@ -69,9 +55,7 @@ class CacheConfig(
                 }
 
             override fun getCacheNames() =
-                delegate.cacheNames.map {
-                    it.substringAfter(cacheProperty.keyPrefix + "::")
-                }
+                delegate.cacheNames
         }
     }
 }
