@@ -7,7 +7,5 @@ import org.springframework.data.relational.core.mapping.Table
 data class TestR2dbcEntity(
     val name: String,
     val status: String,
-) {
-    @Id
-    val id: Long = 0
-}
+    @Id val id: Long = 0
+)
