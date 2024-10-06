@@ -1,10 +1,12 @@
 package com.cherhy.payment.domain
 
+import java.io.Serializable
+
 data class TestDomain(
     val id: TestId,
     val name: TestName,
     val status: TestStatus,
-) {
+): Serializable {
     companion object {
         @JvmStatic
         fun generateTestDomain(
