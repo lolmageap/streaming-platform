@@ -5,10 +5,8 @@ import com.cherhy.common.util.extension.isNumber
 import com.cherhy.payment.domain.TestId
 import com.cherhy.payment.domain.TestName
 import com.cherhy.payment.domain.TestStatus
-import jakarta.validation.constraints.NotNull
 
 data class FindTestCommand internal constructor(
-    @field:NotNull
     val id: TestId,
 ) : SelfValidating<FindTestCommand>() {
     init {
