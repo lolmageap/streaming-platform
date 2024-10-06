@@ -29,21 +29,19 @@ dependencies {
     implementation("org.axonframework:axon-spring-boot-starter:4.9.3")
     implementation("org.axonframework:axon-configuration:4.9.3")
     implementation("org.springframework.boot:spring-boot-starter-actuator")
-    implementation("org.flywaydb:flyway-core")
-    implementation("org.flywaydb:flyway-database-postgresql:10.15.0")
     implementation("org.springframework.restdocs:spring-restdocs-webtestclient:3.0.1")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactor")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-jdk8:$coroutineVersion")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactive:$coroutineVersion")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutineVersion")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactor:$coroutineVersion")
+
+    implementation("org.flywaydb:flyway-core:10.15.0")
+    implementation("org.flywaydb:flyway-database-postgresql:10.15.0")
     implementation("io.r2dbc:r2dbc-postgresql:0.8.13.RELEASE")
-
-    implementation("com.linecorp.kotlin-jdsl:spring-data-kotlin-jdsl-starter:2.2.0.RELEASE")
-
     runtimeOnly("org.postgresql:postgresql")
-
     testImplementation("org.testcontainers:postgresql")
+
     testImplementation("io.projectreactor:reactor-test")
     testImplementation("org.testcontainers:r2dbc")
     testImplementation("org.testcontainers:junit-jupiter")
