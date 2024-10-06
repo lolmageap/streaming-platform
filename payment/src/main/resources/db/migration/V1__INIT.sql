@@ -1,6 +1,6 @@
-create table test
+CREATE TABLE test
 (
-    id     bigint auto_increment primary key,
-    name   varchar(255) not null,
-    status varchar(30)  not null
+    id     BIGSERIAL PRIMARY KEY,
+    name   VARCHAR(255) NOT NULL,
+    status VARCHAR(30)  NOT NULL
 );
