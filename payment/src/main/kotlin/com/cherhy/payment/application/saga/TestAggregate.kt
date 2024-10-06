@@ -25,7 +25,7 @@ class TestAggregate() {
     fun handle(command: RegisterTestCommand) {
         this.name = command.name.value
 
-        val updateEvent = RegisterTestEvent(command.name)
+        val updateEvent = RegisterTestEvent.of(command.name)
         AggregateLifecycle.apply(updateEvent)
     }
 
@@ -48,19 +48,19 @@ class TestAggregate() {
         AggregateLifecycle.markDeleted()
     }
 
-    @EventSourcingHandler
+    @EventSourcingHandler(payloadType = RegisterTestEvent::class)
     fun on(event: RegisterTestEvent) {
-        this.name = event.name.value
+        this.name = event.name
     }
 
-    @EventSourcingHandler
+    @EventSourcingHandler(payloadType = UpdateTestEvent::class)
     fun on(event: UpdateTestEvent) {
         this.id = event.id.value
         this.name = event.name.value
         this.status = event.status.value.name
     }
 
-    @EventSourcingHandler
+    @EventSourcingHandler(payloadType = DeleteTestEvent::class)
     fun on(event: DeleteTestEvent) {
         this.id = event.id.value
     }

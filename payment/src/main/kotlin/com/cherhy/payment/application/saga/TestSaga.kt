@@ -2,6 +2,7 @@ package com.cherhy.payment.application.saga
 
 import com.cherhy.payment.application.port.`in`.UpdateTestCommand
 import com.cherhy.payment.domain.TestId
+import com.cherhy.payment.domain.TestName
 import com.cherhy.payment.domain.TestStatus
 import org.axonframework.commandhandling.gateway.CommandGateway
 import org.axonframework.eventhandling.EventBus
@@ -16,11 +17,15 @@ class TestSaga(
     @Transient private val commandGateway: CommandGateway,
 ) {
     @StartSaga
-    @SagaEventHandler(associationProperty = "name")
+    @SagaEventHandler(associationProperty = "name", keyName = "name")
     fun handle(command: RegisterTestEvent) {
         val test = TestAggregate()
         SagaLifecycle.associateWith("testId", test.id)
-        val updateTestCommand = UpdateTestCommand(TestId(test.id), command.name, TestStatus.fromString(test.status))
+        val updateTestCommand = UpdateTestCommand(
+            TestId(test.id),
+            TestName(command.name),
+            TestStatus.fromString(test.status),
+        )
         commandGateway.send<UpdateTestCommand>(updateTestCommand)
     }
 }
