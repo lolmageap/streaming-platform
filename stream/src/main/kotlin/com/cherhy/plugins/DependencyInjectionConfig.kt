@@ -4,11 +4,10 @@ import com.cherhy.repository.PostRepository
 import com.cherhy.repository.PostRepositoryImpl
 import com.cherhy.repository.VideoRepository
 import com.cherhy.repository.VideoRepositoryImpl
-import com.cherhy.service.ReadPostService
-import com.cherhy.service.ReadVideoService
-import com.cherhy.service.WritePostService
-import com.cherhy.service.WriteVideoService
+import com.cherhy.service.*
 import com.cherhy.usecase.*
+import com.cherhy.util.constant.MongoConst.MONGO_DATABASE
+import com.cherhy.util.constant.MongoConst.MONGO_URL
 import io.ktor.server.application.*
 import org.koin.dsl.module
 import org.koin.ktor.plugin.Koin
@@ -17,8 +16,8 @@ import org.litote.kmongo.coroutine.coroutine
 import org.litote.kmongo.reactivestreams.KMongo
 
 fun Application.configureDependencyInjection() {
-    val mongoUrl = environment.config.property("mongo.url").getString()
-    val mongoDatabase = environment.config.property("mongo.database").getString()
+    val mongoUrl = environment.config.property(MONGO_URL).getString()
+    val mongoDatabase = environment.config.property(MONGO_DATABASE).getString()
 
     install(Koin) {
         modules(
@@ -38,6 +37,8 @@ val dependencyInjectionModule = module {
     single<DeletePostUseCase> { DeletePostUseCase(get(), get(), get(), get()) }
     single<GetVideoUseCase> { GetVideoUseCase(get(), get()) }
 
+    single<ReadCacheService> { ReadCacheService() }
+    single<WriteCacheService> { WriteCacheService() }
     single<ReadPostService> { ReadPostService(get()) }
     single<ReadVideoService> { ReadVideoService(get()) }
     single<WritePostService> { WritePostService(get()) }
