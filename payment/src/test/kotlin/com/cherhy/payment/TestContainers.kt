@@ -1,7 +1,8 @@
 package com.cherhy.payment
 
-import com.cherhy.payment.DataSource.Postgres
-import com.cherhy.payment.DataSource.Redis
+import com.cherhy.payment.TestContainers.DataSource.Postgres
+import com.cherhy.payment.TestContainers.DataSource.Redis
+import com.cherhy.payment.TestContainers.postgresContainer
 import com.github.dockerjava.api.model.ExposedPort
 import com.github.dockerjava.api.model.PortBinding
 import com.github.dockerjava.api.model.Ports
@@ -47,14 +48,35 @@ object TestContainers {
             withPassword(Postgres.PASSWORD)
         }
     }
+
+    object DataSource {
+        object Redis {
+            const val IMAGE = "redis:5.0.3-alpine"
+            const val HOST = "localhost"
+            const val NAME = "redis-test-container"
+            const val PORT = 6379
+            const val BIND_PORT = 16379
+        }
+
+        object Postgres {
+            const val IMAGE = "postgres:17.0"
+            const val HOST = "localhost"
+            const val NAME = "postgres-test-container"
+            const val PORT = 5432
+            const val BIND_PORT = 15432
+            const val DATABASE_NAME = "cherhy"
+            const val USERNAME = "postgres"
+            const val PASSWORD = "1234"
+        }
+    }
 }
 
 object FlywayConfigurer {
     val flyway: Flyway = Flyway.configure()
         .dataSource(
-            TestContainers.postgresContainer.jdbcUrl,
-            TestContainers.postgresContainer.username,
-            TestContainers.postgresContainer.password,
+            postgresContainer.jdbcUrl,
+            postgresContainer.username,
+            postgresContainer.password,
         )
         .load()
 }
