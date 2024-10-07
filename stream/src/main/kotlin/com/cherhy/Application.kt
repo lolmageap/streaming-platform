@@ -1,5 +1,6 @@
 package com.cherhy
 
+import com.cherhy.plugins.configureCache
 import com.cherhy.plugins.configureDependencyInjection
 import com.cherhy.plugins.configureKafka
 import com.cherhy.plugins.configureRouting
@@ -15,7 +16,6 @@ fun main(args: Array<String>) {
 fun Application.module() {
     configureRouting()
     configureDependencyInjection()
-    launch(Dispatchers.IO) {
-        configureKafka()
-    }
+    configureCache()
+    launch(Dispatchers.IO) { configureKafka() }
 }
