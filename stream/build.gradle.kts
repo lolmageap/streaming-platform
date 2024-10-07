@@ -25,6 +25,7 @@ dependencies {
 	implementation("io.ktor:ktor-server-status-pages")
 	implementation("io.ktor:ktor-server-partial-content:2.3.11")
 	implementation("io.github.microutils:kotlin-logging:3.0.5")
+	implementation("io.lettuce:lettuce-core:6.4.0.RELEASE")
 
 	implementation("io.minio:minio:8.5.10")
 	implementation("org.postgresql:postgresql:42.7.3")
