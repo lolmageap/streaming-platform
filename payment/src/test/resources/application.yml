@@ -20,12 +20,12 @@ spring:
 r2dbc:
   master:
     driver-class-name: org.testcontainers.jdbc.ContainerDatabaseDriver
-    url: r2dbc:pool:postgresql://localhost:15432/cherhy
+    url: r2dbc:tc:pool:postgresql://localhost:15432/cherhy
     username: postgres
     password: 1234
   slave:
     driver-class-name: org.testcontainers.jdbc.ContainerDatabaseDriver
-    url: r2dbc:pool:postgresql://localhost:15432/cherhy
+    url: r2dbc:tc:pool:postgresql://localhost:15432/cherhy
     username: postgres
     password: 1234
 
