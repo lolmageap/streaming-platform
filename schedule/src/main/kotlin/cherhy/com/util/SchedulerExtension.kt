@@ -1,42 +1,39 @@
 package cherhy.com.util
 
-import cherhy.com.util.constant.TimeToLong.ONE_DAY
-import cherhy.com.util.constant.TimeToLong.ONE_SECOND
+import com.cronutils.model.CronType
+import com.cronutils.model.definition.CronDefinitionBuilder
+import com.cronutils.model.time.ExecutionTime
+import com.cronutils.parser.CronParser
 import kotlinx.coroutines.*
 import java.time.ZonedDateTime
+import java.time.temporal.ChronoUnit
 
 fun <T> schedule(
     cron: String,
+    cronType: CronType = CronType.QUARTZ,
     block: suspend () -> T,
 ) =
     CoroutineScope(Dispatchers.Default).launch {
+        val cronValue = cron.toCronValue(cronType)
+        val executionTime = ExecutionTime.forCron(cronValue)
+
         while (isActive) {
             val now = ZonedDateTime.now()
-            if (cron.match(now)) {
-                launch { block() }
-                launch { delay(ONE_DAY) }
-            } else {
-                delay(ONE_SECOND)
+            val nextExecution = executionTime.nextExecution(now)
+
+            if (nextExecution.isPresent) {
+                val next = nextExecution.get()
+                val delayTimeSeconds = ChronoUnit.SECONDS.between(now, next)
+
+                if (delayTimeSeconds > 0) delay(delayTimeSeconds * 1000)
+                else block()
             }
         }
     }
 
-fun String.match(
-    now: ZonedDateTime,
-): Boolean {
-    val cronParts = this.split(" ")
-    if (cronParts.size != 6) throw IllegalArgumentException("Invalid cron expression")
-
-    val (second, minute, hour, dayOfMonth, month, dayOfWeek) = cronParts
-
-    val secondMatch = second == "*" || second.toInt() == now.second
-    val minuteMatch = minute == "*" || minute.toInt() == now.minute
-    val hourMatch = hour == "*" || hour.toInt() == now.hour
-    val dayOfMonthMatch = dayOfMonth == "*" || dayOfMonth.toInt() == now.dayOfMonth
-    val monthMatch = month == "*" || month.toInt() == now.monthValue
-    val dayOfWeekMatch = dayOfWeek == "*" || dayOfWeek.toInt() == now.dayOfWeek.value
-
-    return secondMatch && minuteMatch && hourMatch && dayOfMonthMatch && monthMatch && dayOfWeekMatch
-}
-
-private operator fun <E> List<E>.component6() = this[5].toString()
+private fun String.toCronValue(
+    cronType: CronType,
+) =
+    CronParser(
+        CronDefinitionBuilder.instanceDefinitionFor(cronType)
+    ).parse(this)

@@ -14,4 +14,4 @@ fun Application.configureScheduler() {
 }
 
 private const val TEST_SCHEDULED = "test"
-private const val FIVE_PM = "0 0 17 * * *"
+private const val FIVE_PM = "0 0 17 * * ?"
