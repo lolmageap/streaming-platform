@@ -2,17 +2,14 @@ package com.cherhy.payment
 
 import com.cherhy.common.util.CacheConstant.TEST
 import com.cherhy.common.util.extension.toSeconds
-import com.cherhy.payment.FlywayConfigurer.flyway
-import com.cherhy.payment.TestContainers.postgresContainer
-import com.cherhy.payment.TestContainers.redisContainer
 import com.cherhy.payment.adapter.out.persistence.TestCoroutineRepository
 import com.cherhy.payment.application.port.`in`.FindTestCommand
 import com.cherhy.payment.application.port.`in`.FindTestUseCase
 import com.cherhy.payment.domain.TestId
+import com.cherhy.payment.util.WithTestContainers
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.ninjasquad.springmockk.MockkBean
 import io.kotest.core.spec.style.BehaviorSpec
-import io.kotest.extensions.testcontainers.perSpec
 import io.mockk.clearMocks
 import io.mockk.coEvery
 import io.mockk.coVerify
@@ -26,17 +23,7 @@ class CacheTests(
     private val findTestUseCase: FindTestUseCase,
     private val stringRedisTemplate: StringRedisTemplate,
     @MockkBean private val testRepository: TestCoroutineRepository,
-) : BehaviorSpec({
-    beforeSpec {
-        postgresContainer.start()
-        listener(postgresContainer.perSpec())
-
-        redisContainer.start()
-        listener(redisContainer.perSpec())
-
-        flyway.migrate()
-    }
-
+) : WithTestContainers, BehaviorSpec({
     afterEach {
         stringRedisTemplate.deleteAll()
         clearMocks(testRepository)
