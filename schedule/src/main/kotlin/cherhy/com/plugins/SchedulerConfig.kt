@@ -1,8 +1,8 @@
 package cherhy.com.plugins
 
 import cherhy.com.util.constant.TimeToDuration.TEN_MINUTE
-import cherhy.com.util.schedule
-import cherhy.com.util.shedlock
+import extension.ktor.schedule
+import extension.ktor.shedlock
 import io.ktor.server.application.*
 
 fun Application.configureScheduler() {
