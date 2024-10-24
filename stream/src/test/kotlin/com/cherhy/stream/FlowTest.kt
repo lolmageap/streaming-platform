@@ -3,12 +3,43 @@ package com.cherhy.stream
 import io.kotest.core.spec.style.StringSpec
 import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.buffer
-import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.withTimeout
 
 // https://huisam.tistory.com/entry/coroutine3?category=705896 [코틀린] 코루틴 Flow 사용법
 class FlowTest : StringSpec({
+    "Flow 생성 예시" {
+        // 고정된 값 집합에서 flow를 만든다.
+        val one = flowOf(1, 2, 3)
+
+        // 동적으로 값을 생성하는 flow를 만든다.
+        val two = flow {
+            repeat(3) { data ->
+                emit(data)
+            }
+        }
+
+        // 다양한 타입의 컬렉션을 확장 함수를 사용해서 flow로 변환한다.
+        val three = listOf(1, 2, 3).asFlow()
+
+        // 비동기적으로 send 함수를 동시에 호출해 데이터를 채널에 보내고 flow를 만든다. (결국 비동기적으로 데이터를 생성하는 flow)
+        val four = channelFlow {
+            repeat(3) {
+                send(it)
+            }
+        }
+
+        // MutableStateFlow 및 MutableSharedFlow는 값을 직접 변경할 수 있는 hot flow를 생성한다. hot flow는 활성 상태이며 값을 직접 변경 할 수 있다.
+        val five = MutableStateFlow(1)
+        five.emit(2)
+        five.emit(3)
+
+        val six = MutableSharedFlow<Int>()
+        six.emit(1)
+        six.emit(2)
+        six.emit(3)
+    }
+
     "Flow 는 비동기로 데이터를 생산하는 Producer이고 Collect는 Consumer이다" {
         flow {
             repeat(3) { data ->
