@@ -1,9 +1,21 @@
 package com.cherhy.payment.adapter.out.persistence
 
-import org.springframework.data.domain.Page
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.asFlow
+import kotlinx.coroutines.reactive.asFlow
+import kotlinx.coroutines.reactor.awaitSingleOrNull
 import org.springframework.data.domain.Pageable
+import org.springframework.data.mapping.toDotPath
+import org.springframework.data.r2dbc.convert.MappingR2dbcConverter
+import org.springframework.data.r2dbc.core.R2dbcEntityTemplate
+import org.springframework.data.r2dbc.core.ReactiveSelectOperation
+import org.springframework.data.r2dbc.core.select
+import org.springframework.data.relational.core.query.Criteria
+import org.springframework.data.relational.core.query.Query
 import org.springframework.data.repository.kotlin.CoroutineCrudRepository
 import org.springframework.stereotype.Repository
+import reactor.core.publisher.Flux
+import kotlin.reflect.KProperty
 
 interface TestCoroutineRepository : CoroutineCrudRepository<TestR2dbcEntity, Long>, TestRepositoryCustom
 
@@ -12,28 +24,42 @@ interface TestRepositoryCustom {
         name: String?,
         status: String?,
         pageable: Pageable,
-    ): Page<TestR2dbcEntity>
+    ): Flow<TestR2dbcEntity>
 }
 
 @Repository
-class TestRepositoryCustomImpl : TestRepositoryCustom {
+class TestRepositoryCustomImpl(
+    private val template: R2dbcEntityTemplate,
+) : TestRepositoryCustom {
     override suspend fun findAll(
         name: String?,
         status: String?,
-        pageable: Pageable
-    ): Page<TestR2dbcEntity> {
-        TODO("Not yet implemented")
-//        return sessionFactory.pageQuery(pageable) {
-//            select(entity(TestR2dbcEntity::class))
-//            from(entity(TestR2dbcEntity::class))
-//            whereAnd(
-//                name?.let {
-//                    col(TestR2dbcEntity::name).equal(name)
-//                },
-//                status?.let {
-//                    col(TestR2dbcEntity::status).equal(status)
-//                },
-//            )
-//        }
-    }
+        pageable: Pageable,
+    ) =
+        template.select<TestR2dbcEntity>()
+            .findAll(
+                where(TestR2dbcEntity::name)
+                    .equalsTo(name)
+                    .and(TestR2dbcEntity::status)
+                    .equalsTo(status)
+                    .toQuery()
+            )
 }
+
+private fun where(
+    property: KProperty<*>,
+) = Criteria.where(property.toDotPath())
+
+private fun Criteria.and(
+    property: KProperty<*>,
+) = this.and(property.toDotPath())
+
+private fun Criteria.toQuery() = Query.query(this)
+
+private fun <T> Criteria.CriteriaStep.equalsTo(
+    value: T?,
+) = value?.let { this.`is`(it) }!!
+
+fun <T> ReactiveSelectOperation.ReactiveSelect<T>.findAll(
+    predicate: Query,
+) = this.matching(predicate).all().toIterable().asFlow()
