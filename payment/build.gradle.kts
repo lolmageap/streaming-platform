@@ -39,9 +39,12 @@ dependencies {
     implementation("org.flywaydb:flyway-core:10.15.0")
     implementation("org.flywaydb:flyway-database-postgresql:10.15.0")
     implementation("io.r2dbc:r2dbc-postgresql:0.8.13.RELEASE")
+    implementation("io.r2dbc:r2dbc-pool")
     runtimeOnly("org.postgresql:postgresql")
     testImplementation("org.testcontainers:postgresql")
 
+    testImplementation("com.github.lolmageap:kmsl:1.0.0")
+    testImplementation("org.springframework.boot:spring-boot-starter-data-mongodb:3.3.4")
     testImplementation("io.projectreactor:reactor-test")
     testImplementation("org.testcontainers:r2dbc")
     testImplementation("org.testcontainers:junit-jupiter")

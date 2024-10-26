@@ -8,6 +8,8 @@ spring:
       time-to-live: 60000
       key-prefix: payment
   data:
+    mongodb:
+      uri: mongodb://localhost:27017/test
     web:
       pageable:
         one-indexed-parameters: true
