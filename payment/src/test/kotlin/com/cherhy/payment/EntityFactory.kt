@@ -13,4 +13,21 @@ object EntityFactory {
             name = name,
             status = status,
         )
+
+    fun generateTestMongoEntity(
+        id: String = "test",
+        name: String = "test",
+        status: String = "ACTIVE",
+    ) =
+        TestMongoEntity(
+            id = id,
+            name = name,
+            status = status,
+        )
 }
+
+data class TestMongoEntity(
+    val id: String,
+    val name: String,
+    val status: String,
+)
