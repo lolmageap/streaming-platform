@@ -6,7 +6,10 @@ import com.cherhy.payment.application.port.out.GetTestPort
 import com.cherhy.payment.application.port.out.RegisterTestPort
 import com.cherhy.payment.application.port.out.UpdateTestPort
 import com.cherhy.payment.domain.*
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.toList
 import org.springframework.data.domain.Page
+import org.springframework.data.domain.PageImpl
 import org.springframework.data.domain.Pageable
 
 @PersistenceAdapter
@@ -28,11 +31,19 @@ class TestPersistenceAdapter(
         status: TestStatus?,
         pageable: Pageable,
     ): Page<TestDomain> {
-        return testCoroutineRepository.findAll(
+        val data = testCoroutineRepository.findAll(
             name = name?.value,
             status = status?.value?.name,
             pageable = pageable,
         ).map(testMapper::mapToDomainEntity)
+            .toList()
+
+        val count = testCoroutineRepository.countAll(
+            name = name?.value,
+            status = status?.value?.name,
+        )
+
+        return PageImpl(data, pageable, count)
     }
 
     override suspend fun create(
