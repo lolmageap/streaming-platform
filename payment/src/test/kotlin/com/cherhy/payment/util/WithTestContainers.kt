@@ -1,15 +1,8 @@
 package com.cherhy.payment.util
 
-import com.cherhy.payment.util.DataSource.Postgres
-import com.cherhy.payment.util.DataSource.Postgres.Command.ADD_OPTION
-import com.cherhy.payment.util.DataSource.Postgres.Command.HOT_STANDBY
-import com.cherhy.payment.util.DataSource.Postgres.Command.MAX_REPLICATION_SLOTS
-import com.cherhy.payment.util.DataSource.Postgres.Command.MAX_WAL_SENDERS
-import com.cherhy.payment.util.DataSource.Postgres.Command.POSTGRES
-import com.cherhy.payment.util.DataSource.Postgres.Command.WAL_LEVEL
-import com.cherhy.payment.util.DataSource.Postgres.Key.DATABASE_SOURCE_PASSWORD
-import com.cherhy.payment.util.DataSource.Postgres.Key.DATABASE_SOURCE_URL
-import com.cherhy.payment.util.DataSource.Postgres.Key.DATABASE_SOURCE_USERNAME
+import com.cherhy.payment.util.DataSource.Mongo
+import com.cherhy.payment.util.DataSource.Postgres.Master
+import com.cherhy.payment.util.DataSource.Postgres.Slave
 import com.cherhy.payment.util.DataSource.Redis
 import com.github.dockerjava.api.model.ExposedPort
 import com.github.dockerjava.api.model.PortBinding
@@ -35,35 +28,59 @@ internal interface WithTestContainers {
         private fun injectProperties(
             registry: DynamicPropertyRegistry,
         ) {
-            registry.add(DATABASE_SOURCE_URL) { postgres.jdbcUrl }
-            registry.add(DATABASE_SOURCE_USERNAME) { postgres.username }
-            registry.add(DATABASE_SOURCE_PASSWORD) { postgres.password }
+            registry.add(Master.Key.DATABASE_SOURCE_URL) { masterPostgres.masterR2dbcUrl }
+            registry.add(Master.Key.DATABASE_SOURCE_USERNAME) { masterPostgres.username }
+            registry.add(Master.Key.DATABASE_SOURCE_PASSWORD) { masterPostgres.password }
+
+            registry.add(Slave.Key.DATABASE_SOURCE_URL) { slavePostgres.slaveR2dbcUrl }
+            registry.add(Slave.Key.DATABASE_SOURCE_USERNAME) { slavePostgres.username }
+            registry.add(Slave.Key.DATABASE_SOURCE_PASSWORD) { slavePostgres.password }
         }
 
-        private val postgres by lazy {
-            PostgreSQLContainer<Nothing>(Postgres.Property.IMAGE).apply {
+        private val masterPostgres by lazy {
+            PostgreSQLContainer<Nothing>(Master.Property.IMAGE).apply {
                 withCreateContainerCmdModifier {
-                    it.withName(Postgres.Property.NAME)
+                    it.withName(Master.Property.NAME)
                         .hostConfig
                         ?.portBindings
                         ?.add(
                             PortBinding(
-                                bindPort(Postgres.Property.BIND_PORT),
-                                ExposedPort(Postgres.Property.PORT),
+                                bindPort(Master.Property.BIND_PORT),
+                                ExposedPort(Master.Property.PORT),
                             )
                         )
                 }
-                withExposedPorts(Postgres.Property.PORT)
-                withDatabaseName(Postgres.Property.DATABASE_NAME)
-                withUsername(Postgres.Property.USERNAME)
-                withPassword(Postgres.Property.PASSWORD)
+                withExposedPorts(Master.Property.PORT)
+                withDatabaseName(Master.Property.DATABASE_NAME)
+                withUsername(Master.Property.USERNAME)
+                withPassword(Master.Property.PASSWORD)
                 withCommand(
-                    POSTGRES,
-                    ADD_OPTION, WAL_LEVEL,
-                    ADD_OPTION, MAX_WAL_SENDERS,
-                    ADD_OPTION, MAX_REPLICATION_SLOTS,
-                    ADD_OPTION, HOT_STANDBY,
+                    Master.Command.POSTGRES,
+                    Master.Command.ADD_OPTION, Master.Command.WAL_LEVEL,
+                    Master.Command.ADD_OPTION, Master.Command.MAX_WAL_SENDERS,
+                    Master.Command.ADD_OPTION, Master.Command.MAX_REPLICATION_SLOTS,
+                    Master.Command.ADD_OPTION, Master.Command.HOT_STANDBY,
                 )
+            }
+        }
+
+        private val slavePostgres by lazy {
+            PostgreSQLContainer<Nothing>(Slave.Property.IMAGE).apply {
+                withCreateContainerCmdModifier {
+                    it.withName(Slave.Property.NAME)
+                        .hostConfig
+                        ?.portBindings
+                        ?.add(
+                            PortBinding(
+                                bindPort(Slave.Property.BIND_PORT),
+                                ExposedPort(Slave.Property.PORT),
+                            )
+                        )
+                }
+                withExposedPorts(Slave.Property.PORT)
+                withDatabaseName(Slave.Property.DATABASE_NAME)
+                withUsername(Slave.Property.USERNAME)
+                withPassword(Slave.Property.PASSWORD)
             }
         }
 
@@ -85,17 +102,42 @@ internal interface WithTestContainers {
             }
         }
 
+        private val mongo by lazy {
+            GenericContainer<Nothing>(Mongo.IMAGE).apply {
+                withCreateContainerCmdModifier {
+                    it.withName(Mongo.NAME)
+                        .hostConfig
+                        ?.portBindings
+                        ?.add(
+                            PortBinding(
+                                bindPort(Mongo.BIND_PORT),
+                                ExposedPort(Mongo.PORT)
+                            )
+                        )
+                }
+
+                withExposedPorts(Mongo.PORT)
+            }
+        }
+
         private fun migrate() {
             Flyway.configure()
                 .dataSource(
-                    postgres.jdbcUrl,
-                    postgres.username,
-                    postgres.password,
+                    masterPostgres.jdbcUrl,
+                    masterPostgres.username,
+                    masterPostgres.password,
                 )
                 .load()
                 .migrate()
         }
 
-        private val activeTestContainers = listOf(postgres, redis)
+        private val activeTestContainers =
+            listOf(masterPostgres, slavePostgres, redis, mongo)
     }
 }
+
+private val PostgreSQLContainer<Nothing>.masterR2dbcUrl
+    get() = "r2dbc:postgresql://${this.host}:${this.getMappedPort(Master.Property.PORT)}/${this.databaseName}"
+
+private val PostgreSQLContainer<Nothing>.slaveR2dbcUrl
+    get() = "r2dbc:postgresql://${this.host}:${this.getMappedPort(Slave.Property.PORT)}/${this.databaseName}"
