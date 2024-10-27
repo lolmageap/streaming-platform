@@ -18,7 +18,7 @@ import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.data.redis.core.StringRedisTemplate
 
 @SpringBootTest
-class CacheTests(
+class Cacheable(
     private val objectMapper: ObjectMapper,
     private val findTestUseCase: FindTestUseCase,
     private val stringRedisTemplate: StringRedisTemplate,
@@ -61,6 +61,34 @@ class CacheTests(
             findTestUseCase.execute(request)
 
             Then("메서드가 실행 되고 결과가 캐시에 저장 되어 반환 된다") {
+                coVerify(exactly = 1) { testRepository.findById(testEntity.id) }
+            }
+        }
+    }
+
+    Given("@CacheEvict이 적용된 메서드가 존재 하고 ") {
+        val testEntity = EntityFactory.generateTestR2dbcEntity(id = 1)
+        val request = FindTestCommand(id = TestId(testEntity.id.toString()))
+
+        When("값이 캐시에 있는 경우 ") {
+            stringRedisTemplate.opsForValue().set("$TEST::${testEntity.id}", objectMapper.writeValueAsString(testEntity), 1.toSeconds())
+            findTestUseCase.execute(request)
+
+            Then("캐시가 삭제 된다") {
+                coVerify(exactly = 0) { testRepository.findById(testEntity.id) }
+            }
+        }
+    }
+
+    Given("@CachePut이 적용된 메서드가 존재 하고 ") {
+        val testEntity = EntityFactory.generateTestR2dbcEntity(id = 1)
+        val request = FindTestCommand(id = TestId(testEntity.id.toString()))
+
+        When("값이 캐시에 있는 경우 ") {
+            stringRedisTemplate.opsForValue().set("$TEST::${testEntity.id}", objectMapper.writeValueAsString(testEntity), 1.toSeconds())
+            findTestUseCase.execute(request)
+
+            Then("캐시가 갱신 된다") {
                 coVerify(exactly = 1) { testRepository.findById(testEntity.id) }
             }
         }

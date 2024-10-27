@@ -11,7 +11,7 @@ import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.data.mongodb.core.MongoTemplate
 
 @SpringBootTest
-class RepositoryConnectionTest(
+class RepositoryConnection(
     private val testRepository: TestCoroutineRepository,
     private val mongoTemplate: MongoTemplate,
 ) : WithTestContainers, BehaviorSpec({
