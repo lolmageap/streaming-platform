@@ -35,7 +35,7 @@ dependencies {
 	implementation("org.slf4j:slf4j-simple:2.0.13")
 	implementation("io.insert-koin:koin-ktor:3.5.6")
 	implementation("org.ktorm:ktorm-core:4.0.0")
-
+	implementation("com.github.lolmageap.ktor-server-extensions:http:0.0.2")
 	implementation("org.litote.kmongo:kmongo-coroutine-core:5.1.0")
 	implementation("org.litote.kmongo:kmongo-coroutine:5.1.0")
 
