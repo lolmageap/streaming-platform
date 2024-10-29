@@ -35,7 +35,7 @@ fun Route.login() {
     }
 
     post(REFRESH) {
-        val userId = call.userId
+        val userId = call.request.headers.userId
         val accessToken = refreshTokenUseCase.execute(userId)
 
         call.response.headers.accessToken = accessToken
