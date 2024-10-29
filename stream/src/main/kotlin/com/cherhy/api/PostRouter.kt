@@ -10,10 +10,11 @@ import com.cherhy.usecase.CreatePostUseCase
 import com.cherhy.usecase.DeletePostUseCase
 import com.cherhy.usecase.GetPostUseCase
 import com.cherhy.usecase.UpdatePostUseCase
-import com.cherhy.util.extension.getQueryParams
 import com.cherhy.util.extension.getVideo
-import com.cherhy.util.extension.pathVariable
 import com.cherhy.util.extension.userId
+import com.cherhy.util.postId
+import extension.ktor.getQueryParams
+import extension.ktor.pathVariable
 import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.request.*

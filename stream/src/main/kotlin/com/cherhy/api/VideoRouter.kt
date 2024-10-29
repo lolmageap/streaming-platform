@@ -4,9 +4,11 @@ import com.cherhy.common.util.Stream.Video.GET_VIDEO
 import com.cherhy.usecase.GetVideoUseCase
 import com.cherhy.util.ContentRangeGenerator
 import com.cherhy.util.extension.lastWatchedCheckpoint
-import com.cherhy.util.extension.pathVariable
 import com.cherhy.util.extension.userId
+import com.cherhy.util.postId
+import com.cherhy.util.videoId
 import com.google.common.net.HttpHeaders.CONTENT_RANGE
+import extension.ktor.pathVariable
 import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.response.*
