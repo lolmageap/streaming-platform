@@ -4,7 +4,7 @@ import org.springframework.data.redis.core.StringRedisTemplate
 
 fun StringRedisTemplate.get(
     key: String,
-): String = opsForValue().get(key)!!
+) = opsForValue().get(key)!!
 
 fun StringRedisTemplate.set(
     key: String,
