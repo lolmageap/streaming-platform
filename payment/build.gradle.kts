@@ -12,6 +12,7 @@ val coroutineVersion = "1.6.4"
 
 dependencies {
     implementation(project(":common"))
+    implementation(project(":producer"))
 
     implementation("org.aspectj:aspectjweaver:1.9.22.1")
     implementation("com.github.ulisesbocchio:jasypt-spring-boot-starter:3.0.5")
