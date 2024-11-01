@@ -24,8 +24,8 @@ dependencies {
     implementation("ch.qos.logback:logback-classic:1.5.6")
     implementation("io.insert-koin:koin-ktor:3.5.6")
     implementation("com.zaxxer:HikariCP:5.1.0")
-    implementation("com.github.lolmageap.ktor-server-extensions:scheduler:0.0.2")
-    implementation("com.github.lolmageap.ktor-server-extensions:exposed-shedlock:0.0.2")
+    implementation("com.github.lolmageap.ktor-server-extension:scheduler:1.0.0")
+    implementation("com.github.lolmageap.ktor-server-extension:exposed-shedlock:1.0.0")
     testImplementation("io.ktor:ktor-server-test-host-jvm")
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit")
 }
