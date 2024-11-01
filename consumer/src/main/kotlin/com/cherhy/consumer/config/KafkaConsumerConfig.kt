@@ -1,8 +1,8 @@
 package com.cherhy.consumer.config
 
-import com.cherhy.consumer.config.KafkaConstant.BOOTSTRAP_SERVERS
-import com.cherhy.consumer.config.KafkaConstant.EARLIEST
-import com.cherhy.consumer.config.KafkaConstant.GROUP_ID
+import com.cherhy.common.util.KafkaConstant.BOOTSTRAP_SERVERS
+import com.cherhy.common.util.KafkaConstant.Consumer.DEFAULT_GROUP_ID
+import com.cherhy.common.util.KafkaConstant.Consumer.EARLIEST
 import org.apache.kafka.clients.consumer.ConsumerConfig
 import org.apache.kafka.common.serialization.StringDeserializer
 import org.springframework.context.annotation.Bean
@@ -22,7 +22,7 @@ class KafkaConsumerConfig {
         DefaultKafkaConsumerFactory(
             mapOf(
                 ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG to BOOTSTRAP_SERVERS,
-                ConsumerConfig.GROUP_ID_CONFIG to GROUP_ID,
+                ConsumerConfig.GROUP_ID_CONFIG to DEFAULT_GROUP_ID,
                 ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG to StringDeserializer::class.java.name,
                 ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG to StringDeserializer::class.java.name,
                 ConsumerConfig.AUTO_OFFSET_RESET_CONFIG to EARLIEST,

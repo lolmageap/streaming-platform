@@ -1,8 +1,8 @@
 package com.cherhy.producer.config
 
-import com.cherhy.producer.config.KafkaConstant.ALL
-import com.cherhy.producer.config.KafkaConstant.BOOTSTRAP_SERVERS
-import com.cherhy.producer.config.KafkaConstant.RETRIES
+import com.cherhy.common.util.KafkaConstant.BOOTSTRAP_SERVERS
+import com.cherhy.common.util.KafkaConstant.Producer.ALL
+import com.cherhy.common.util.KafkaConstant.Producer.RETRIES
 import org.apache.kafka.clients.producer.ProducerConfig.*
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration

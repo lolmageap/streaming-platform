@@ -5,10 +5,6 @@ plugins {
     kotlin("plugin.spring") version "2.0.0"
 }
 
-dependencies {
-
-}
-
 java {
     sourceCompatibility = JavaVersion.VERSION_21
 }

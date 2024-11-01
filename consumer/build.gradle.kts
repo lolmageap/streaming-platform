@@ -8,6 +8,7 @@ plugins {
 val coroutineVersion = "1.6.4"
 
 dependencies {
+    implementation(project(":common"))
     implementation("org.springframework.kafka:spring-kafka:3.2.3")
 }
 

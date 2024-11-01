@@ -1,7 +1,7 @@
 package com.cherhy.payment.config
 
+import com.cherhy.common.util.KafkaConstant.Topic.TEST_TOPIC
 import com.cherhy.payment.util.model.PaymentEvent
-import com.cherhy.producer.config.KafkaConstant.TEST_TOPIC
 import com.fasterxml.jackson.databind.ObjectMapper
 import mu.KotlinLogging
 import org.springframework.kafka.core.KafkaTemplate
