@@ -38,3 +38,8 @@ out/
 
 ### Kotlin ###
 .kotlin
+
+### Axon ###
+axon-server-se/config/
+axon-server-se/data/
+axon-server-se/events/
