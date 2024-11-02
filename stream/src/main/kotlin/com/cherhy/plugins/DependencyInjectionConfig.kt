@@ -8,7 +8,9 @@ import com.cherhy.service.*
 import com.cherhy.usecase.*
 import com.cherhy.util.constant.MongoConst.MONGO_DATABASE
 import com.cherhy.util.constant.MongoConst.MONGO_URL
+import com.typesafe.config.ConfigFactory
 import io.ktor.server.application.*
+import io.ktor.server.config.*
 import org.koin.dsl.module
 import org.koin.ktor.plugin.Koin
 import org.litote.kmongo.coroutine.CoroutineClient
@@ -16,8 +18,8 @@ import org.litote.kmongo.coroutine.coroutine
 import org.litote.kmongo.reactivestreams.KMongo
 
 fun Application.configureDependencyInjection() {
-    val mongoUrl = environment.config.property(MONGO_URL).getString()
-    val mongoDatabase = environment.config.property(MONGO_DATABASE).getString()
+    val mongoUrl = HoconApplicationConfig(ConfigFactory.load()).property(MONGO_URL).getString()
+    val mongoDatabase = HoconApplicationConfig(ConfigFactory.load()).property(MONGO_DATABASE).getString()
 
     install(Koin) {
         modules(
