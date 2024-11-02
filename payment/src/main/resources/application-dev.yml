@@ -1,10 +1,12 @@
+#file: noinspection SpringBootApplicationYaml
 server:
   port: 10101
 spring:
   application:
     name: payment
-  profiles:
-      active: dev
+  config:
+    activate:
+      on-profile: dev
   cache:
     redis:
       time-to-live: 60000
@@ -14,22 +16,22 @@ spring:
       pageable:
         one-indexed-parameters: true
     redis:
-      host: localhost
-      port: 16379
+      host: host.docker.internal
+      port: 6379
   threads:
     virtual:
       enabled: true
 r2dbc:
   master:
-    driver-class-name: io.r2dbc.postgresql.PostgresqlConnectionConfiguration
-    url: r2dbc:pool:postgresql://host.docker.internal:5432/cherhy
+    driver-class-name: org.postgresql.Driver
+    url: r2dbc:postgresql://host.docker.internal:5432/cherhy
     username: postgres
-    password: 1234
+    password: postgres
   slave:
-    driver-class-name: io.r2dbc.postgresql.PostgresqlConnectionConfiguration
-    url: r2dbc:pool:postgresql://host.docker.internal:5432/cherhy
+    driver-class-name: org.postgresql.Driver
+    url: r2dbc:postgresql://host.docker.internal:5432/cherhy
     username: postgres
-    password: 1234
+    password: postgres
 
 axon:
   serializer:

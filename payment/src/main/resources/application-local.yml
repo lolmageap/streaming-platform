@@ -1,0 +1,43 @@
+#file: noinspection SpringBootApplicationYaml
+server:
+  port: 10101
+spring:
+  application:
+    name: payment
+  config:
+    activate:
+      on-profile: local
+  cache:
+    redis:
+      time-to-live: 60000
+      key-prefix: payment
+  data:
+    web:
+      pageable:
+        one-indexed-parameters: true
+    redis:
+      host: localhost
+      port: 6379
+  threads:
+    virtual:
+      enabled: true
+r2dbc:
+  master:
+    driver-class-name: org.postgresql.Driver
+    url: r2dbc:pool:postgresql://localhost:5432/cherhy
+    username: postgres
+    password: postgres
+  slave:
+    driver-class-name: org.postgresql.Driver
+    url: r2dbc:pool:postgresql://localhost:5432/cherhy
+    username: postgres
+    password: postgres
+
+axon:
+  serializer:
+    general: xstream
+  axonserver:
+    servers: localhost:8124
+jasypt:
+  encryptor:
+    bean: jasyptStringEncryptor
