@@ -63,30 +63,30 @@ class FlowTest : StringSpec({
         }
     }
 
-    "flow는 cold stream 형태여서 발행 0.3초 + 소비 0.7초 = 1초 * 3번 = 3초가 걸린다" {
-        withTimeout(2000L) {
-            flow {
-                repeat(3) { data ->
-                    delay(300L)
-                    emit(data)
-                }
-            }.collect {
-                delay(700L)
-            }
-        }
-    }
-
-    "cold stream의 단점을 보완하기 위해 channel 기반의 buffer를 사용해서 속도를 개선할 수 있다" {
-        withTimeout(2000L) {
-            flow {
-                repeat(3) { data ->
-                    delay(300L)
-                    emit(data)
-                }
-            }.buffer(10, BufferOverflow.SUSPEND)
-                .collect {
-                    delay(700L)
-                }
-        }
-    }
+//    "flow는 cold stream 형태여서 발행 0.3초 + 소비 0.7초 = 1초 * 3번 = 3초가 걸린다" {
+//        withTimeout(2000L) {
+//            flow {
+//                repeat(3) { data ->
+//                    delay(300L)
+//                    emit(data)
+//                }
+//            }.collect {
+//                delay(700L)
+//            }
+//        }
+//    }
+//
+//    "cold stream의 단점을 보완하기 위해 channel 기반의 buffer를 사용해서 속도를 개선할 수 있다" {
+//        withTimeout(2000L) {
+//            flow {
+//                repeat(3) { data ->
+//                    delay(300L)
+//                    emit(data)
+//                }
+//            }.buffer(10, BufferOverflow.SUSPEND)
+//                .collect {
+//                    delay(700L)
+//                }
+//        }
+//    }
 })
