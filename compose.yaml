@@ -1,19 +1,36 @@
-version: '3.1'
-
 services:
-  postgres-container:
+  postgres-master-container:
     image: postgres:latest
-    container_name: cherhy-postgres
-    command: --default-authentication-plugin=postgres_native_password
+    container_name: postgres-master-container
     restart: always
     environment:
-      postgres_DATABASE: cherhy
-      postgres_ROOT_PASSWORD: 1234
-    labels:
-      - "name=postgres"
-      - "mode=standalone"
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
     ports:
-      - "5454:5432"
+      - "5432:5432"
+    volumes:
+      - master-data:/var/lib/postgresql/data
+      - ./init-db.sh:/docker-entrypoint-initdb.d/init-db.sh
+    command: >
+      postgres -c wal_level=replica -c max_wal_senders=3 -c wal_keep_size=64MB -c hot_standby=on
+
+  postgres-slave-container:
+    image: postgres:latest
+    container_name: postgres-slave-container
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_MASTER_SERVICE_HOST: cherhy-postgres-master
+      POSTGRES_MASTER_SERVICE_PORT: 5432
+    ports:
+      - "5433:5432"
+    depends_on:
+      - postgres-master-container
+    volumes:
+      - slave-data:/var/lib/postgresql/data
+    command: >
+      postgres -c hot_standby=on
 
   redis-container:
     image: redis:latest
@@ -91,7 +108,6 @@ services:
       - ./kafka-connect-plugins:/etc/kafka-connect/jars
     depends_on:
       - kafka
-      - elasticsearch
     command:
       - bash
       - -c
@@ -127,7 +143,8 @@ services:
     ports:
       - "10101:8080"
     depends_on:
-      - postgres-container
+      - postgres-master-container
+      - postgres-slave-container
       - redis-container
       - axon-server
       - gateway
@@ -139,8 +156,11 @@ services:
       dockerfile: Dockerfile
     ports:
       - "10102:8080"
+    environment:
+      - PORT=10102
     depends_on:
-      - postgres-container
+      - postgres-master-container
+      - postgres-slave-container
       - redis-container
       - axon-server
       - gateway
@@ -153,7 +173,8 @@ services:
     ports:
       - "10103:8080"
     depends_on:
-      - postgres-container
+      - postgres-master-container
+      - postgres-slave-container
       - redis-container
       - axon-server
       - gateway
@@ -166,7 +187,8 @@ services:
     ports:
         - "10104:8080"
     depends_on:
-        - postgres-container
+        - postgres-master-container
+        - postgres-slave-container
         - redis-container
         - axon-server
         - gateway
@@ -190,6 +212,8 @@ volumes:
       o: bind
       type: none
       device: ${PWD}/axon-server-se/config
+  master-data:
+  slave-data:
 
 networks:
   cherhy-network:
