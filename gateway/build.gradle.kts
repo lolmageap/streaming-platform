@@ -2,12 +2,15 @@ plugins {
     id("org.springframework.boot") version "3.2.5"
     id("io.spring.dependency-management") version "1.1.4"
     kotlin("jvm") version "2.0.0"
-    kotlin("plugin.spring") version "2.0.0"
 }
 
 val coroutineVersion = "1.6.4"
 
 dependencies {
+    apply(plugin = "kotlin-spring")
+    apply(plugin = "org.jetbrains.kotlin.plugin.spring")
+    apply(plugin = "io.spring.dependency-management")
+
     implementation(project(":common"))
 
     implementation("org.springframework.cloud:spring-cloud-starter-gateway:4.1.4")
@@ -26,12 +29,23 @@ dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactor:$coroutineVersion")
     implementation("com.nimbusds:nimbus-jose-jwt:9.13")
 
+    developmentOnly("org.springframework.boot:spring-boot-docker-compose")
+
+    testImplementation("io.kotest.extensions:kotest-extensions-spring:1.1.3")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit5")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 }
 
-
 java {
     sourceCompatibility = JavaVersion.VERSION_21
+}
+
+tasks.bootJar {
+    enabled = false
+}
+
+tasks.jar {
+    enabled = true
+    archiveFileName.set("${project.name}.jar")
 }

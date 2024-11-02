@@ -1,6 +1,7 @@
 plugins {
 	kotlin("jvm") version "2.0.0"
 	id("io.ktor.plugin") version "2.3.11"
+	id("com.github.johnrengelman.shadow") version "8.1.1"
 }
 
 application {
@@ -44,4 +45,19 @@ dependencies {
 
 java {
 	sourceCompatibility = JavaVersion.VERSION_21
+}
+
+tasks.shadowJar {
+	enabled = true
+	archiveFileName.set("${project.name}.jar")
+
+	manifest {
+		attributes(
+			"Main-Class" to "io.ktor.server.netty.EngineMain"
+		)
+	}
+}
+
+tasks.jar {
+	enabled = false
 }

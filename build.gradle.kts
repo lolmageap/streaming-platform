@@ -3,10 +3,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import org.jetbrains.kotlin.gradle.tasks.KotlinJvmCompile
 
 plugins {
-    id("org.springframework.boot") version "3.2.5"
-    id("io.spring.dependency-management") version "1.1.4"
     kotlin("jvm") version "2.0.0"
-    kotlin("plugin.spring") version "2.0.0"
     kotlin("plugin.allopen") version "2.0.0"
     kotlin("plugin.noarg") version "2.0.0"
 }
@@ -26,8 +23,6 @@ allprojects {
 
 subprojects {
     apply(plugin = "kotlin")
-    apply(plugin = "kotlin-spring")
-    apply(plugin = "io.spring.dependency-management")
 
     dependencies {
         implementation("io.github.microutils:kotlin-logging:3.0.5")
@@ -35,14 +30,7 @@ subprojects {
         testRuntimeOnly("org.junit.platform:junit-platform-launcher")
         testImplementation("io.kotest:kotest-runner-junit5:5.7.2")
         testImplementation("io.kotest:kotest-assertions-core:5.7.2")
-        testImplementation("io.kotest.extensions:kotest-extensions-spring:1.1.3")
         testImplementation("io.kotest.extensions:kotest-extensions-testcontainers:2.0.2")
-    }
-
-    dependencyManagement {
-        imports {
-            mavenBom("org.springframework.cloud:spring-cloud-dependencies:2022.0.3")
-        }
     }
 
     tasks.withType<KotlinJvmCompile>()
@@ -64,5 +52,9 @@ subprojects {
 
     tasks.withType<Test> {
         useJUnitPlatform()
+    }
+
+    tasks.jar {
+        enabled = true
     }
 }
