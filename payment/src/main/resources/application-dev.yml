@@ -24,12 +24,12 @@ spring:
 r2dbc:
   master:
     driver-class-name: org.postgresql.Driver
-    url: r2dbc:postgresql://host.docker.internal:5432/cherhy
+    url: r2dbc:postgresql://host.docker.internal:5432/payment
     username: postgres
     password: postgres
   slave:
     driver-class-name: org.postgresql.Driver
-    url: r2dbc:postgresql://host.docker.internal:5432/cherhy
+    url: r2dbc:postgresql://host.docker.internal:5433/payment
     username: postgres
     password: postgres
 
