@@ -19,11 +19,6 @@ class SecurityConfig(
     private val jwtAuthenticationGlobalFilter: JwtAuthenticationGlobalFilter,
 ) {
     @Bean
-    fun serverHttpSecurity(): ServerHttpSecurity {
-        return ServerHttpSecurity.http()
-    }
-
-    @Bean
     fun passwordEncoder(): BCryptPasswordEncoder {
         return BCryptPasswordEncoder()
     }
