@@ -27,8 +27,8 @@ dependencies {
     implementation("com.zaxxer:HikariCP:5.1.0")
     implementation("com.cronutils:cron-utils:9.2.1")
 
-//    implementation("com.github.lolmageap.ktor-server-extension:scheduler:0.0.1")
-//    implementation("com.github.lolmageap.ktor-server-extension:exposed-shedlock:1.0.0")
+    implementation("com.github.lolmageap.ktor-server-extension:scheduler:1.0.1")
+    implementation("com.github.lolmageap.ktor-server-extension:exposed-shedlock:1.0.1")
 
     testImplementation("io.ktor:ktor-server-test-host-jvm:2.3.11")
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit")
