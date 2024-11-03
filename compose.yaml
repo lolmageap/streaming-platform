@@ -9,10 +9,10 @@ services:
     ports:
       - "5432:5432"
     volumes:
-      - master-data:/var/lib/postgresql/data
-      - ./init-db.sh:/docker-entrypoint-initdb.d/init-db.sh
-    command: >
-      postgres -c wal_level=replica -c max_wal_senders=3 -c wal_keep_size=64MB -c hot_standby=on
+      - ./third-party/postgres/init.sql:/docker-entrypoint-initdb.d/init.sql
+      - ./third-party/postgres/master-data:/var/lib/postgresql/data
+      - ./third-party/postgres/pg_hba.conf:/var/lib/postgresql/config/pg_hba.conf
+    command: ["postgres", "-c", "hba_file=/var/lib/postgresql/data/pg_hba.conf", "-c", "wal_level=replica", "-c", "max_wal_senders=3", "-c", "wal_keep_size=64MB", "-c", "hot_standby=on"]
 
   postgres-slave-container:
     image: postgres:latest
@@ -21,16 +21,17 @@ services:
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
-      POSTGRES_MASTER_SERVICE_HOST: cherhy-postgres-master
+      POSTGRES_HOST_AUTH_METHOD: trust
+      POSTGRES_MASTER_SERVICE_HOST: cherhy-master-postgres
       POSTGRES_MASTER_SERVICE_PORT: 5432
     ports:
       - "5433:5432"
     depends_on:
       - postgres-master-container
     volumes:
-      - slave-data:/var/lib/postgresql/data
-    command: >
-      postgres -c hot_standby=on
+      - ./third-party/postgres/slave-data:/var/lib/postgresql/data
+      - ./third-party/postgres/pg_hba.conf:/var/lib/postgresql/config/pg_hba.conf
+    command: ["postgres", "-c", "hba_file=/var/lib/postgresql/data/pg_hba.conf", "-c", "hot_standby=on"]
 
   mongo-container:
     image: mongo:latest
@@ -101,9 +102,9 @@ services:
     ports:
       - "8124:8124"
     volumes:
-      - axonserver-data:/axonserver/data
-      - axonserver-events:/axonserver/events
-      - axonserver-config:/axonserver/config:ro
+      - ./axon-server-se/config:/axon-server/config
+      - ./axon-server-se/data:/axon-server/data
+      - ./axon-server-se/events:/axon-server/events
 
   gateway:
     container_name: gateway
@@ -181,19 +182,19 @@ volumes:
     driver_opts:
       o: bind
       type: none
-      device: ${PWD}/axon-server-se/data
+      device: ./axon-server-se/data
   axonserver-events:
     driver: local
     driver_opts:
       o: bind
       type: none
-      device: ${PWD}/axon-server-se/events
+      device: ./axon-server-se/events
   axonserver-config:
     driver: local
     driver_opts:
       o: bind
       type: none
-      device: ${PWD}/axon-server-se/config
+      device: ./axon-server-se/config
   master-data:
   slave-data:
 
