@@ -93,37 +93,6 @@ services:
       - KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS=kafka:29092
       - KAFKA_CLUSTERS_0_ZOOKEEPER=zookeeper:2181
 
-  kafka-connect:
-    image: 'confluentinc/cp-kafka-connect:latest'
-    ports:
-      - "8083:8083"
-    environment:
-      CONNECT_BOOTSTRAP_SERVERS: kafka:9092
-      CONNECT_REST_ADVERTISED_HOST_NAME: kafka-connect
-      CONNECT_GROUP_ID: "quickstart-avro"
-      CONNECT_CONFIG_STORAGE_TOPIC: "docker-connect-configs"
-      CONNECT_OFFSET_STORAGE_TOPIC: "docker-connect-offsets"
-      CONNECT_STATUS_STORAGE_TOPIC: "docker-connect-status"
-      CONNECT_KEY_CONVERTER: "org.apache.kafka.connect.storage.StringConverter"
-      CONNECT_VALUE_CONVERTER: "org.apache.kafka.connect.storage.StringConverter"
-      CONNECT_INTERNAL_KEY_CONVERTER: "org.apache.kafka.connect.json.JsonConverter"
-      CONNECT_INTERNAL_VALUE_CONVERTER: "org.apache.kafka.connect.json.JsonConverter"
-      CONNECT_CONFIG_STORAGE_REPLICATION_FACTOR: 1
-      CONNECT_OFFSET_STORAGE_REPLICATION_FACTOR: 1
-      CONNECT_STATUS_STORAGE_REPLICATION_FACTOR: 1
-      CONNECT_LOG4J_ROOT_LOGLEVEL: INFO
-      CONNECT_PLUGIN_PATH: "/usr/share/java,/etc/kafka-connect/jars"
-    volumes:
-      - ./third-party/kafka-connect-plugins:/etc/kafka-connect/jars
-    depends_on:
-      - kafka
-    command:
-      - bash
-      - -c
-      - |
-        confluent-hub install --no-prompt confluentinc/kafka-connect-elasticsearch:11.0.4 && \
-        /etc/confluent/docker/run
-
   axon-server:
     container_name: axon-server
     image: axoniq/axonserver:4.6.3-jdk-11-dev
@@ -212,19 +181,19 @@ volumes:
     driver_opts:
       o: bind
       type: none
-      device: ${PWD}/third-party/axon-server-se/data
+      device: ${PWD}/axon-server-se/data
   axonserver-events:
     driver: local
     driver_opts:
       o: bind
       type: none
-      device: ${PWD}/third-party/axon-server-se/events
+      device: ${PWD}/axon-server-se/events
   axonserver-config:
     driver: local
     driver_opts:
       o: bind
       type: none
-      device: ${PWD}/third-party/axon-server-se/config
+      device: ${PWD}/axon-server-se/config
   master-data:
   slave-data:
 
