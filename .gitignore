@@ -45,6 +45,8 @@ axon-server-se/data/
 axon-server-se/events/
 
 ### Third Party ###
+third-party/postgres/master-data/
+third-party/postgres/slave-data/
 third-party/redis/data/
 third-party/mongo/data/
 third-party/kafka-connect-plugins/
