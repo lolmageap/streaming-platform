@@ -40,6 +40,9 @@ out/
 .kotlin
 
 ### Axon ###
-axon-server-se/config/
-axon-server-se/data/
-axon-server-se/events/
+third-party/axon-server-se/config/
+third-party/axon-server-se/data/
+third-party/axon-server-se/events/
+third-party/redis/data/
+third-party/mongo/data/
+third-party/kafka-connect-plugins/
