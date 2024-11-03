@@ -42,10 +42,10 @@ java {
 }
 
 tasks.bootJar {
-    enabled = false
+    enabled = true
+    archiveFileName.set("${project.name}.jar")
 }
 
 tasks.jar {
-    enabled = true
-    archiveFileName.set("${project.name}.jar")
+    enabled = false
 }

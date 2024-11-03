@@ -63,28 +63,27 @@ dependencies {
     testImplementation("com.ninja-squad:springmockk:4.0.2")
 }
 
-//docker {
-//    // TODO : 나 이제 BootJar 안씀 -> 아래 코드 수정 해야함 -> 근데 지금
-//    val jarTask = tasks.getByName("bootJar") as BootJar
-//    val jarFile = jarTask.archiveFile.get().asFile
-//    val jarFileName = "build/libs/${jarFile.name}"
-//    val argument = mapOf("JAR_FILE" to jarFileName)
-//
-//    name = "${rootProject.name}-${project.name}:${version}"
-//    docker.setDockerfile(file("../Dockerfile"))
-//    files(jarFile)
-//    buildArgs(argument)
-//}
+docker {
+    val jarTask = tasks.getByName("bootJar") as BootJar
+    val jarFile = jarTask.archiveFile.get().asFile
+    val jarFileName = "build/libs/${jarFile.name}"
+    val argument = mapOf("JAR_FILE" to jarFileName)
+
+    name = "${rootProject.name}-${project.name}:${version}"
+    docker.setDockerfile(file("../Dockerfile"))
+    files(jarFile)
+    buildArgs(argument)
+}
 
 java {
     sourceCompatibility = JavaVersion.VERSION_21
 }
 
 tasks.bootJar {
-    enabled = false
+    enabled = true
+    archiveFileName.set("${project.name}.jar")
 }
 
 tasks.jar {
-    enabled = true
-    archiveFileName.set("${project.name}.jar")
+    enabled = false
 }
