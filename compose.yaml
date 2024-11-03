@@ -1,7 +1,7 @@
 services:
   postgres-master-container:
     image: postgres:latest
-    container_name: postgres-master-container
+    container_name: cherhy-master-postgres
     restart: always
     environment:
       POSTGRES_USER: postgres
@@ -16,7 +16,7 @@ services:
 
   postgres-slave-container:
     image: postgres:latest
-    container_name: postgres-slave-container
+    container_name: cherhy-slave-postgres
     restart: always
     environment:
       POSTGRES_USER: postgres
@@ -32,14 +32,23 @@ services:
     command: >
       postgres -c hot_standby=on
 
+  mongo-container:
+    image: mongo:latest
+    container_name: cherhy-mongo
+    ports:
+      - "27017:27017"
+    volumes:
+      - ./third-party/mongo/data:/data/db
+    restart: always
+
   redis-container:
     image: redis:latest
     container_name: cherhy-redis
     ports:
       - "6379:6379"
     volumes:
-      - ./redis/data:/data
-      - ./redis/conf/redis.conf:/usr/local/conf/redis.conf
+      - ./third-party/redis/data:/data
+      - ./third-party/redis/conf/redis.conf:/usr/local/conf/redis.conf
     labels:
       - "name=redis"
       - "mode=standalone"
@@ -105,7 +114,7 @@ services:
       CONNECT_LOG4J_ROOT_LOGLEVEL: INFO
       CONNECT_PLUGIN_PATH: "/usr/share/java,/etc/kafka-connect/jars"
     volumes:
-      - ./kafka-connect-plugins:/etc/kafka-connect/jars
+      - ./third-party/kafka-connect-plugins:/etc/kafka-connect/jars
     depends_on:
       - kafka
     command:
@@ -145,6 +154,7 @@ services:
     depends_on:
       - postgres-master-container
       - postgres-slave-container
+      - mongo-container
       - redis-container
       - axon-server
       - gateway
@@ -161,6 +171,7 @@ services:
     depends_on:
       - postgres-master-container
       - postgres-slave-container
+      - mongo-container
       - redis-container
       - axon-server
       - gateway
@@ -175,6 +186,7 @@ services:
     depends_on:
       - postgres-master-container
       - postgres-slave-container
+      - mongo-container
       - redis-container
       - axon-server
       - gateway
@@ -189,6 +201,7 @@ services:
     depends_on:
         - postgres-master-container
         - postgres-slave-container
+        - mongo-container
         - redis-container
         - axon-server
         - gateway
@@ -199,19 +212,19 @@ volumes:
     driver_opts:
       o: bind
       type: none
-      device: ${PWD}/axon-server-se/data
+      device: ${PWD}/third-party/axon-server-se/data
   axonserver-events:
     driver: local
     driver_opts:
       o: bind
       type: none
-      device: ${PWD}/axon-server-se/events
+      device: ${PWD}/third-party/axon-server-se/events
   axonserver-config:
     driver: local
     driver_opts:
       o: bind
       type: none
-      device: ${PWD}/axon-server-se/config
+      device: ${PWD}/third-party/axon-server-se/config
   master-data:
   slave-data:
 
