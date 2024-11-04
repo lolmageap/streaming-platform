@@ -27,6 +27,9 @@ dependencies {
     implementation("com.zaxxer:HikariCP:5.1.0")
     implementation("com.cronutils:cron-utils:9.2.1")
 
+    implementation("io.ktor:ktor-client-cio-jvm:2.3.11")
+    implementation("io.ktor:ktor-server-cio-jvm:2.3.11")
+
     implementation("com.github.lolmageap.ktor-server-extension:scheduler:1.0.1")
     implementation("com.github.lolmageap.ktor-server-extension:exposed-shedlock:1.0.1")
 
