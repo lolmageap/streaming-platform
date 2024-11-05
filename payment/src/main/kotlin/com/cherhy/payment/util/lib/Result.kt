@@ -7,7 +7,7 @@ fun <T> Result<T>.onFailAction(
     else if (isSuccess) getOrThrow()
     else throw IllegalStateException("Result is not success or failure")
 
-fun <T> Result<T>.finally(
+fun <T> Result<T>.always(
     block: () -> Unit,
 ): T {
     block()
