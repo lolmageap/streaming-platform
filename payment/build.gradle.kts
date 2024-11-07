@@ -50,8 +50,8 @@ dependencies {
     developmentOnly("org.springframework.boot:spring-boot-docker-compose")
 
     testImplementation("org.testcontainers:postgresql")
-    testImplementation("com.github.lolmageap:kmsl:1.0.0")
-    testImplementation("org.springframework.boot:spring-boot-starter-data-mongodb:3.3.4")
+//    testImplementation("com.github.lolmageap:kmsl:1.0.0")
+    testImplementation("org.springframework.boot:spring-boot-starter-data-mongodb:3.3.1")
     testImplementation("io.projectreactor:reactor-test")
     testImplementation("org.testcontainers:r2dbc")
     testImplementation("org.testcontainers:junit-jupiter")
