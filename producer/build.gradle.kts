@@ -1,18 +1,15 @@
 plugins {
-    id("org.springframework.boot") version "3.2.5"
-    id("io.spring.dependency-management") version "1.1.4"
-    kotlin("jvm") version "2.0.0"
+    kotlin(Plugins.JVM) version PluginVersions.KOTLIN_VERSION
+    id(Plugins.SPRING_BOOT) version PluginVersions.SPRING_BOOT_VERSION
+    id(Plugins.DEPENDENCY_MANAGEMENT) version PluginVersions.DEPENDENCY_MANAGEMENT_VERSION
 }
 
-val coroutineVersion = "1.6.4"
-
 dependencies {
-    apply(plugin = "kotlin-spring")
-    apply(plugin = "org.jetbrains.kotlin.plugin.spring")
-    apply(plugin = "io.spring.dependency-management")
+    apply(plugin = Plugins.KOTLIN_SPRING)
+    apply(plugin = Plugins.DEPENDENCY_MANAGEMENT)
 
-    implementation(project(":common"))
-    implementation("org.springframework.kafka:spring-kafka:3.2.3")
+    implementation(project(UtilityModules.COMMON))
+    implementation(Dependencies.Kafka.SPRING_KAFKA)
 }
 
 java {

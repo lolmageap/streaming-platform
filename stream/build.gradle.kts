@@ -1,7 +1,7 @@
 plugins {
-	kotlin("jvm") version "2.0.0"
-	id("io.ktor.plugin") version "2.3.11"
-	id("com.github.johnrengelman.shadow") version "8.1.1"
+	kotlin(Plugins.JVM) version PluginVersions.KOTLIN_VERSION
+	id(Plugins.KTOR_PLUGIN) version PluginVersions.KTOR_PLUGIN_VERSION
+	id(Plugins.SHADOW_JAR) version PluginVersions.SHADOW_JAR_VERSION
 }
 
 application {
@@ -12,35 +12,36 @@ application {
 }
 
 dependencies {
-	implementation(project(":common"))
+	implementation(project(UtilityModules.COMMON))
 
-	implementation("io.ktor:ktor-server-core-jvm")
-	implementation("io.ktor:ktor-serialization-kotlinx-json-jvm")
-	implementation("io.ktor:ktor-server-config-yaml")
-	implementation("io.ktor:ktor-serialization-jackson-jvm")
-	implementation("io.ktor:ktor-server-call-logging-jvm")
-	implementation("org.apache.kafka:kafka-clients:3.8.0")
-	implementation("io.ktor:ktor-server-swagger-jvm")
-	implementation("io.ktor:ktor-server-netty-jvm")
-	implementation("io.ktor:ktor-server-websockets-jvm:2.3.2")
-	implementation("io.ktor:ktor-server-status-pages")
-	implementation("io.ktor:ktor-server-partial-content:2.3.11")
-	implementation("io.github.microutils:kotlin-logging:3.0.5")
-	implementation("io.lettuce:lettuce-core:6.4.0.RELEASE")
+	implementation(Dependencies.Ktor.KTOR_SERVER_CORE_JVM)
+	implementation(Dependencies.Ktor.KTOR_SERVER_NETTY_JVM)
+	implementation(Dependencies.Ktor.KTOR_SERIALIZATION_KOTLINX_JSON_JVM)
+	implementation(Dependencies.Ktor.KTOR_SERVER_CONFIG_YAML)
+	implementation(Dependencies.Ktor.KTOR_SERIALIZATION_JACKSON_JVM)
+	implementation(Dependencies.Ktor.KTOR_SERVER_CALL_LOGGING_JVM)
+	implementation(Dependencies.Ktor.KTOR_SERVER_SWAGGER_JVM)
+	implementation(Dependencies.Ktor.KTOR_SERVER_WEBSOCKETS_JVM)
+	implementation(Dependencies.Ktor.KTOR_SERVER_STATUS_PAGES)
+	implementation(Dependencies.Ktor.KTOR_SERVER_PARTIAL_CONTENT)
 
-	implementation("io.minio:minio:8.5.10")
-	implementation("org.postgresql:postgresql:42.7.3")
-	implementation("com.zaxxer:HikariCP:5.1.0")
-	implementation("io.ktor:ktor-server-websockets")
+	implementation(Dependencies.Database.POSTGRESQL)
+	implementation(Dependencies.Logging.LOGBACK_CLASSIC)
 
-	implementation("org.slf4j:slf4j-simple:2.0.13")
-	implementation("io.insert-koin:koin-ktor:3.5.6")
-	implementation("org.ktorm:ktorm-core:4.0.0")
-	implementation("org.litote.kmongo:kmongo-coroutine-core:5.1.0")
-	implementation("org.litote.kmongo:kmongo-coroutine:5.1.0")
+	implementation(Dependencies.Other.MINIO)
+	implementation(Dependencies.Redis.LETTUCE_CORE)
 
-	testImplementation("io.ktor:ktor-server-tests-jvm")
-	testImplementation("org.jetbrains.kotlin:kotlin-test-junit")
+	implementation(Dependencies.Kafka.KAFKA_CLIENTS)
+	implementation(Dependencies.Database.HIKARI_CP)
+
+	implementation(Dependencies.Ktor.KTOR_KOIN)
+	implementation(Dependencies.Ktorm.KTORM_CORE)
+
+	implementation(Dependencies.KMongo.KMONGO_COROUTINE_CORE)
+	implementation(Dependencies.KMongo.KMONGO_COROUTINE)
+
+	testImplementation(Dependencies.Test.KTOR_SERVER_TESTS_JVM)
+	testImplementation(Dependencies.Test.KOTLIN_TEST_JUNIT)
 }
 
 java {

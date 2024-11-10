@@ -1,10 +1,8 @@
 plugins {
-    kotlin("jvm") version "2.0.0"
-    id("io.ktor.plugin") version "2.3.11"
-    id("com.github.johnrengelman.shadow") version "8.1.1"
+    kotlin(Plugins.JVM) version PluginVersions.KOTLIN_VERSION
+    id(Plugins.KTOR_PLUGIN) version PluginVersions.KTOR_PLUGIN_VERSION
+    id(Plugins.SHADOW_JAR) version PluginVersions.SHADOW_JAR_VERSION
 }
-
-val exposedVersion = "0.49.0"
 
 application {
     mainClass.set("io.ktor.server.netty.EngineMain")
@@ -14,38 +12,35 @@ application {
 }
 
 dependencies {
-    implementation(project(":common"))
+    implementation(project(UtilityModules.COMMON))
 
-    implementation("io.ktor:ktor-server-core-jvm")
-    implementation("io.ktor:ktor-serialization-kotlinx-json-jvm")
-    implementation("io.ktor:ktor-server-content-negotiation-jvm")
-    implementation("io.ktor:ktor-server-config-yaml")
-    implementation("io.ktor:ktor-serialization-jackson-jvm")
-    implementation("io.ktor:ktor-server-call-logging-jvm")
-    implementation("io.ktor:ktor-server-swagger-jvm")
-    implementation("io.ktor:ktor-server-netty-jvm")
-    testImplementation("io.ktor:ktor-server-tests-jvm")
-    testImplementation("org.jetbrains.kotlin:kotlin-test-junit")
-    implementation("io.ktor:ktor-server-status-pages")
-    implementation("at.favre.lib:bcrypt:0.10.2")
+    implementation(Dependencies.Logging.KOTLIN_LOGGING)
+    implementation(Dependencies.Ktor.KTOR_SERVER_CORE_JVM)
+    implementation(Dependencies.Ktor.KTOR_SERVER_NETTY_JVM)
+    implementation(Dependencies.Ktor.KTOR_SERIALIZATION_JACKSON_JVM)
+    implementation(Dependencies.Ktor.KTOR_SERIALIZATION_KOTLINX_JSON_JVM)
+    implementation(Dependencies.Ktor.KTOR_SERVER_CONFIG_YAML)
+    implementation(Dependencies.Ktor.KTOR_SERVER_CALL_LOGGING_JVM)
+    implementation(Dependencies.Ktor.KTOR_SERVER_SWAGGER_JVM)
+    implementation(Dependencies.Ktor.KTOR_SERVER_CONTENT_NEGOTIATION_JVM)
+    implementation(Dependencies.Ktor.KTOR_SERVER_STATUS_PAGES)
+    implementation(Dependencies.Ktor.KTOR_KOIN)
 
-    implementation("io.ktor:ktor-server-auth-jvm")
-    implementation("io.ktor:ktor-server-auth-jwt-jvm")
-    implementation("io.github.microutils:kotlin-logging:3.0.5")
+    implementation(Dependencies.Exposed.EXPOSED_CORE)
+    implementation(Dependencies.Exposed.EXPOSED_DAO)
+    implementation(Dependencies.Exposed.EXPOSED_JAVA_TIME)
+    implementation(Dependencies.Exposed.EXPOSED_JDBC)
+    implementation(Dependencies.Exposed.EXPOSED_JSON)
 
-    implementation("org.jetbrains.exposed:exposed-core:$exposedVersion")
-    implementation("org.jetbrains.exposed:exposed-dao:$exposedVersion")
-    implementation("org.jetbrains.exposed:exposed-jdbc:$exposedVersion")
-    implementation("org.jetbrains.exposed:exposed-java-time:$exposedVersion")
-    implementation("org.jetbrains.exposed:exposed-json:$exposedVersion")
-    implementation("org.postgresql:postgresql:42.7.3")
-    implementation("com.zaxxer:HikariCP:5.1.0")
+    implementation(Dependencies.Database.POSTGRESQL)
+    implementation(Dependencies.Database.HIKARI_CP)
 
-    implementation("org.slf4j:slf4j-simple:2.0.13")
-    implementation("io.insert-koin:koin-ktor:3.5.6")
+    implementation(Dependencies.Security.BCRYPT)
+    implementation(Dependencies.Ktor.KTOR_SERVER_AUTH_JVM)
+    implementation(Dependencies.Ktor.KTOR_SERVER_AUTH_JWT_JVM)
 
-    testImplementation("io.ktor:ktor-server-tests-jvm")
-    testImplementation("org.jetbrains.kotlin:kotlin-test-junit")
+    testImplementation(Dependencies.Test.KOTLIN_TEST_JUNIT)
+    testImplementation(Dependencies.Test.KTOR_SERVER_TESTS_JVM)
 }
 
 java {

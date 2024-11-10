@@ -1,40 +1,46 @@
 plugins {
-    id("org.springframework.boot") version "3.2.5"
-    id("io.spring.dependency-management") version "1.1.4"
-    kotlin("jvm") version "2.0.0"
+    kotlin(Plugins.JVM) version PluginVersions.KOTLIN_VERSION
+    id(Plugins.SPRING_BOOT) version PluginVersions.SPRING_BOOT_VERSION
+    id(Plugins.DEPENDENCY_MANAGEMENT) version PluginVersions.DEPENDENCY_MANAGEMENT_VERSION
 }
 
-val coroutineVersion = "1.6.4"
-
 dependencies {
-    apply(plugin = "kotlin-spring")
-    apply(plugin = "org.jetbrains.kotlin.plugin.spring")
-    apply(plugin = "io.spring.dependency-management")
+    apply(plugin = Plugins.KOTLIN_SPRING)
+    apply(plugin = Plugins.DEPENDENCY_MANAGEMENT)
 
-    implementation(project(":common"))
+    implementation(project(UtilityModules.COMMON))
 
-    implementation("org.springframework.cloud:spring-cloud-starter-gateway:4.1.4")
-    implementation("org.springframework.boot:spring-boot-starter-actuator")
-    implementation("org.springframework.security:spring-security-jwt:1.1.1.RELEASE")
-    implementation("org.springframework.boot:spring-boot-starter-security:3.3.0")
-    implementation("org.springframework.boot:spring-boot-starter-webflux")
-    implementation("org.jetbrains.kotlin:kotlin-reflect")
-    implementation("io.smallrye.reactive:mutiny-kotlin:2.0.0")
-    implementation("io.projectreactor.kotlin:reactor-kotlin-extensions")
-    implementation("org.springframework.restdocs:spring-restdocs-webtestclient:3.0.1")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactor")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-jdk8:$coroutineVersion")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactive:$coroutineVersion")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutineVersion")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactor:$coroutineVersion")
-    implementation("com.nimbusds:nimbus-jose-jwt:9.13")
+    implementation(Dependencies.Kotlin.KOTLIN_REFLECT)
 
-    developmentOnly("org.springframework.boot:spring-boot-docker-compose")
+    implementation(Dependencies.SpringBootStarters.SPRING_CLOUD_STARTER_GATEWAY)
+    implementation(Dependencies.SpringBootStarters.SPRING_BOOT_STARTER_ACTUATOR)
+    implementation(Dependencies.SpringBootStarters.SPRING_BOOT_STARTER_WEBFLUX)
+    implementation(Dependencies.SpringBootStarters.SPRING_BOOT_STARTER_SECURITY)
+    implementation(Dependencies.Security.SPRING_SECURITY_JWT)
 
-    testImplementation("io.kotest.extensions:kotest-extensions-spring:1.1.3")
-    testImplementation("org.springframework.boot:spring-boot-starter-test")
-    testImplementation("org.jetbrains.kotlin:kotlin-test-junit5")
-    testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+    implementation(Dependencies.Other.MUTINY_KOTLIN)
+
+    implementation(Dependencies.Kotlin.REACTOR_KOTLIN_EXTENSIONS)
+
+    implementation(Dependencies.Test.RESTDOCS_WEBTESTCLIENT)
+
+    implementation(Dependencies.Coroutines.KOTLIN_COROUTINES_CORE)
+    implementation(Dependencies.Coroutines.KOTLIN_COROUTINES_JDK8)
+    implementation(Dependencies.Coroutines.KOTLIN_COROUTINES_REACTIVE)
+    implementation(Dependencies.Coroutines.KOTLIN_COROUTINES_REACTOR)
+
+    implementation(Dependencies.Security.NIMBUS_JWT)
+
+    developmentOnly(Dependencies.Other.DOCKER_COMPOSE)
+
+    testImplementation(Dependencies.Test.KOTLIN_TEST_JUNIT)
+    testImplementation(Dependencies.Test.KOTEST_RUNNER_JUNIT5)
+    testImplementation(Dependencies.Test.KOTEST_ASSERTIONS_CORE)
+
+    testImplementation(Dependencies.Test.KOTEST_EXTENSIONS_SPRING)
+    testImplementation(Dependencies.Test.SPRING_BOOT_STARTER_TEST)
+    testImplementation(Dependencies.Test.KOTLIN_TEST_JUNIT5)
+    testImplementation(Dependencies.Test.PLATFORM_LAUNCHER)
 }
 
 java {

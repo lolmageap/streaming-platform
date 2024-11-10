@@ -1,10 +1,8 @@
 plugins {
-    kotlin("jvm") version "2.0.0"
-    id("io.ktor.plugin") version "2.3.11"
-    id("com.github.johnrengelman.shadow") version "8.1.1"
+    kotlin(Plugins.JVM) version PluginVersions.KOTLIN_VERSION
+    id(Plugins.KTOR_PLUGIN) version PluginVersions.KTOR_PLUGIN_VERSION
+    id(Plugins.SHADOW_JAR) version PluginVersions.SHADOW_JAR_VERSION
 }
-
-val exposedVersion = "0.49.0"
 
 application {
     mainClass.set("io.ktor.server.netty.EngineMain")
@@ -14,27 +12,28 @@ application {
 }
 
 dependencies {
-    implementation(project(":common"))
-    implementation("io.ktor:ktor-server-core-jvm:2.3.11")
-    implementation("io.ktor:ktor-server-netty-jvm:2.3.11")
-    implementation("org.postgresql:postgresql:42.7.3")
-    implementation("org.jetbrains.exposed:exposed-core:$exposedVersion")
-    implementation("org.jetbrains.exposed:exposed-jdbc:$exposedVersion")
-    implementation("org.jetbrains.exposed:exposed-dao:$exposedVersion")
-    implementation("org.jetbrains.exposed:exposed-java-time:$exposedVersion")
-    implementation("ch.qos.logback:logback-classic:1.5.6")
-    implementation("io.insert-koin:koin-ktor:3.5.6")
-    implementation("com.zaxxer:HikariCP:5.1.0")
-    implementation("com.cronutils:cron-utils:9.2.1")
+    implementation(project(UtilityModules.COMMON))
 
-    implementation("io.ktor:ktor-client-cio-jvm:2.3.11")
-    implementation("io.ktor:ktor-server-cio-jvm:2.3.11")
+    implementation(Dependencies.Ktor.KTOR_SERVER_CORE_JVM)
+    implementation(Dependencies.Ktor.KTOR_SERVER_NETTY_JVM)
+    implementation(Dependencies.Database.POSTGRESQL)
+    implementation(Dependencies.Exposed.EXPOSED_CORE)
+    implementation(Dependencies.Exposed.EXPOSED_DAO)
+    implementation(Dependencies.Exposed.EXPOSED_JAVA_TIME)
+    implementation(Dependencies.Exposed.EXPOSED_JDBC)
 
-    implementation("com.github.lolmageap.ktor-server-extension:scheduler:1.0.1")
-    implementation("com.github.lolmageap.ktor-server-extension:exposed-shedlock:1.0.1")
+    implementation(Dependencies.Logging.LOGBACK_CLASSIC)
+    implementation(Dependencies.Ktor.KTOR_KOIN)
+    implementation(Dependencies.Database.HIKARI_CP)
+    implementation(Dependencies.Other.CRON_UTILS)
+    implementation(Dependencies.Ktor.KTOR_CLIENT_CIO_JVM)
+    implementation(Dependencies.Ktor.KTOR_SERVER_CIO_JVM)
 
-    testImplementation("io.ktor:ktor-server-test-host-jvm:2.3.11")
-    testImplementation("org.jetbrains.kotlin:kotlin-test-junit")
+    implementation(Dependencies.Custom.SCHEDULER)
+    implementation(Dependencies.Custom.EXPOSED_SHEDLOCK)
+
+    testImplementation(Dependencies.Test.KTOR_SERVER_TEST_HOST_JVM)
+    testImplementation(Dependencies.Test.KOTLIN_TEST_JUNIT)
 }
 
 java {
