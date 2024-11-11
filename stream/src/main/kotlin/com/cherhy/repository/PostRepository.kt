@@ -3,11 +3,11 @@ package com.cherhy.repository
 import com.cherhy.api.PostDetailResponse
 import com.cherhy.api.PostItemResponse
 import com.cherhy.common.util.PageOffsetCalculator
+import com.cherhy.common.util.extension.noReturn
 import com.cherhy.common.util.model.*
 import com.cherhy.domain.*
 import com.cherhy.plugins.database
 import com.cherhy.util.extension.contains
-import com.cherhy.common.util.extension.toUnit
 import org.ktorm.dsl.*
 import org.ktorm.entity.count
 import org.ktorm.entity.filter
@@ -82,7 +82,7 @@ class PostRepositoryImpl : PostRepository {
                 it.id eq postId.value
                 it.author eq userId.value
             }
-        }.toUnit()
+        }.noReturn
 
     override suspend fun delete(
         userId: UserId,
@@ -91,7 +91,7 @@ class PostRepositoryImpl : PostRepository {
         database.delete(Posts) {
             it.id eq postId.value
             it.author eq userId.value
-        }.toUnit()
+        }.noReturn
 
     override suspend fun isExists(
         userId: UserId,

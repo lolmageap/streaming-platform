@@ -1,11 +1,14 @@
 package com.cherhy.repository
 
 import com.cherhy.api.VideoDetailResponse
+import com.cherhy.common.util.extension.noReturn
 import com.cherhy.common.util.model.UserId
 import com.cherhy.domain.*
 import com.cherhy.plugins.database
-import com.cherhy.common.util.extension.toUnit
-import org.ktorm.dsl.*
+import org.ktorm.dsl.delete
+import org.ktorm.dsl.eq
+import org.ktorm.dsl.insert
+import org.ktorm.dsl.update
 import org.ktorm.entity.find
 
 interface VideoRepository {
@@ -82,7 +85,7 @@ class VideoRepositoryImpl : VideoRepository {
                 it.id eq videoId.value
                 it.owner eq userId.value
             }
-        }.toUnit()
+        }.noReturn
 
     override suspend fun delete(
         userId: UserId,
@@ -91,7 +94,7 @@ class VideoRepositoryImpl : VideoRepository {
         database.delete(Videos) {
             it.id eq videoId.value
             it.owner eq userId.value
-        }.toUnit()
+        }.noReturn
 
     override suspend fun findOne(
         videoId: VideoId,
