@@ -22,28 +22,26 @@ import org.springframework.transaction.reactive.TransactionalOperator
 class ConnectionFactoryConfig(
     private val r2dbcProperty: R2dbcDataSourceProperty,
 ) {
-    @Bean
-    fun slaveConnectionFactory(): ConnectionFactory {
-        return ConnectionFactoryBuilder.withUrl(r2dbcProperty.slave.url)
-            .username(r2dbcProperty.slave.username)
-            .password(r2dbcProperty.slave.password)
-            .build()
-    }
-
-    @Bean
-    fun masterConnectionFactory(): ConnectionFactory {
-        return ConnectionFactoryBuilder.withUrl(r2dbcProperty.master.url)
+    @Bean(MASTER_CONNECTION_FACTORY)
+    fun masterConnectionFactory() =
+        ConnectionFactoryBuilder.withUrl(r2dbcProperty.master.url)
             .username(r2dbcProperty.master.username)
             .password(r2dbcProperty.master.password)
-            .build()
-    }
+            .build()!!
+
+    @Bean(SLAVE_CONNECTION_FACTORY)
+    fun slaveConnectionFactory() =
+        ConnectionFactoryBuilder.withUrl(r2dbcProperty.slave.url)
+            .username(r2dbcProperty.slave.username)
+            .password(r2dbcProperty.slave.password)
+            .build()!!
 
     @Bean
     @Primary
-    @DependsOn("slaveConnectionFactory", "masterConnectionFactory")
+    @DependsOn(MASTER_CONNECTION_FACTORY, SLAVE_CONNECTION_FACTORY)
     fun connectionFactory(
-        @Qualifier("masterConnectionFactory") masterConnectionFactory: ConnectionFactory,
-        @Qualifier("slaveConnectionFactory") slaveConnectionFactory: ConnectionFactory,
+        @Qualifier(MASTER_CONNECTION_FACTORY) masterConnectionFactory: ConnectionFactory,
+        @Qualifier(SLAVE_CONNECTION_FACTORY) slaveConnectionFactory: ConnectionFactory,
     ): ConnectionFactory {
         val factories = mapOf(
             MASTER_DATASOURCE to masterConnectionFactory,
@@ -58,36 +56,38 @@ class ConnectionFactoryConfig(
     }
 
     @Bean
-    @DependsOn("connectionFactory")
+    @DependsOn(CONNECTION_FACTORY)
     fun reactiveTransactionManager(
-        @Qualifier("connectionFactory") connectionFactory: ConnectionFactory,
-    ): ReactiveTransactionManager {
-        return R2dbcTransactionManager(connectionFactory)
-    }
+        @Qualifier(CONNECTION_FACTORY) connectionFactory: ConnectionFactory,
+    ): ReactiveTransactionManager =
+        R2dbcTransactionManager(connectionFactory)
 
     @Bean
-    @DependsOn("connectionFactory")
+    @DependsOn(CONNECTION_FACTORY)
     fun databaseClient(
-        @Qualifier("connectionFactory") connectionFactory: ConnectionFactory,
-    ): DatabaseClient {
-        return DatabaseClient.create(connectionFactory)
-    }
+        @Qualifier(CONNECTION_FACTORY) connectionFactory: ConnectionFactory,
+    ) =
+        DatabaseClient.create(connectionFactory)
 
     @Bean
-    @DependsOn("connectionFactory")
+    @DependsOn(CONNECTION_FACTORY)
     fun r2dbcEntityTemplate(
-        @Qualifier("connectionFactory") connectionFactory: ConnectionFactory
-    ): R2dbcEntityTemplate {
-        return R2dbcEntityTemplate(connectionFactory)
-    }
+        @Qualifier(CONNECTION_FACTORY) connectionFactory: ConnectionFactory
+    ) =
+        R2dbcEntityTemplate(connectionFactory)
 
     @Bean
-    @DependsOn("connectionFactory")
+    @DependsOn(CONNECTION_FACTORY)
     fun transactionalOperator(
-        @Qualifier("connectionFactory") connectionFactory: ConnectionFactory,
-    ): TransactionalOperator {
-        return TransactionalOperator.create(
+        @Qualifier(CONNECTION_FACTORY) connectionFactory: ConnectionFactory,
+    ) =
+        TransactionalOperator.create(
             reactiveTransactionManager(connectionFactory)
         )
+
+    companion object {
+        const val CONNECTION_FACTORY = "connectionFactory"
+        const val MASTER_CONNECTION_FACTORY = "masterConnectionFactory"
+        const val SLAVE_CONNECTION_FACTORY = "slaveConnectionFactory"
     }
 }
