@@ -120,8 +120,8 @@ object Dependencies {
 
     object Custom {
         const val KMSL = "com.github.lolmageap:kmsl:1.0.2"
-        const val SCHEDULER = "com.github.lolmageap.ktor-server-extension:scheduler:1.0.1"
-        const val EXPOSED_SHEDLOCK = "com.github.lolmageap.ktor-server-extension:exposed-shedlock:1.0.1"
+        const val SCHEDULER = "com.github.lolmageap.ktor-server-extension:scheduler:1.0.2"
+        const val EXPOSED_SHEDLOCK = "com.github.lolmageap.ktor-server-extension:exposed-shedlock:1.0.2"
     }
 
     object Redis {

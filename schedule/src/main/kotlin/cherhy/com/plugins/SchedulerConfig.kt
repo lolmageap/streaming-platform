@@ -8,10 +8,10 @@ import io.ktor.server.application.*
 fun Application.configureScheduler() {
     schedule(FIVE_PM) {
         shedlock(TEST_SCHEDULED, TEN_MINUTE) {
-            TODO("execute business logic")
+            println("hi")
         }
     }
 }
 
 private const val TEST_SCHEDULED = "test"
-private const val FIVE_PM = "0 0 17 * * ?"
+private const val FIVE_PM = "30 41 23 * * ?"

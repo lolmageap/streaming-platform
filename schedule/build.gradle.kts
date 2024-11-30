@@ -25,7 +25,6 @@ dependencies {
     implementation(Dependencies.Logging.LOGBACK_CLASSIC)
     implementation(Dependencies.Ktor.KTOR_KOIN)
     implementation(Dependencies.Database.HIKARI_CP)
-    implementation(Dependencies.Other.CRON_UTILS)
     implementation(Dependencies.Ktor.KTOR_CLIENT_CIO_JVM)
     implementation(Dependencies.Ktor.KTOR_SERVER_CIO_JVM)
 
