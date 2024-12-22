@@ -2,6 +2,7 @@ package com.cherhy.payment.adapter.`in`.web
 
 import com.cherhy.payment.annotation.WebAdapter
 import com.cherhy.common.util.Payment.Test.UPDATE_TEST
+import com.cherhy.common.util.TEST_ID
 import com.cherhy.payment.application.port.`in`.UpdateTestCommand
 import com.cherhy.payment.application.port.`in`.UpdateTestUseCase
 import com.cherhy.payment.domain.TestId
@@ -18,7 +19,7 @@ class UpdateTestController(
 ) {
     @PutMapping(UPDATE_TEST)
     suspend fun updateTestExample(
-        @PathVariable id: TestId,
+        @PathVariable(TEST_ID) id: TestId,
         @RequestBody request: UpdateTestRequest,
     ) = coroutineScope {
         val command = UpdateTestCommand(
