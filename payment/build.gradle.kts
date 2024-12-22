@@ -1,3 +1,15 @@
+import Dependencies.Axon
+import Dependencies.Coroutines
+import Dependencies.Database
+import Dependencies.Flyway
+import Dependencies.Kafka
+import Dependencies.Kotlin
+import Dependencies.Other
+import Dependencies.R2dbc
+import Dependencies.Redis
+import Dependencies.Security
+import Dependencies.SpringBootStarters
+import Dependencies.Test
 import org.springframework.boot.gradle.tasks.bundling.BootJar
 
 plugins {
@@ -14,50 +26,51 @@ dependencies {
     implementation(project(UtilityModules.COMMON))
     implementation(project(UtilityModules.PRODUCER))
 
-    implementation(Dependencies.Other.ASPECTJ_WEAVER)
-    implementation(Dependencies.SpringBootStarters.SPRING_BOOT_STARTER_DATA_MONGODB)
-    implementation(Dependencies.Security.JASYPT_SPRING_BOOT_STARTER)
+    implementation(Other.ASPECTJ_WEAVER)
+    implementation(SpringBootStarters.SPRING_BOOT_STARTER_DATA_MONGO_DB)
+    implementation(Security.JASYPT_SPRING_BOOT_STARTER)
 
-    implementation(Dependencies.SpringBootStarters.SPRING_BOOT_STARTER_VALIDATION)
-    implementation(Dependencies.Kotlin.JACKSON_MODULE_KOTLIN)
-    implementation(Dependencies.Kotlin.REACTOR_KOTLIN_EXTENSIONS)
-    implementation(Dependencies.Kotlin.KOTLIN_REFLECT)
-    implementation(Dependencies.Other.MUTINY_KOTLIN)
+    implementation(SpringBootStarters.SPRING_BOOT_STARTER_VALIDATION)
+    implementation(Kotlin.JACKSON_MODULE_KOTLIN)
+    implementation(Kotlin.REACTOR_KOTLIN_EXTENSIONS)
+    implementation(Kotlin.KOTLIN_REFLECT)
+    implementation(Other.MUTINY_KOTLIN)
 
-    implementation(Dependencies.Kafka.SPRING_KAFKA)
-    implementation(Dependencies.SpringBootStarters.SPRING_BOOT_STARTER_WEBFLUX)
-    implementation(Dependencies.SpringBootStarters.SPRING_BOOT_STARTER_DATA_R2DBC)
-    implementation(Dependencies.SpringBootStarters.SPRING_BOOT_STARTER_DATA_REDIS_REACTIVE)
-    implementation(Dependencies.SpringBootStarters.SPRING_BOOT_STARTER_SECURITY)
-    implementation(Dependencies.SpringBootStarters.SPRING_BOOT_STARTER_ACTUATOR)
+    implementation(Kafka.SPRING_KAFKA)
+    implementation(SpringBootStarters.SPRING_BOOT_STARTER_WEBFLUX)
+    implementation(SpringBootStarters.SPRING_BOOT_STARTER_DATA_R2DBC)
+    implementation(SpringBootStarters.SPRING_BOOT_STARTER_DATA_REDIS_REACTIVE)
+    implementation(SpringBootStarters.SPRING_BOOT_STARTER_SECURITY)
+    implementation(SpringBootStarters.SPRING_BOOT_STARTER_ACTUATOR)
 
-    implementation(Dependencies.Axon.AXON_SPRING_BOOT_STARTER)
-    implementation(Dependencies.Axon.AXON_CONFIGURATION)
-    implementation(Dependencies.Test.RESTDOCS_WEBTESTCLIENT)
-    implementation(Dependencies.Coroutines.KOTLIN_COROUTINES_CORE)
-    implementation(Dependencies.Coroutines.KOTLIN_COROUTINES_JDK8)
-    implementation(Dependencies.Coroutines.KOTLIN_COROUTINES_REACTIVE)
-    implementation(Dependencies.Coroutines.KOTLIN_COROUTINES_REACTOR)
+    implementation(Axon.AXON_SPRING_BOOT_STARTER)
+    implementation(Axon.AXON_CONFIGURATION)
+    implementation(Test.RESTDOCS_WEBTESTCLIENT)
+    implementation(Coroutines.KOTLIN_COROUTINES_CORE)
+    implementation(Coroutines.KOTLIN_COROUTINES_JDK8)
+    implementation(Coroutines.KOTLIN_COROUTINES_REACTIVE)
+    implementation(Coroutines.KOTLIN_COROUTINES_REACTOR)
 
-    implementation(Dependencies.Flyway.FLYWAY_CORE)
-    implementation(Dependencies.Flyway.FLYWAY_DATABASE_POSTGRESQL)
-    implementation(Dependencies.R2dbc.R2DBC_POSTGRESQL)
-    implementation(Dependencies.R2dbc.R2DBC_POOL)
-    runtimeOnly(Dependencies.Database.POSTGRESQL)
-    developmentOnly(Dependencies.Other.DOCKER_COMPOSE)
+    implementation(Redis.SPRING_REDISSON)
+    implementation(Flyway.FLYWAY_CORE)
+    implementation(Flyway.FLYWAY_DATABASE_POSTGRESQL)
+    implementation(R2dbc.R2DBC_POSTGRESQL)
+    implementation(R2dbc.R2DBC_POOL)
+    runtimeOnly(Database.POSTGRESQL)
+    developmentOnly(Other.DOCKER_COMPOSE)
 
     testImplementation(Dependencies.Custom.KMSL)
-    testImplementation(Dependencies.Test.TESTCONTAINERS_POSTGRESQL)
-    testImplementation(Dependencies.Test.REACTOR_TEST)
-    testImplementation(Dependencies.Test.TESTCONTAINERS_R2DBC)
-    testImplementation(Dependencies.Test.KOTEST_RUNNER_JUNIT5)
-    testImplementation(Dependencies.Test.KOTEST_ASSERTIONS_CORE)
-    testImplementation(Dependencies.Test.KOTEST_EXTENSIONS_SPRING)
-    testImplementation(Dependencies.Test.TESTCONTAINERS_JUNIT_JUPITER)
-    testImplementation(Dependencies.Test.SPRING_MOCKK)
-    testImplementation(Dependencies.Test.SPRING_BOOT_STARTER_TEST)
-    testImplementation(Dependencies.Test.SPRING_TESTCONTAINERS)
-    testImplementation(Dependencies.Test.SPRING_SECURITY_TEST)
+    testImplementation(Test.TESTCONTAINERS_POSTGRESQL)
+    testImplementation(Test.REACTOR_TEST)
+    testImplementation(Test.TESTCONTAINERS_R2DBC)
+    testImplementation(Test.KOTEST_RUNNER_JUNIT5)
+    testImplementation(Test.KOTEST_ASSERTIONS_CORE)
+    testImplementation(Test.KOTEST_EXTENSIONS_SPRING)
+    testImplementation(Test.TESTCONTAINERS_JUNIT_JUPITER)
+    testImplementation(Test.SPRING_MOCKK)
+    testImplementation(Test.SPRING_BOOT_STARTER_TEST)
+    testImplementation(Test.SPRING_TESTCONTAINERS)
+    testImplementation(Test.SPRING_SECURITY_TEST)
 }
 
 docker {

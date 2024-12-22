@@ -13,7 +13,7 @@ object Dependencies {
         const val SPRING_BOOT_STARTER_VALIDATION = "org.springframework.boot:spring-boot-starter-validation:${PluginVersions.SPRING_BOOT_VERSION}"
         const val SPRING_BOOT_STARTER_DATA_R2DBC = "org.springframework.boot:spring-boot-starter-data-r2dbc:${PluginVersions.SPRING_BOOT_VERSION}"
         const val SPRING_BOOT_STARTER_SECURITY = "org.springframework.boot:spring-boot-starter-security:${PluginVersions.SPRING_BOOT_VERSION}"
-        const val SPRING_BOOT_STARTER_DATA_MONGODB = "org.springframework.boot:spring-boot-starter-data-mongodb:${PluginVersions.SPRING_BOOT_VERSION}"
+        const val SPRING_BOOT_STARTER_DATA_MONGO_DB = "org.springframework.boot:spring-boot-starter-data-mongodb:${PluginVersions.SPRING_BOOT_VERSION}"
         const val SPRING_BOOT_STARTER_DATA_REDIS_REACTIVE = "org.springframework.boot:spring-boot-starter-data-redis-reactive:${PluginVersions.SPRING_BOOT_VERSION}"
     }
 
@@ -119,13 +119,14 @@ object Dependencies {
     }
 
     object Custom {
-        const val KMSL = "com.github.lolmageap:kmsl:1.0.2"
-        const val SCHEDULER = "com.github.lolmageap.ktor-server-extension:scheduler:1.0.2"
-        const val EXPOSED_SHEDLOCK = "com.github.lolmageap.ktor-server-extension:exposed-shedlock:1.0.2"
+        const val KMSL = "com.github.lolmageap:kmsl:${DependencyVersions.KMSL_VERSION}"
+        const val SCHEDULER = "com.github.lolmageap.ktor-server-extension:scheduler:${DependencyVersions.KTOR_EXTENSION_VERSION}"
+        const val EXPOSED_SHEDLOCK = "com.github.lolmageap.ktor-server-extension:exposed-shedlock:${DependencyVersions.KTOR_EXTENSION_VERSION}"
     }
 
     object Redis {
         const val LETTUCE_CORE = "io.lettuce.core:lettuce-core:${DependencyVersions.LETTUCE_VERSION}"
+        const val SPRING_REDISSON = "org.redisson:redisson-spring-boot-starter:${DependencyVersions.REDISSON_VERSION}"
     }
 
     object Other {

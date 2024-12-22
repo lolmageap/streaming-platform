@@ -34,4 +34,7 @@ object DependencyVersions {
     const val KMONGO_VERSION = "5.1.0"
     const val KTORM_VERSION = "4.0.0"
     const val BCRYPT_VERSION = "0.10.2"
+    const val REDISSON_VERSION = "3.40.2"
+    const val KMSL_VERSION = "1.0.2"
+    const val KTOR_EXTENSION_VERSION = "1.0.3"
 }
