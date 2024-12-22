@@ -1,6 +1,10 @@
 package com.cherhy.payment.config
 
 import com.cherhy.payment.util.property.CacheProperty
+import org.redisson.Redisson
+import org.redisson.api.RedissonClient
+import org.redisson.api.RedissonReactiveClient
+import org.redisson.config.Config
 import org.springframework.cache.annotation.EnableCaching
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
@@ -31,6 +35,15 @@ class CacheConfig(
         LettuceConnectionFactory(
             RedisStandaloneConfiguration(cacheProperty.host, cacheProperty.port)
         )
+
+    @Bean
+    fun redissonClient(): RedissonReactiveClient =
+        Redisson.create(
+            Config().apply {
+                useSingleServer()
+                    .setAddress("redis://${cacheProperty.host}:${cacheProperty.port}")
+            }
+        ).reactive()
 
     @Bean
     fun redisCacheManager() =
