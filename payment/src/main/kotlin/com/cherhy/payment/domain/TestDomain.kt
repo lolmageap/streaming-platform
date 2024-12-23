@@ -25,7 +25,15 @@ data class TestDomain(
 @JvmInline
 value class TestId(
     val value: String,
-)
+) {
+    companion object {
+        @JvmStatic
+        fun of(
+            value: String,
+        ) =
+            TestId(value)
+    }
+}
 
 @JvmInline
 value class TestName(
