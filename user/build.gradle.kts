@@ -1,3 +1,10 @@
+import Dependencies.Database
+import Dependencies.Exposed
+import Dependencies.Ktor
+import Dependencies.Logging
+import Dependencies.Security
+import Dependencies.Test
+
 plugins {
     kotlin(Plugins.JVM) version PluginVersions.KOTLIN_VERSION
     id(Plugins.KTOR_PLUGIN) version PluginVersions.KTOR_PLUGIN_VERSION
@@ -14,33 +21,33 @@ application {
 dependencies {
     implementation(project(UtilityModules.COMMON))
 
-    implementation(Dependencies.Logging.KOTLIN_LOGGING)
-    implementation(Dependencies.Ktor.KTOR_SERVER_CORE_JVM)
-    implementation(Dependencies.Ktor.KTOR_SERVER_NETTY_JVM)
-    implementation(Dependencies.Ktor.KTOR_SERIALIZATION_JACKSON_JVM)
-    implementation(Dependencies.Ktor.KTOR_SERIALIZATION_KOTLINX_JSON_JVM)
-    implementation(Dependencies.Ktor.KTOR_SERVER_CONFIG_YAML)
-    implementation(Dependencies.Ktor.KTOR_SERVER_CALL_LOGGING_JVM)
-    implementation(Dependencies.Ktor.KTOR_SERVER_SWAGGER_JVM)
-    implementation(Dependencies.Ktor.KTOR_SERVER_CONTENT_NEGOTIATION_JVM)
-    implementation(Dependencies.Ktor.KTOR_SERVER_STATUS_PAGES)
-    implementation(Dependencies.Ktor.KTOR_KOIN)
+    implementation(Logging.KOTLIN_LOGGING)
+    implementation(Ktor.KTOR_SERVER_CORE_JVM)
+    implementation(Ktor.KTOR_SERVER_NETTY_JVM)
+    implementation(Ktor.KTOR_SERIALIZATION_JACKSON_JVM)
+    implementation(Ktor.KTOR_SERIALIZATION_KOTLINX_JSON_JVM)
+    implementation(Ktor.KTOR_SERVER_CONFIG_YAML)
+    implementation(Ktor.KTOR_SERVER_CALL_LOGGING_JVM)
+    implementation(Ktor.KTOR_SERVER_SWAGGER_JVM)
+    implementation(Ktor.KTOR_SERVER_CONTENT_NEGOTIATION_JVM)
+    implementation(Ktor.KTOR_SERVER_STATUS_PAGES)
+    implementation(Ktor.KTOR_KOIN)
 
-    implementation(Dependencies.Exposed.EXPOSED_CORE)
-    implementation(Dependencies.Exposed.EXPOSED_DAO)
-    implementation(Dependencies.Exposed.EXPOSED_JAVA_TIME)
-    implementation(Dependencies.Exposed.EXPOSED_JDBC)
-    implementation(Dependencies.Exposed.EXPOSED_JSON)
+    implementation(Exposed.EXPOSED_CORE)
+    implementation(Exposed.EXPOSED_DAO)
+    implementation(Exposed.EXPOSED_JAVA_TIME)
+    implementation(Exposed.EXPOSED_JDBC)
+    implementation(Exposed.EXPOSED_JSON)
 
-    implementation(Dependencies.Database.POSTGRESQL)
-    implementation(Dependencies.Database.HIKARI_CP)
+    implementation(Database.POSTGRESQL)
+    implementation(Database.HIKARI_CP)
 
-    implementation(Dependencies.Security.BCRYPT)
-    implementation(Dependencies.Ktor.KTOR_SERVER_AUTH_JVM)
-    implementation(Dependencies.Ktor.KTOR_SERVER_AUTH_JWT_JVM)
+    implementation(Security.BCRYPT)
+    implementation(Ktor.KTOR_SERVER_AUTH_JVM)
+    implementation(Ktor.KTOR_SERVER_AUTH_JWT_JVM)
 
-    testImplementation(Dependencies.Test.KOTLIN_TEST_JUNIT)
-    testImplementation(Dependencies.Test.KTOR_SERVER_TESTS_JVM)
+    testImplementation(Test.KOTLIN_TEST_JUNIT)
+    testImplementation(Test.KTOR_SERVER_TESTS_JVM)
 }
 
 java {

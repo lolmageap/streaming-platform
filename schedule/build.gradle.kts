@@ -1,3 +1,10 @@
+import Dependencies.Custom
+import Dependencies.Database
+import Dependencies.Exposed
+import Dependencies.Ktor
+import Dependencies.Logging
+import Dependencies.Test
+
 plugins {
     kotlin(Plugins.JVM) version PluginVersions.KOTLIN_VERSION
     id(Plugins.KTOR_PLUGIN) version PluginVersions.KTOR_PLUGIN_VERSION
@@ -14,25 +21,25 @@ application {
 dependencies {
     implementation(project(UtilityModules.COMMON))
 
-    implementation(Dependencies.Ktor.KTOR_SERVER_CORE_JVM)
-    implementation(Dependencies.Ktor.KTOR_SERVER_NETTY_JVM)
-    implementation(Dependencies.Database.POSTGRESQL)
-    implementation(Dependencies.Exposed.EXPOSED_CORE)
-    implementation(Dependencies.Exposed.EXPOSED_DAO)
-    implementation(Dependencies.Exposed.EXPOSED_JAVA_TIME)
-    implementation(Dependencies.Exposed.EXPOSED_JDBC)
+    implementation(Ktor.KTOR_SERVER_CORE_JVM)
+    implementation(Ktor.KTOR_SERVER_NETTY_JVM)
+    implementation(Database.POSTGRESQL)
+    implementation(Exposed.EXPOSED_CORE)
+    implementation(Exposed.EXPOSED_DAO)
+    implementation(Exposed.EXPOSED_JAVA_TIME)
+    implementation(Exposed.EXPOSED_JDBC)
 
-    implementation(Dependencies.Logging.LOGBACK_CLASSIC)
-    implementation(Dependencies.Ktor.KTOR_KOIN)
-    implementation(Dependencies.Database.HIKARI_CP)
-    implementation(Dependencies.Ktor.KTOR_CLIENT_CIO_JVM)
-    implementation(Dependencies.Ktor.KTOR_SERVER_CIO_JVM)
+    implementation(Logging.LOGBACK_CLASSIC)
+    implementation(Ktor.KTOR_KOIN)
+    implementation(Database.HIKARI_CP)
+    implementation(Ktor.KTOR_CLIENT_CIO_JVM)
+    implementation(Ktor.KTOR_SERVER_CIO_JVM)
 
-    implementation(Dependencies.Custom.SCHEDULER)
-    implementation(Dependencies.Custom.EXPOSED_SHEDLOCK)
+    implementation(Custom.SCHEDULER)
+    implementation(Custom.EXPOSED_SHEDLOCK)
 
-    testImplementation(Dependencies.Test.KTOR_SERVER_TEST_HOST_JVM)
-    testImplementation(Dependencies.Test.KOTLIN_TEST_JUNIT)
+    testImplementation(Test.KTOR_SERVER_TEST_HOST_JVM)
+    testImplementation(Test.KOTLIN_TEST_JUNIT)
 }
 
 java {

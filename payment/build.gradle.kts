@@ -1,5 +1,6 @@
 import Dependencies.Axon
 import Dependencies.Coroutines
+import Dependencies.Custom
 import Dependencies.Database
 import Dependencies.Flyway
 import Dependencies.Kafka
@@ -59,17 +60,19 @@ dependencies {
     runtimeOnly(Database.POSTGRESQL)
     developmentOnly(Other.DOCKER_COMPOSE)
 
-    testImplementation(Dependencies.Custom.KMSL)
-    testImplementation(Test.TESTCONTAINERS_POSTGRESQL)
+    testRuntimeOnly(Database.POSTGRESQL)
+
+    testImplementation(Custom.KMSL)
+    testImplementation(Test.TEST_CONTAINERS_POSTGRESQL)
     testImplementation(Test.REACTOR_TEST)
-    testImplementation(Test.TESTCONTAINERS_R2DBC)
+    testImplementation(Test.TEST_CONTAINERS_R2DBC)
     testImplementation(Test.KOTEST_RUNNER_JUNIT5)
     testImplementation(Test.KOTEST_ASSERTIONS_CORE)
     testImplementation(Test.KOTEST_EXTENSIONS_SPRING)
-    testImplementation(Test.TESTCONTAINERS_JUNIT_JUPITER)
+    testImplementation(Test.TEST_CONTAINERS_JUNIT_JUPITER)
     testImplementation(Test.SPRING_MOCKK)
     testImplementation(Test.SPRING_BOOT_STARTER_TEST)
-    testImplementation(Test.SPRING_TESTCONTAINERS)
+    testImplementation(Test.SPRING_TEST_CONTAINERS)
     testImplementation(Test.SPRING_SECURITY_TEST)
 }
 

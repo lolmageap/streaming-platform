@@ -30,7 +30,7 @@ subprojects {
         testRuntimeOnly(Dependencies.Test.PLATFORM_LAUNCHER)
         testImplementation(Dependencies.Test.KOTLIN_TEST_JUNIT)
         testImplementation(Dependencies.Test.KOTEST_ASSERTIONS_CORE)
-        testImplementation(Dependencies.Test.KOTEST_EXTENSIONS_TESTCONTAINERS)
+        testImplementation(Dependencies.Test.KOTEST_EXTENSIONS_TEST_CONTAINERS)
     }
 
     tasks.withType<KotlinJvmCompile>()

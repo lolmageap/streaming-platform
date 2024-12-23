@@ -1,3 +1,5 @@
+import Dependencies.Kafka
+
 plugins {
     kotlin(Plugins.JVM) version PluginVersions.KOTLIN_VERSION
     id(Plugins.SPRING_BOOT) version PluginVersions.SPRING_BOOT_VERSION
@@ -9,7 +11,7 @@ dependencies {
     apply(plugin = Plugins.DEPENDENCY_MANAGEMENT)
 
     implementation(project(UtilityModules.COMMON))
-    implementation(Dependencies.Kafka.SPRING_KAFKA)
+    implementation(Kafka.SPRING_KAFKA)
 }
 
 java {

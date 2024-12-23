@@ -1,3 +1,10 @@
+import Dependencies.Coroutines
+import Dependencies.Kotlin
+import Dependencies.Other
+import Dependencies.Security
+import Dependencies.SpringBootStarters
+import Dependencies.Test
+
 plugins {
     kotlin(Plugins.JVM) version PluginVersions.KOTLIN_VERSION
     id(Plugins.SPRING_BOOT) version PluginVersions.SPRING_BOOT_VERSION
@@ -10,37 +17,37 @@ dependencies {
 
     implementation(project(UtilityModules.COMMON))
 
-    implementation(Dependencies.Kotlin.KOTLIN_REFLECT)
+    implementation(Kotlin.KOTLIN_REFLECT)
 
-    implementation(Dependencies.SpringBootStarters.SPRING_CLOUD_STARTER_GATEWAY)
-    implementation(Dependencies.SpringBootStarters.SPRING_BOOT_STARTER_ACTUATOR)
-    implementation(Dependencies.SpringBootStarters.SPRING_BOOT_STARTER_WEBFLUX)
-    implementation(Dependencies.SpringBootStarters.SPRING_BOOT_STARTER_SECURITY)
-    implementation(Dependencies.Security.SPRING_SECURITY_JWT)
+    implementation(SpringBootStarters.SPRING_CLOUD_STARTER_GATEWAY)
+    implementation(SpringBootStarters.SPRING_BOOT_STARTER_ACTUATOR)
+    implementation(SpringBootStarters.SPRING_BOOT_STARTER_WEBFLUX)
+    implementation(SpringBootStarters.SPRING_BOOT_STARTER_SECURITY)
+    implementation(Security.SPRING_SECURITY_JWT)
 
-    implementation(Dependencies.Other.MUTINY_KOTLIN)
+    implementation(Other.MUTINY_KOTLIN)
 
-    implementation(Dependencies.Kotlin.REACTOR_KOTLIN_EXTENSIONS)
+    implementation(Kotlin.REACTOR_KOTLIN_EXTENSIONS)
 
-    implementation(Dependencies.Test.RESTDOCS_WEBTESTCLIENT)
+    implementation(Test.RESTDOCS_WEBTESTCLIENT)
 
-    implementation(Dependencies.Coroutines.KOTLIN_COROUTINES_CORE)
-    implementation(Dependencies.Coroutines.KOTLIN_COROUTINES_JDK8)
-    implementation(Dependencies.Coroutines.KOTLIN_COROUTINES_REACTIVE)
-    implementation(Dependencies.Coroutines.KOTLIN_COROUTINES_REACTOR)
+    implementation(Coroutines.KOTLIN_COROUTINES_CORE)
+    implementation(Coroutines.KOTLIN_COROUTINES_JDK8)
+    implementation(Coroutines.KOTLIN_COROUTINES_REACTIVE)
+    implementation(Coroutines.KOTLIN_COROUTINES_REACTOR)
 
-    implementation(Dependencies.Security.NIMBUS_JWT)
+    implementation(Security.NIMBUS_JWT)
 
-    developmentOnly(Dependencies.Other.DOCKER_COMPOSE)
+    developmentOnly(Other.DOCKER_COMPOSE)
 
-    testImplementation(Dependencies.Test.KOTLIN_TEST_JUNIT)
-    testImplementation(Dependencies.Test.KOTEST_RUNNER_JUNIT5)
-    testImplementation(Dependencies.Test.KOTEST_ASSERTIONS_CORE)
+    testImplementation(Test.KOTLIN_TEST_JUNIT)
+    testImplementation(Test.KOTEST_RUNNER_JUNIT5)
+    testImplementation(Test.KOTEST_ASSERTIONS_CORE)
 
-    testImplementation(Dependencies.Test.KOTEST_EXTENSIONS_SPRING)
-    testImplementation(Dependencies.Test.SPRING_BOOT_STARTER_TEST)
-    testImplementation(Dependencies.Test.KOTLIN_TEST_JUNIT5)
-    testImplementation(Dependencies.Test.PLATFORM_LAUNCHER)
+    testImplementation(Test.KOTEST_EXTENSIONS_SPRING)
+    testImplementation(Test.SPRING_BOOT_STARTER_TEST)
+    testImplementation(Test.KOTLIN_TEST_JUNIT5)
+    testImplementation(Test.PLATFORM_LAUNCHER)
 }
 
 java {

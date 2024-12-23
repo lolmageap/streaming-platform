@@ -11,7 +11,7 @@ object DependencyVersions {
     const val CRON_UTILS_VERSION = "9.2.1"
 
     const val KOTLIN_LOGGING_VERSION = "3.0.5"
-    const val KOTEST_EXTENSIONS_TESTCONTAINERS_VERSION = "2.0.2"
+    const val KOTEST_EXTENSIONS_TEST_CONTAINERS_VERSION = "2.0.2"
 
     const val COROUTINES_VERSION = "1.6.4"
     const val SPRING_KAFKA_VERSION = "3.2.3"
