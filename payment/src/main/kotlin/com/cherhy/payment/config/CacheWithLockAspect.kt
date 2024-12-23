@@ -9,6 +9,7 @@ import kotlinx.coroutines.async
 import org.aspectj.lang.ProceedingJoinPoint
 import org.aspectj.lang.annotation.Around
 import org.aspectj.lang.annotation.Aspect
+import org.aspectj.lang.reflect.MethodSignature
 import org.springframework.expression.spel.standard.SpelExpressionParser
 import org.springframework.expression.spel.support.StandardEvaluationContext
 import org.springframework.stereotype.Component
@@ -19,7 +20,7 @@ import java.time.Duration
 class CacheWithLockAspect(
     private val lockableRedisCacheManager: LockableRedisCacheManager,
 ) {
-    private val parser = SpelExpressionParser()
+    private val spelParser = SpelExpressionParser()
 
     @Around("@annotation(cacheWithLock)")
     @OptIn(ExperimentalCoroutinesApi::class)
@@ -27,11 +28,11 @@ class CacheWithLockAspect(
         joinPoint: ProceedingJoinPoint,
         cacheWithLock: CacheWithLock,
     ): Any {
-        val key = parseKey(cacheWithLock.key, joinPoint, joinPoint.args)
+        val key = parseSpelExpression(cacheWithLock.key, joinPoint)
 
         return CoroutineScope(Default).async {
             lockableRedisCacheManager.getWithLock(
-                cacheName = cacheWithLock.cacheName,
+                cacheName = cacheWithLock.cacheNames.joinToString { it },
                 key = key,
                 lockKey = cacheWithLock.key,
                 ttl = Duration.ofMillis(cacheWithLock.ttl),
@@ -41,21 +42,18 @@ class CacheWithLockAspect(
         }.getCompleted()
     }
 
+    private fun parseSpelExpression(expression: String, joinPoint: ProceedingJoinPoint): String {
+        val method = (joinPoint.signature as MethodSignature).method
+        val context = StandardEvaluationContext()
 
-    // TODO: 지금 이거 미완성이라 다시 작성해야함
-    private fun parseKey(
-        keyExpression: String,
-        joinPoint: ProceedingJoinPoint,
-        methodArgs: Array<Any>,
-    ): String {
-        if (keyExpression.isBlank()) return ""
+        val parameterNames = method.parameters.map { it.name }
+        val args = joinPoint.args
 
-        val context = StandardEvaluationContext().apply {
-            for ((index, arg) in methodArgs.withIndex()) {
-                setVariable("p$index", arg)
-            }
+        parameterNames.forEachIndexed { index, paramName ->
+            context.setVariable(paramName, args[index])
         }
 
-        return parser.parseExpression(keyExpression).getValue(context, String::class.java) ?: ""
+        return spelParser.parseExpression(expression).getValue(context, String::class.java)
+            ?: throw IllegalArgumentException("SpEL 평가 실패: $expression")
     }
 }
