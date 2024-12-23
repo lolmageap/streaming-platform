@@ -1,6 +1,7 @@
 package com.cherhy.payment.application.service
 
 import com.cherhy.common.util.CacheConstant.TEST
+import com.cherhy.payment.annotation.CacheWithLock
 import com.cherhy.payment.annotation.UseCase
 import com.cherhy.payment.application.port.`in`.FindAllTestCommand
 import com.cherhy.payment.application.port.`in`.FindTestCommand
@@ -12,10 +13,9 @@ import org.springframework.transaction.annotation.Transactional
 
 @UseCase
 @Transactional
-internal class FindTestService(
+class FindTestService(
     private val getTestPort: GetTestPort,
 ): FindTestUseCase {
-
     @Cacheable(TEST, key = "#command.id")
     override suspend fun execute(
         command: FindTestCommand,
@@ -24,7 +24,7 @@ internal class FindTestService(
             command.id,
         )
 
-    @Cacheable(TEST)
+    @Cacheable(TEST, key = "#command.name" + ':' + "#command.status" + ':' + "#pageable.pageNumber" + ':' + "#pageable.pageSize")
     override suspend fun execute(
         command: FindAllTestCommand,
         pageable: Pageable,
@@ -33,5 +33,13 @@ internal class FindTestService(
             name = command.name,
             status = command.status,
             pageable = pageable,
+        )
+
+    @CacheWithLock(TEST, key = "#command.id", ttl = 300_000)
+    override suspend fun executeWithCacheLock(
+        command: FindTestCommand,
+    ) =
+        getTestPort.get(
+            command.id,
         )
 }

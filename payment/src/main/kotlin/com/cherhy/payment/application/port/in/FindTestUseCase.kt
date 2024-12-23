@@ -13,4 +13,8 @@ interface FindTestUseCase {
         command: FindAllTestCommand,
         pageable: Pageable,
     ): Page<TestDomain>
+
+    suspend fun executeWithCacheLock(
+        command: FindTestCommand,
+    ): TestDomain
 }
