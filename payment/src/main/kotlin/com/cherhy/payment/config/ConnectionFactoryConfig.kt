@@ -23,18 +23,18 @@ class ConnectionFactoryConfig(
     private val r2dbcProperty: R2dbcDataSourceProperty,
 ) {
     @Bean(MASTER_CONNECTION_FACTORY)
-    fun masterConnectionFactory() =
+    fun masterConnectionFactory(): ConnectionFactory =
         ConnectionFactoryBuilder.withUrl(r2dbcProperty.master.url)
             .username(r2dbcProperty.master.username)
             .password(r2dbcProperty.master.password)
-            .build()!!
+            .build()
 
     @Bean(SLAVE_CONNECTION_FACTORY)
-    fun slaveConnectionFactory() =
+    fun slaveConnectionFactory(): ConnectionFactory =
         ConnectionFactoryBuilder.withUrl(r2dbcProperty.slave.url)
             .username(r2dbcProperty.slave.username)
             .password(r2dbcProperty.slave.password)
-            .build()!!
+            .build()
 
     @Bean
     @Primary

@@ -13,7 +13,7 @@ import org.springframework.test.context.DynamicPropertySource
 import org.testcontainers.containers.GenericContainer
 import org.testcontainers.containers.PostgreSQLContainer
 
-internal interface WithTestContainers {
+interface WithTestContainers {
     companion object {
         @JvmStatic
         @DynamicPropertySource

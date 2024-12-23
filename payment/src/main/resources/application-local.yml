@@ -23,12 +23,10 @@ spring:
       enabled: true
 r2dbc:
   master:
-    driver-class-name: org.postgresql.Driver
     url: r2dbc:pool:postgresql://localhost:5432/payment
     username: postgres
     password: postgres
   slave:
-    driver-class-name: org.postgresql.Driver
     url: r2dbc:pool:postgresql://localhost:5433/payment
     username: postgres
     password: postgres

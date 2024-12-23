@@ -3,7 +3,6 @@ package com.cherhy.payment.util
 object DataSource {
     object Redis {
         const val IMAGE = "redis:5.0.3-alpine"
-        const val HOST = "localhost"
         const val NAME = "redis-test-container"
         const val PORT = 6379
         const val BIND_PORT = 16379
@@ -11,7 +10,6 @@ object DataSource {
 
     object Mongo {
         const val IMAGE = "mongo:latest"
-        const val HOST = "localhost"
         const val NAME = "mongo-test-container"
         const val PORT = 27017
         const val BIND_PORT = 27717
@@ -21,14 +19,12 @@ object DataSource {
         object Master {
             object Property {
                 const val IMAGE = "postgres:15.0"
-                const val HOST = "localhost"
                 const val NAME = "master-postgres-test-container"
                 const val PORT = 5432
                 const val BIND_PORT = 15432
                 const val DATABASE_NAME = "cherhy"
                 const val USERNAME = "postgres"
-                const val PASSWORD = "1234"
-                const val URL = "jdbc:postgresql://$HOST:$BIND_PORT/$DATABASE_NAME"
+                const val PASSWORD = "postgres"
             }
 
             object Command {
@@ -50,14 +46,12 @@ object DataSource {
         object Slave {
             object Property {
                 const val IMAGE = "postgres:15.0"
-                const val HOST = "localhost"
                 const val NAME = "slave-postgres-test-container"
                 const val PORT = 5432
                 const val BIND_PORT = 15433
                 const val DATABASE_NAME = "cherhy"
                 const val USERNAME = "postgres"
-                const val PASSWORD = "1234"
-                const val URL = "jdbc:postgresql://$HOST:$BIND_PORT/$DATABASE_NAME"
+                const val PASSWORD = "postgres"
             }
 
             object Key {
