@@ -1,7 +1,5 @@
 package com.cherhy.payment.application.service
 
-import com.cherhy.common.util.CacheConstant.TEST
-import com.cherhy.payment.annotation.CacheWithLock
 import com.cherhy.payment.annotation.UseCase
 import com.cherhy.payment.application.port.`in`.UpdateTestCommand
 import com.cherhy.payment.application.port.`in`.UpdateTestUseCase
@@ -13,8 +11,6 @@ import org.springframework.transaction.annotation.Transactional
 class UpdateTestService(
     private val updateTestPort: UpdateTestPort,
 ): UpdateTestUseCase {
-
-    @CacheWithLock(TEST, key = "#command.id")
     override suspend fun execute(
         command: UpdateTestCommand,
     ) {
