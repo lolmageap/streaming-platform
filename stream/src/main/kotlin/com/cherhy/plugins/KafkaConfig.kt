@@ -3,17 +3,25 @@ package com.cherhy.plugins
 import com.cherhy.common.util.KafkaConstant.BOOTSTRAP_SERVERS
 import com.cherhy.common.util.KafkaConstant.Consumer.DEFAULT_GROUP_ID
 import com.cherhy.common.util.KafkaConstant.Consumer.EARLIEST
-import com.cherhy.common.util.KafkaConstant.Topic.TEST_TOPIC
+import com.cherhy.common.util.KafkaConstant.Topic.BUY_VIDEO_TOPIC
+import com.cherhy.event.BuyVideoEvent
+import com.cherhy.usecase.BuyVideoUseCase
 import com.cherhy.util.extension.poll
 import com.cherhy.util.extension.subscribe
+import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.databind.deser.std.StringDeserializer
+import com.fasterxml.jackson.module.kotlin.readValue
 import io.ktor.server.application.*
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.launch
 import org.apache.kafka.clients.consumer.KafkaConsumer
+import org.koin.ktor.ext.inject
 import kotlin.time.Duration.Companion.milliseconds
 
 fun Application.configureKafkaConsumer() {
+    val objectMapper by inject<ObjectMapper>()
+    val buyVideoUseCase by inject<BuyVideoUseCase>()
+
     val consumer = KafkaConsumer<String, String>(
         mapOf(
             BOOTSTRAP_SERVERS_CONFIG to BOOTSTRAP_SERVERS,
@@ -25,15 +33,15 @@ fun Application.configureKafkaConsumer() {
         )
     )
 
-    consumer.subscribe(TEST_TOPIC)
+    consumer.subscribe(BUY_VIDEO_TOPIC)
 
     launch(IO) {
         while (true) {
-            val records = consumer.poll(100.milliseconds)
+            val buyVideoRecords = consumer.poll(100.milliseconds)
 
-            // TODO : records 처리 로직 구현
-            records.forEach {
-                println("Consumed record: ${it.value()}")
+            buyVideoRecords.forEach {
+                val buyVideoEvent = objectMapper.readValue<BuyVideoEvent>(it.value())
+                buyVideoUseCase.execute(buyVideoEvent.userId, buyVideoEvent.videoId, buyVideoEvent.price)
             }
         }
     }
