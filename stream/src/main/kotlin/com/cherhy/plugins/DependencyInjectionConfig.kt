@@ -1,5 +1,6 @@
 package com.cherhy.plugins
 
+import com.cherhy.external.VideoStorage
 import com.cherhy.repository.PostRepository
 import com.cherhy.repository.PostRepositoryImpl
 import com.cherhy.repository.VideoRepository
@@ -8,6 +9,7 @@ import com.cherhy.service.*
 import com.cherhy.usecase.*
 import com.cherhy.util.constant.MongoConst.MONGO_DATABASE
 import com.cherhy.util.constant.MongoConst.MONGO_URL
+import com.fasterxml.jackson.databind.ObjectMapper
 import com.typesafe.config.ConfigFactory
 import io.ktor.server.application.*
 import io.ktor.server.config.*
@@ -33,11 +35,15 @@ fun Application.configureDependencyInjection() {
 }
 
 val dependencyInjectionModule = module {
-    single<CreatePostUseCase> { CreatePostUseCase(get(), get()) }
+    single<ObjectMapper> { ObjectMapper() }
+    single<VideoStorage> { VideoStorage() }
+
+    single<CreatePostUseCase> { CreatePostUseCase(get(), get(), get()) }
     single<GetPostUseCase> { GetPostUseCase(get()) }
-    single<UpdatePostUseCase> { UpdatePostUseCase(get(), get(), get(), get()) }
-    single<DeletePostUseCase> { DeletePostUseCase(get(), get(), get(), get()) }
-    single<GetVideoUseCase> { GetVideoUseCase(get(), get()) }
+    single<UpdatePostUseCase> { UpdatePostUseCase(get(), get(), get(), get(), get()) }
+    single<DeletePostUseCase> { DeletePostUseCase(get(), get(), get(), get(), get()) }
+    single<GetVideoUseCase> { GetVideoUseCase(get(), get(), get()) }
+    single<BuyVideoUseCase> { BuyVideoUseCase(get()) }
 
     single<ReadCacheService> { ReadCacheService() }
     single<WriteCacheService> { WriteCacheService() }
