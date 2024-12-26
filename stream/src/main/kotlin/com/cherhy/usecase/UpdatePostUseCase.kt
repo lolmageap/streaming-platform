@@ -4,15 +4,13 @@ import com.cherhy.api.UpdatePostRequest
 import com.cherhy.api.VideoRequest
 import com.cherhy.common.util.model.UserId
 import com.cherhy.domain.PostId
-import com.cherhy.plugins.MinioFactory
+import com.cherhy.external.VideoStorage
 import com.cherhy.plugins.reactiveTransaction
 import com.cherhy.service.ReadPostService
 import com.cherhy.service.ReadVideoService
 import com.cherhy.service.WritePostService
 import com.cherhy.service.WriteVideoService
 import com.cherhy.util.ApplicationConfigUtils
-import com.cherhy.util.extension.remove
-import com.cherhy.util.extension.upload
 import com.cherhy.util.model.Bucket
 import com.cherhy.util.property.MinioProperty.BUCKET
 
@@ -21,9 +19,8 @@ class UpdatePostUseCase(
     private val writeVideoService: WriteVideoService,
     private val readPostService: ReadPostService,
     private val readVideoService: ReadVideoService,
+    private val videoStorage: VideoStorage,
 ) {
-    private val minioClient = MinioFactory.newInstance()
-
     suspend fun execute(
         userId: UserId,
         postId: PostId,
@@ -46,7 +43,7 @@ class UpdatePostUseCase(
                 updateVideo.extension,
             )
 
-            minioClient.upload(
+            videoStorage.upload(
                 bucket,
                 updateVideo.uniqueName,
                 updateVideo.data,
@@ -54,7 +51,7 @@ class UpdatePostUseCase(
                 updateVideo.extension,
             )
 
-            minioClient.remove(bucket, originalVideo.uniqueName, originalVideo.extension)
+            videoStorage.remove(bucket, originalVideo.uniqueName, originalVideo.extension)
         }
 
     companion object {
