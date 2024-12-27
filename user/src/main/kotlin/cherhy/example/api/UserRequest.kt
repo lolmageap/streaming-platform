@@ -3,24 +3,33 @@ package cherhy.example.api
 import cherhy.example.domain.UserEmail
 import cherhy.example.domain.UserPassword
 import cherhy.example.domain.Username
+import cherhy.example.service.UserUpdateCommand
+import cherhy.example.usecase.SignUpCommand
 
 data class SignUpRequest(
-    val email: UserEmail,
-    val password: UserPassword,
-    val confirmPassword: UserPassword,
-    val name: Username,
+    val email: String,
+    val password: String,
+    val confirmPassword: String,
+    val name: String,
 ) {
-    init {
-        require(password == confirmPassword) { "password and confirmPassword must be same" }
-    }
+    fun toCommand() =
+        SignUpCommand(
+            email = UserEmail.of(email),
+            password = UserPassword.of(password),
+            confirmPassword = UserPassword.of(confirmPassword),
+            name = Username.of(name),
+        )
 }
 
 data class UserUpdateRequest(
-    val email: UserEmail,
-    val password: UserPassword,
-    val confirmPassword: UserPassword,
+    val email: String,
+    val password: String,
+    val confirmPassword: String,
 ) {
-    init {
-        require(password == confirmPassword) { "password and confirmPassword must be same" }
-    }
+    fun toCommand() =
+        UserUpdateCommand(
+            email = UserEmail.of(email),
+            password = UserPassword.of(password),
+            confirmPassword = UserPassword.of(confirmPassword),
+        )
 }

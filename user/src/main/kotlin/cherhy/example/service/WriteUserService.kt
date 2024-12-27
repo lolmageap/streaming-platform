@@ -18,10 +18,19 @@ class WriteUserService(
 
     suspend fun update(
         userId: UserId,
-        email: UserEmail,
-        password: UserPassword,
+        command: UserUpdateCommand,
     ) =
-        userRepository.save(userId, email, password)
+        userRepository.save(userId, command.email, command.password)
             ?.let(UserDomain::of)
             ?: throw IllegalArgumentException("User not found")
+}
+
+data class UserUpdateCommand(
+    val email: UserEmail,
+    val password: UserPassword,
+    val confirmPassword: UserPassword,
+) {
+    init {
+        require(password == confirmPassword) { "password and confirmPassword must be same" }
+    }
 }

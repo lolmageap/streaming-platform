@@ -1,9 +1,11 @@
 package com.cherhy.usecase
 
-import com.cherhy.api.UpdatePostRequest
 import com.cherhy.api.VideoRequest
 import com.cherhy.common.util.model.UserId
+import com.cherhy.domain.PostCategory
+import com.cherhy.domain.PostContent
 import com.cherhy.domain.PostId
+import com.cherhy.domain.PostTitle
 import com.cherhy.external.VideoStorage
 import com.cherhy.plugins.reactiveTransaction
 import com.cherhy.service.ReadPostService
@@ -25,7 +27,7 @@ class UpdatePostUseCase(
         userId: UserId,
         postId: PostId,
         updateVideo: VideoRequest,
-        updatePost: UpdatePostRequest,
+        updatePost: UpdatePostCommand,
     ) =
         reactiveTransaction {
             readPostService.checkIfNotExists(userId, postId)
@@ -61,3 +63,9 @@ class UpdatePostUseCase(
         )
     }
 }
+
+data class UpdatePostCommand(
+    val title: PostTitle,
+    val content: PostContent,
+    val category: PostCategory,
+)

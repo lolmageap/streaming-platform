@@ -2,6 +2,7 @@ package cherhy.example.api
 
 import cherhy.example.service.ReadUserService
 import cherhy.example.service.WriteUserService
+import cherhy.example.usecase.LoginCommand
 import cherhy.example.usecase.LoginUseCase
 import cherhy.example.usecase.SignUpUseCase
 import cherhy.example.util.extension.accessToken
@@ -25,10 +26,11 @@ fun Route.user() {
     val writeUserService by inject<WriteUserService>()
 
     post(SIGN_UP) {
-        val userRequest = call.receive<SignUpRequest>()
-        signUpUseCase.execute(userRequest)
+        val request = call.receive<SignUpRequest>()
+        val signUpCommand = request.toCommand()
+        signUpUseCase.execute(signUpCommand)
 
-        val loginRequest = LoginRequest.of(userRequest.email, userRequest.password)
+        val loginRequest = LoginCommand.of(signUpCommand.email, signUpCommand.password)
         val jwt = loginUseCase.execute(loginRequest)
 
         call.response.headers.accessToken = jwt.accessToken
@@ -45,7 +47,8 @@ fun Route.user() {
     put(UPDATE_USER) {
         val userId = call.jwt.userId
         val request = call.receive<UserUpdateRequest>()
-        val updatedUser = writeUserService.update(userId, request.email, request.password)
+        val userUpdateCommand = request.toCommand()
+        val updatedUser = writeUserService.update(userId, userUpdateCommand)
         call.respond(HttpStatusCode.OK, updatedUser.id.value)
     }
 }

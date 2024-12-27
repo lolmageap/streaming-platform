@@ -21,7 +21,7 @@ fun Route.login() {
 
     post(LOGIN) {
         val loginRequest = call.receive<LoginRequest>()
-        val jwt = loginUseCase.execute(loginRequest)
+        val jwt = loginUseCase.execute(loginRequest.toCommand())
 
         call.response.headers.accessToken = jwt.accessToken
         call.response.cookies.refreshToken = jwt.refreshToken

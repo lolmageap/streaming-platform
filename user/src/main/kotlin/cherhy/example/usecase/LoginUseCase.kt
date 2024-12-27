@@ -1,7 +1,8 @@
 package cherhy.example.usecase
 
 import cherhy.example.api.JwtResponse
-import cherhy.example.api.LoginRequest
+import cherhy.example.domain.UserEmail
+import cherhy.example.domain.UserPassword
 import cherhy.example.plugins.reactiveTransaction
 import cherhy.example.service.ReadAuthorityService
 import cherhy.example.service.ReadUserService
@@ -17,10 +18,10 @@ class LoginUseCase(
     private val jwtManager: JwtManager,
 ) {
     suspend fun execute(
-        loginRequest: LoginRequest,
+        command: LoginCommand,
     ) = reactiveTransaction(READ_ONLY) {
-        val user = readUserService.get(loginRequest.email)
-        val password = loginRequest.password.value
+        val user = readUserService.get(command.email)
+        val password = command.password.value
         val salt = user.salt.value
         val encodedPassword = user.password.value
         Encoder.ifMatches(password + salt, encodedPassword)
@@ -31,6 +32,22 @@ class LoginUseCase(
         JwtResponse.of(
             accessToken = accessToken,
             refreshToken = refreshToken,
+        )
+    }
+}
+
+data class LoginCommand(
+    val email: UserEmail,
+    val password: UserPassword,
+) {
+    companion object {
+        @JvmStatic
+        fun of(
+            email: UserEmail,
+            password: UserPassword,
+        ) = LoginCommand(
+            email = email,
+            password = password,
         )
     }
 }

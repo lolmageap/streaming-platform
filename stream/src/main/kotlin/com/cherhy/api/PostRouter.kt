@@ -14,7 +14,9 @@ import com.cherhy.util.extension.getQueryParams
 import com.cherhy.util.extension.getVideo
 import com.cherhy.util.extension.pathVariable
 import com.cherhy.util.extension.userId
-import io.ktor.http.*
+import io.ktor.http.HttpStatusCode.Companion.Created
+import io.ktor.http.HttpStatusCode.Companion.NoContent
+import io.ktor.http.HttpStatusCode.Companion.OK
 import io.ktor.server.application.*
 import io.ktor.server.request.*
 import io.ktor.server.response.*
@@ -32,16 +34,16 @@ fun Route.post() {
         val userId = call.request.userId
         val post = getPostUseCase.execute(userId, postId)
 
-        call.respond(HttpStatusCode.OK, post)
+        call.respond(OK, post)
     }
 
     get(GET_POSTS) {
         val pageRequest = call.getQueryParams<PageRequest>()
         val search = call.getQueryParams<GetPostRequest>()
         val userId = call.request.userId
-        val posts = getPostUseCase.execute(userId, search, pageRequest)
+        val posts = getPostUseCase.execute(userId, search.toQuery(), pageRequest)
 
-        call.respond(HttpStatusCode.OK, posts)
+        call.respond(OK, posts)
     }
 
     post(CREATE_POST) {
@@ -49,8 +51,8 @@ fun Route.post() {
         val video = call.getVideo()
         val post = call.receive<CreatePostRequest>()
 
-        createPostUseCase.execute(userId, video, post)
-        call.respond(HttpStatusCode.Created)
+        createPostUseCase.execute(userId, video, post.toCommand())
+        call.respond(Created)
     }
 
     put(UPDATE_POST) {
@@ -59,8 +61,8 @@ fun Route.post() {
         val video = call.getVideo()
         val post = call.receive<UpdatePostRequest>()
 
-        updatePostUseCase.execute(userId, postId, video, post)
-        call.respond(HttpStatusCode.OK)
+        updatePostUseCase.execute(userId, postId, video, post.toCommand())
+        call.respond(OK)
     }
 
     delete(DELETE_POST) {
@@ -68,6 +70,6 @@ fun Route.post() {
         val postId = call.pathVariable.postId
 
         deletePostUseCase.execute(userId, postId)
-        call.respond(HttpStatusCode.NoContent)
+        call.respond(NoContent)
     }
 }

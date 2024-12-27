@@ -2,19 +2,15 @@ package cherhy.example.api
 
 import cherhy.example.domain.UserEmail
 import cherhy.example.domain.UserPassword
+import cherhy.example.usecase.LoginCommand
 
 data class LoginRequest(
-    val email: UserEmail,
-    val password: UserPassword,
+    val email: String,
+    val password: String,
 ) {
-    companion object {
-        @JvmStatic
-        fun of(
-            email: UserEmail,
-            password: UserPassword,
-        ) = LoginRequest(
-            email = email,
-            password = password,
+    fun toCommand() =
+        LoginCommand(
+            email = UserEmail.of(email),
+            password = UserPassword.of(password),
         )
-    }
 }

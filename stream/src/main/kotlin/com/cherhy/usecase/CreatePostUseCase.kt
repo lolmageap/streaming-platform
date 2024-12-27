@@ -1,8 +1,10 @@
 package com.cherhy.usecase
 
-import com.cherhy.api.CreatePostRequest
 import com.cherhy.api.VideoRequest
 import com.cherhy.common.util.model.UserId
+import com.cherhy.domain.PostCategory
+import com.cherhy.domain.PostContent
+import com.cherhy.domain.PostTitle
 import com.cherhy.external.VideoStorage
 import com.cherhy.plugins.reactiveTransaction
 import com.cherhy.service.WritePostService
@@ -19,7 +21,7 @@ class CreatePostUseCase(
     suspend fun execute(
         userId: UserId,
         video: VideoRequest,
-        post: CreatePostRequest,
+        post: CreatePostCommand,
     ) =
         reactiveTransaction {
             val postId = writePostService.create(userId, post.title, post.content, post.category)
@@ -36,3 +38,9 @@ class CreatePostUseCase(
         )
     }
 }
+
+data class CreatePostCommand(
+    val title: PostTitle,
+    val content: PostContent,
+    val category: PostCategory,
+)
