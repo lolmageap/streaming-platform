@@ -1,11 +1,13 @@
 package com.cherhy.domain
 
+import com.cherhy.common.util.model.Price
 import com.cherhy.common.util.model.UserId
 import com.cherhy.util.model.BaseEntity
 import com.cherhy.util.model.BaseEntityFactory
 import com.cherhy.util.model.BaseTable
 import org.ktorm.database.Database
 import org.ktorm.entity.sequenceOf
+import org.ktorm.schema.decimal
 import org.ktorm.schema.long
 import org.ktorm.schema.varchar
 
@@ -15,6 +17,7 @@ object Videos : BaseTable<Video>("video") {
     val uniqueName = varchar("unique_name").bindTo { it.uniqueName.value }
     val size = long("size").bindTo { it.size.value }
     val extension = varchar("extension").bindTo { it.extension.value }
+    val price = decimal("price").bindTo { it.price.value }
     val owner = long("owner").bindTo { it.owner.value }
     val post = long("post").bindTo { it.post.value }
 }
@@ -26,6 +29,7 @@ interface Video : BaseEntity<Video> {
     var uniqueName: VideoUniqueName
     var size: VideoSize
     var extension: VideoExtension
+    var price: Price
     val owner: UserId
     val post: PostId
 }
