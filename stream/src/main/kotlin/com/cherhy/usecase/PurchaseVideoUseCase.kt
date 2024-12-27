@@ -1,9 +1,15 @@
 package com.cherhy.usecase
 
+import com.cherhy.plugins.KafkaPublisher
+import com.cherhy.service.ReadPurchasedVideoService
 import com.cherhy.service.ReadVideoService
+import com.cherhy.service.WritePurchasedVideoService
 
-class BuyVideoUseCase(
+class PurchaseVideoUseCase(
     private val readVideoService: ReadVideoService,
+    private val kafkaPublisher: KafkaPublisher,
+    private val writePurchasedVideoService: WritePurchasedVideoService,
+    private val readPurchasedVideoService: ReadPurchasedVideoService,
 ) {
     suspend fun execute(
         userId: Long,
