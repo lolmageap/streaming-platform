@@ -1,5 +1,6 @@
 import Dependencies.Database
 import Dependencies.Exposed
+import Dependencies.Kotlin
 import Dependencies.Ktor
 import Dependencies.Logging
 import Dependencies.Security
@@ -9,6 +10,7 @@ plugins {
     kotlin(Plugins.JVM) version PluginVersions.KOTLIN_VERSION
     id(Plugins.KTOR_PLUGIN) version PluginVersions.KTOR_PLUGIN_VERSION
     id(Plugins.SHADOW_JAR) version PluginVersions.SHADOW_JAR_VERSION
+    kotlin(Plugins.SERIALIZATION) version PluginVersions.KOTLIN_VERSION
 }
 
 application {
@@ -22,6 +24,7 @@ dependencies {
     implementation(project(UtilityModules.COMMON))
 
     implementation(Logging.KOTLIN_LOGGING)
+    implementation(Kotlin.SERIALIZATION_JSON)
     implementation(Ktor.KTOR_SERVER_CORE_JVM)
     implementation(Ktor.KTOR_SERVER_NETTY_JVM)
     implementation(Ktor.KTOR_SERIALIZATION_JACKSON_JVM)
