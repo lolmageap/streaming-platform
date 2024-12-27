@@ -1,10 +1,7 @@
 package com.cherhy.plugins
 
 import com.cherhy.external.VideoStorage
-import com.cherhy.repository.PostRepository
-import com.cherhy.repository.PostRepositoryImpl
-import com.cherhy.repository.VideoRepository
-import com.cherhy.repository.VideoRepositoryImpl
+import com.cherhy.repository.*
 import com.cherhy.service.*
 import com.cherhy.usecase.*
 import com.cherhy.util.constant.MongoConst.MONGO_DATABASE
@@ -37,13 +34,14 @@ fun Application.configureDependencyInjection() {
 val dependencyInjectionModule = module {
     single<ObjectMapper> { ObjectMapper() }
     single<VideoStorage> { VideoStorage() }
+    single<KafkaPublisher> { KafkaPublisher(get()) }
 
     single<CreatePostUseCase> { CreatePostUseCase(get(), get(), get()) }
     single<GetPostUseCase> { GetPostUseCase(get()) }
     single<UpdatePostUseCase> { UpdatePostUseCase(get(), get(), get(), get(), get()) }
     single<DeletePostUseCase> { DeletePostUseCase(get(), get(), get(), get(), get()) }
     single<GetVideoUseCase> { GetVideoUseCase(get(), get(), get()) }
-    single<BuyVideoUseCase> { BuyVideoUseCase(get()) }
+    single<PurchaseVideoUseCase> { PurchaseVideoUseCase(get(), get(), get(), get()) }
 
     single<ReadCacheService> { ReadCacheService() }
     single<WriteCacheService> { WriteCacheService() }
@@ -51,7 +49,10 @@ val dependencyInjectionModule = module {
     single<ReadVideoService> { ReadVideoService(get()) }
     single<WritePostService> { WritePostService(get()) }
     single<WriteVideoService> { WriteVideoService(get()) }
+    single<ReadPurchasedVideoService> { ReadPurchasedVideoService(get()) }
+    single<WritePurchasedVideoService> { WritePurchasedVideoService(get()) }
 
     single<PostRepository> { PostRepositoryImpl() }
     single<VideoRepository> { VideoRepositoryImpl() }
+    single<PurchasedVideoRepository> { PurchasedVideoRepositoryImpl() }
 }
