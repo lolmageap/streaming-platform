@@ -8,4 +8,5 @@ object Plugins {
     const val KOTLIN_SPRING = "kotlin-spring"
     const val DOCKER_PLUGIN = "com.palantir.docker"
     const val DEPENDENCY_MANAGEMENT = "io.spring.dependency-management"
+    const val SERIALIZATION = "plugin.serialization"
 }
