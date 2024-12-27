@@ -4,6 +4,7 @@ import com.cherhy.common.util.model.UserId
 import com.cherhy.util.model.BaseEntity
 import com.cherhy.util.model.BaseEntityFactory
 import com.cherhy.util.model.BaseTable
+import kotlinx.serialization.Serializable
 import org.ktorm.database.Database
 import org.ktorm.entity.sequenceOf
 import org.ktorm.schema.long
@@ -27,6 +28,7 @@ interface Post : BaseEntity<Post> {
 }
 
 @JvmInline
+@Serializable
 value class PostId(
     val value: Long,
 ) {
@@ -41,6 +43,7 @@ value class PostId(
 fun Any.toPostId() = PostId.of(this as Long)
 
 @JvmInline
+@Serializable
 value class PostTitle(
     val value: String,
 ) {
@@ -53,6 +56,7 @@ value class PostTitle(
 }
 
 @JvmInline
+@Serializable
 value class PostContent(
     val value: String,
 ) {
@@ -78,6 +82,7 @@ enum class PostCategory {
     VLOGGING,
     TRAVEL,
     SPORTS,
+    ;
 }
 
 val Database.posts get() = this.sequenceOf(Posts)
