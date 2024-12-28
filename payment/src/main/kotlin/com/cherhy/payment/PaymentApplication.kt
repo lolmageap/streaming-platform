@@ -9,6 +9,7 @@ import org.springframework.boot.runApplication
 @SpringBootApplication(
     scanBasePackages = [
         "com.cherhy.producer",
+        "com.cherhy.consumer",
         "com.cherhy.payment",
     ],
     exclude = [

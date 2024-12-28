@@ -26,6 +26,7 @@ dependencies {
 
     implementation(project(UtilityModules.COMMON))
     implementation(project(UtilityModules.PRODUCER))
+    implementation(project(UtilityModules.CONSUMER))
 
     implementation(Other.ASPECTJ_WEAVER)
     implementation(SpringBootStarters.SPRING_BOOT_STARTER_DATA_MONGO_DB)
