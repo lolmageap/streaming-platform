@@ -1,20 +1,20 @@
 package com.cherhy.plugins
 
 import com.cherhy.common.util.KafkaConstant
-import com.cherhy.event.VideoPurchaseFailedEvent
+import com.cherhy.common.util.event.VideoPurchaseFailedEvent
 import com.fasterxml.jackson.databind.JsonSerializer
 import com.fasterxml.jackson.databind.ObjectMapper
 import org.apache.kafka.clients.producer.KafkaProducer
-import org.apache.kafka.clients.producer.ProducerConfig
+import org.apache.kafka.clients.producer.ProducerConfig.*
 import org.apache.kafka.clients.producer.ProducerRecord
 
 private val publisher = KafkaProducer<String, String>(
     mapOf(
-        ProducerConfig.BOOTSTRAP_SERVERS_CONFIG to KafkaConstant.BOOTSTRAP_SERVERS,
-        ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG to JsonSerializer::class.java.name,
-        ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG to JsonSerializer::class.java.name,
-        ProducerConfig.ACKS_CONFIG to KafkaConstant.Producer.ALL,
-        ProducerConfig.RETRIES_CONFIG to KafkaConstant.Producer.RETRIES,
+        BOOTSTRAP_SERVERS_CONFIG to KafkaConstant.BOOTSTRAP_SERVERS,
+        KEY_SERIALIZER_CLASS_CONFIG to JsonSerializer::class.java.name,
+        VALUE_SERIALIZER_CLASS_CONFIG to JsonSerializer::class.java.name,
+        ACKS_CONFIG to KafkaConstant.Producer.ALL,
+        RETRIES_CONFIG to KafkaConstant.Producer.RETRIES,
     )
 )
 

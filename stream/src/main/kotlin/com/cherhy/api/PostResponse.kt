@@ -3,7 +3,6 @@ package com.cherhy.api
 import com.cherhy.common.util.model.UserId
 import com.cherhy.domain.*
 
-// TODO: @Serializable error 전파 되는중인데 이거 해결해야함.
 data class PostDetailResponse private constructor(
     val id: PostId,
     var title: PostTitle,

@@ -15,7 +15,7 @@ object KafkaConstant {
 
     object Topic {
         const val TEST_TOPIC = "test-topic"
-        const val PURCHASE_VIDEO_TOPIC = "buy-video-topic"
+        const val PURCHASE_VIDEO_TOPIC = "purchase-video-topic"
         const val VIDEO_PURCHASE_FAILED_TOPIC = "video-purchase-failed-topic"
     }
 }
