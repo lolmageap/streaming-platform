@@ -1,4 +1,4 @@
-package com.cherhy.payment.util.model
+package com.cherhy.common.util.event
 
 import java.math.BigDecimal
 

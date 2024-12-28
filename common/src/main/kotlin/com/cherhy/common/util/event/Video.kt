@@ -1,17 +1,15 @@
-package com.cherhy.event
+package com.cherhy.common.util.event
 
-import kotlinx.serialization.Serializable
+import java.math.BigDecimal
 
-@Serializable
 data class PurchaseVideoEvent(
     val userId: Long,
     val videoId: Long,
-    val price: Long,
+    val price: BigDecimal,
 )
 
-@Serializable
 data class VideoPurchaseFailedEvent(
     val userId: Long,
     val videoId: Long,
-    val price: Long,
+    val price: BigDecimal,
 )
