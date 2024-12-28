@@ -1,7 +1,10 @@
 package com.cherhy.plugins
 
 import com.cherhy.common.util.KafkaConstant.Topic.PURCHASE_VIDEO_TOPIC
-import com.cherhy.event.PurchaseVideoEvent
+import com.cherhy.common.util.event.PurchaseVideoEvent
+import com.cherhy.common.util.model.Price
+import com.cherhy.common.util.model.UserId
+import com.cherhy.domain.VideoId
 import com.cherhy.usecase.PurchaseVideoUseCase
 import com.cherhy.util.extension.poll
 import com.cherhy.util.extension.subscribe
@@ -24,8 +27,19 @@ fun Application.configureBuyVideoConsumer() {
             val buyVideoRecords = consumer.poll(100.milliseconds)
 
             buyVideoRecords.forEach {
-                val purchaseVideoEvent = objectMapper.readValue<PurchaseVideoEvent>(it.value())
-                purchaseVideoUseCase.execute(purchaseVideoEvent.userId, purchaseVideoEvent.videoId, purchaseVideoEvent.price)
+                launch {
+                    val purchaseVideoEvent = objectMapper.readValue<PurchaseVideoEvent>(it.value())
+
+                    val userId = UserId.of(purchaseVideoEvent.userId)
+                    val videoId = VideoId.of(purchaseVideoEvent.videoId)
+                    val price = Price.of(purchaseVideoEvent.price)
+
+                    purchaseVideoUseCase.execute(
+                        videoId = videoId,
+                        userId = userId,
+                        price = price,
+                    )
+                }
             }
         }
     }
