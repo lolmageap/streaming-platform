@@ -1,21 +1,45 @@
 package com.cherhy.usecase
 
+import com.cherhy.common.util.event.VideoPurchaseFailedEvent
+import com.cherhy.common.util.model.Price
+import com.cherhy.common.util.model.UserId
+import com.cherhy.domain.VideoId
 import com.cherhy.plugins.KafkaPublisher
+import com.cherhy.plugins.reactiveTransaction
 import com.cherhy.service.ReadPurchasedVideoService
 import com.cherhy.service.ReadVideoService
 import com.cherhy.service.WritePurchasedVideoService
 
 class PurchaseVideoUseCase(
-    private val readVideoService: ReadVideoService,
     private val kafkaPublisher: KafkaPublisher,
-    private val writePurchasedVideoService: WritePurchasedVideoService,
+    private val readVideoService: ReadVideoService,
     private val readPurchasedVideoService: ReadPurchasedVideoService,
+    private val writePurchasedVideoService: WritePurchasedVideoService,
 ) {
     suspend fun execute(
-        userId: Long,
-        videoId: Long,
-        price: Long,
-    ) {
-        TODO("회원이 비디오 구매했는지에 대한 entity도 생성해야함. -> 이미 결제한 비디오인지 확인하는 로직도 필요함.")
-    }
+        videoId: VideoId,
+        userId: UserId,
+        price: Price,
+    ) =
+        runCatching {
+            reactiveTransaction {
+                readVideoService.ifNull(videoId) {
+                    throw NoSuchElementException("Video not found")
+                }
+
+                readPurchasedVideoService.ifExists(userId, videoId) {
+                    throw IllegalStateException("Already purchased")
+                }
+
+                writePurchasedVideoService.save(userId, videoId, price)
+            }
+        }.onFailure {
+            kafkaPublisher.publish(
+                VideoPurchaseFailedEvent(
+                    userId = userId.value,
+                    videoId = videoId.value,
+                    price = price.value,
+                )
+            )
+        }.getOrThrow()
 }

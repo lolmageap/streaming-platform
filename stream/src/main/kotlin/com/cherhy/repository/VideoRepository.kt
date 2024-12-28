@@ -27,7 +27,7 @@ interface VideoRepository {
         name: VideoName,
         uniqueName: VideoUniqueName,
         size: VideoSize,
-        extension: VideoExtension
+        extension: VideoExtension,
     )
 
     suspend fun delete(
@@ -48,6 +48,10 @@ interface VideoRepository {
         postId: PostId,
         videoId: VideoId,
     ): VideoDetailResponse?
+
+    suspend fun isExists(
+        videoId: VideoId,
+    ): Boolean
 }
 
 class VideoRepositoryImpl : VideoRepository {
@@ -74,7 +78,7 @@ class VideoRepositoryImpl : VideoRepository {
         name: VideoName,
         uniqueName: VideoUniqueName,
         size: VideoSize,
-        extension: VideoExtension
+        extension: VideoExtension,
     ) =
         database.update(Videos) {
             set(it.name, name.value)
@@ -113,11 +117,16 @@ class VideoRepositoryImpl : VideoRepository {
     override suspend fun findOne(
         userId: UserId,
         postId: PostId,
-        videoId: VideoId
+        videoId: VideoId,
     ) =
         database.videos.find {
             it.owner eq userId.value
             it.post eq postId.value
             it.id eq videoId.value
         }?.let(VideoDetailResponse::of)
+
+    override suspend fun isExists(
+        videoId: VideoId,
+    ) =
+        database.videos.find { it.id eq videoId.value } != null
 }

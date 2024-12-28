@@ -4,6 +4,7 @@ import com.cherhy.common.util.model.UserId
 import com.cherhy.domain.PostId
 import com.cherhy.domain.VideoId
 import com.cherhy.repository.VideoRepository
+import java.lang.RuntimeException
 
 class ReadVideoService(
     private val videoRepository: VideoRepository,
@@ -32,4 +33,12 @@ class ReadVideoService(
             postId,
             videoId,
         ) ?: throw NoSuchElementException("Video not found")
+
+    suspend fun ifNull(
+        videoId: VideoId,
+        exception: () -> RuntimeException,
+    ) {
+        val hasVideo = videoRepository.isExists(videoId)
+        if (hasVideo.not()) throw exception()
+    }
 }
