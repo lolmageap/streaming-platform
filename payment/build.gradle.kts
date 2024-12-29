@@ -15,12 +15,14 @@ import org.springframework.boot.gradle.tasks.bundling.BootJar
 
 plugins {
     kotlin(Plugins.JVM) version PluginVersions.KOTLIN_VERSION
+    kotlin(Plugins.NO_ARG) version PluginVersions.KOTLIN_VERSION
     id(Plugins.SPRING_BOOT) version PluginVersions.SPRING_BOOT_VERSION
     id(Plugins.DEPENDENCY_MANAGEMENT) version PluginVersions.DEPENDENCY_MANAGEMENT_VERSION
     id(Plugins.DOCKER_PLUGIN) version PluginVersions.DOCKER_PLUGIN_VERSION
 }
 
 dependencies {
+    apply(plugin = Plugins.KAPT)
     apply(plugin = Plugins.KOTLIN_SPRING)
     apply(plugin = Plugins.DEPENDENCY_MANAGEMENT)
 
@@ -75,6 +77,15 @@ dependencies {
     testImplementation(Test.SPRING_BOOT_STARTER_TEST)
     testImplementation(Test.SPRING_TEST_CONTAINERS)
     testImplementation(Test.SPRING_SECURITY_TEST)
+}
+
+repositories {
+    mavenCentral()
+    gradlePluginPortal()
+}
+
+noArg {
+    annotation("org.axonframework.spring.stereotype.Aggregate")
 }
 
 docker {

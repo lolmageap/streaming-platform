@@ -1,6 +1,7 @@
 object Plugins {
     const val JVM = "jvm"
     const val NO_ARG = "plugin.noarg"
+    const val KAPT = "kotlin-kapt"
     const val ALL_OPEN = "plugin.allopen"
     const val SHADOW_JAR = "com.github.johnrengelman.shadow"
     const val SPRING_BOOT = "org.springframework.boot"
