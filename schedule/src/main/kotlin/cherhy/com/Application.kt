@@ -12,4 +12,5 @@ fun Application.module() {
     configureDatabase()
     configureDependencyInjection()
     configureScheduler()
+    healthCheckScheduler()
 }
