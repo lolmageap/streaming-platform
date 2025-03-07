@@ -4,7 +4,7 @@ import com.cherhy.common.util.Stream.Video.GET_VIDEO
 import com.cherhy.usecase.GetVideoUseCase
 import com.cherhy.util.ContentRangeGenerator
 import com.cherhy.util.extension.lastWatchedCheckpoint
-import com.cherhy.util.extension.pathVariable
+import com.cherhy.util.extension.pathParameter
 import com.cherhy.util.extension.userId
 import com.google.common.net.HttpHeaders.CONTENT_RANGE
 import io.ktor.http.*
@@ -18,8 +18,8 @@ fun Route.video() {
 
     get(GET_VIDEO) {
         val userId = call.request.userId
-        val postId = call.pathVariable.postId
-        val videoId = call.pathVariable.videoId
+        val postId = call.pathParameter.postId
+        val videoId = call.pathParameter.videoId
         val lastVideoByte = call.request.lastWatchedCheckpoint
 
         val video = getVideoUseCase.execute(userId, postId, videoId, lastVideoByte)

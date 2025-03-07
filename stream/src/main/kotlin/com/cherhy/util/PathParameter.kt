@@ -6,7 +6,7 @@ import com.cherhy.domain.PostId
 import com.cherhy.domain.VideoId
 import io.ktor.server.application.*
 
-class PathVariable(
+class PathParameter(
     call: ApplicationCall,
 ) {
     operator fun get(

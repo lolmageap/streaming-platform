@@ -4,7 +4,7 @@ import com.cherhy.api.VideoRequest
 import com.cherhy.domain.VideoName
 import com.cherhy.domain.VideoSize
 import com.cherhy.domain.VideoUniqueName
-import com.cherhy.util.PathVariable
+import com.cherhy.util.PathParameter
 import com.cherhy.util.VideoValidator
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import io.ktor.http.*
@@ -17,8 +17,8 @@ import java.util.*
 
 val mapper = jacksonObjectMapper()
 
-val ApplicationCall.pathVariable
-    get() = PathVariable(this)
+val ApplicationCall.pathParameter
+    get() = PathParameter(this)
 
 inline fun <reified T : Any> ApplicationCall.getQueryParams(): T {
     return this.request.queryParameters.toClass()
