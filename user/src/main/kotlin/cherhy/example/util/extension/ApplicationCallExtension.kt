@@ -1,7 +1,6 @@
 package cherhy.example.util.extension
 
 import cherhy.example.plugins.objectMapperKey
-import cherhy.example.util.PathVariable
 import com.cherhy.common.util.USER_ID
 import com.cherhy.common.util.model.toUserId
 import io.ktor.http.*
@@ -9,9 +8,6 @@ import io.ktor.server.application.*
 import io.ktor.server.auth.*
 import io.ktor.server.auth.jwt.*
 import java.nio.file.AccessDeniedException
-
-val ApplicationCall.pathVariable
-    get() = PathVariable(this)
 
 val ApplicationCall.jwt
     get() = this.principal<JWTPrincipal>()
