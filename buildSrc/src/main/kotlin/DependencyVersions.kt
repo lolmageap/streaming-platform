@@ -19,6 +19,7 @@ object DependencyVersions {
     const val JASYPT_SPRING_BOOT_STARTER_VERSION = "3.0.5"
     const val KOTEST_SPRING_EXTENSION_VERSION = "1.1.3"
     const val NIMBUS_JWT_VERSION = "9.13"
+    const val JACKSON_DATA_TYPE_JSR310_VERSION = "2.18.2"
     const val SPRING_CLOUD_STARTER_GATEWAY_VERSION = "4.1.4"
     const val SPRING_SECURITY_JWT_VERSION = "1.1.1.RELEASE"
     const val RESTDOCS_VERSION = "3.0.1"

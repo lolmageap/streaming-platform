@@ -25,6 +25,7 @@ dependencies {
 
     implementation(Logging.KOTLIN_LOGGING)
     implementation(Kotlin.SERIALIZATION_JSON)
+    implementation(Kotlin.JACKSON_DATA_TYPE_JSR310)
     implementation(Ktor.KTOR_SERVER_CORE_JVM)
     implementation(Ktor.KTOR_SERVER_NETTY_JVM)
     implementation(Ktor.KTOR_SERIALIZATION_JACKSON_JVM)

@@ -6,6 +6,7 @@ import DependencyVersions.CRON_UTILS_VERSION
 import DependencyVersions.EXPOSED_VERSION
 import DependencyVersions.FLYWAY_VERSION
 import DependencyVersions.HIKARI_CP_VERSION
+import DependencyVersions.JACKSON_DATA_TYPE_JSR310_VERSION
 import DependencyVersions.JASYPT_SPRING_BOOT_STARTER_VERSION
 import DependencyVersions.JUNIT_VERSION
 import DependencyVersions.KMONGO_VERSION
@@ -38,6 +39,7 @@ object Dependencies {
         const val KOTLIN_REFLECT = "org.jetbrains.kotlin:kotlin-reflect"
         const val KOTLIN_STD_LIB = "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$KOTLIN_VERSION"
         const val JACKSON_MODULE_KOTLIN = "com.fasterxml.jackson.module:jackson-module-kotlin"
+        const val JACKSON_DATA_TYPE_JSR310 = "com.fasterxml.jackson.datatype:jackson-datatype-jsr310:$JACKSON_DATA_TYPE_JSR310_VERSION"
         const val REACTOR_KOTLIN_EXTENSIONS = "io.projectreactor.kotlin:reactor-kotlin-extensions"
         const val SERIALIZATION_JSON = "org.jetbrains.kotlinx:kotlinx-serialization-json:$KOTLIN_VERSION"
     }
